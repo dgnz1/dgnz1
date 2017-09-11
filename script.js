@@ -92,6 +92,9 @@ if (siteSection == "main") {
 						});
 					});
 			});
+		// a to button
+		// $('a[href*=page-]').attr('role','button');
+		// $('a[href*=page-]').attr('class','btn btn-default');
 	});
 	// $(window).on("load", function() {
 	// 	$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js")
