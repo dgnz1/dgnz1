@@ -5,8 +5,8 @@
 /// if (qs2.contains("q")) {	pkSrQry = qs2.get("q"); }
 function sc_qstrng(qs) {
 	this.params = {};
-	if (qs === null) qs = location.search.substring(1, location.search.length);
-	if (qs.length === 0) return;
+	if (qs == null) qs = location.search.substring(1, location.search.length);
+	if (qs.length == 0) return;
 	qs = qs.replace(/\+/g, ' ');
 	var args = qs.split('&');
 	for (var i = 0; i < args.length; i++) {
@@ -18,12 +18,12 @@ function sc_qstrng(qs) {
 }
 sc_qstrng.prototype.get = function(key, default_) {
 	var value = this.params[key];
-	return (value !== null) ? value : default_;
-};
+	return (value != null) ? value : default_;
+}
 sc_qstrng.prototype.contains = function(key) {
 	var value = this.params[key];
-	return (value !== null);
-};
+	return (value != null);
+}
 var qs = new sc_qstrng();
 ///////////////////  /QS   //////////////////
 function amzNtv_sync(type, qry, affId, linkId, title, defCat) {
