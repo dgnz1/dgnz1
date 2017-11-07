@@ -1,4 +1,32 @@
 ////////  THIS IS FOR books.zedign.com ////////////////
+// 
+// 
+thsBlg_as = '\x70' + 'u' + '\x62\x2D' + '5' + '69\x30' + '2' + '\x3031' + '1' + '33' + '5' + '97' + '2' + '1';
+// 
+// 
+//// ----------<pagelevelIfNotHardcoded>---------- //
+//// v2
+function pagelevelIfNotHardcoded() {
+	try {
+		var plTag = document.getElementsByTagName("head")[0].getElementsByTagName("script") || 0;
+		for (var i = 0; i < plTag.length; i++) {
+			if (plTag[i].textContent.match(/enable_page_level_ads/im)) {
+				return;
+			}
+		}
+		(adsbygoogle = window.adsbygoogle || []).push({
+			google_ad_client: thsBlg_as,
+			enable_page_level_ads: true
+		});
+	} catch (e) {}
+}
+// 
+pagelevelIfNotHardcoded();
+////
+//// ----------</pagelevelIfNotHardcoded>---------- //
+////
+// 
+// 
 /////////////// funcs ////////////////////////
 ///////////////////  QS   //////////////////
 /// qs.get("s") ...
