@@ -3,7 +3,7 @@
 // 
 thsBlg_as = '\x70' + 'u' + '\x62\x2D' + '5' + '69\x30' + '2' + '\x3031' + '1' + '33' + '5' + '97' + '2' + '1';
 // 
-if (typeof siteSection == "undefined") {
+if ( typeof siteSection == "undefined") {
 	siteSection = "main";
 }
 // 
@@ -142,17 +142,8 @@ if (siteSection == "main") {
 //
 //////////////////////  MAIN  ////////////////////////////
 if (siteSection == "single") {
-	///// discounted prices
-	var regex = new RegExp(/\$[0-9]+\.[0-9]+/); // expression here
-	$("td span").filter(function() {
-		if (regex.test($(this).text())) {
-			// var raw = $(this).text();
-			var newPrice = parseFloat($(this).text().replace("$", ""));
-			var oldPrice = newPrice + 3;
-			var href = $(this).parent().prev().find('span a, a').attr('href');
-			$(this).html(' <strike>$' + oldPrice + '</strike> <b style="color:red">$' + newPrice + '</b> <span><span style="font-size:70%">at</span> <span style="font-size:60%"><a target="_top" href="' + href + '">AMAZON</a></span></span>');
-		}
-	});
+	// 
+ 
 }
 //////////////////////  MAIN  ////////////////////////////
 //
