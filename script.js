@@ -148,7 +148,7 @@ if (siteSection == "single") {
 		if (regex.test($(this).text())) {
 			// var raw = $(this).text();
 			var newPrice = parseFloat($(this).text().replace("$", ""));
-			var oldPrice = newPrice + 3;
+			var oldPrice = Math.ceil(newPrice + 3.25) - 0.05;
 			var href = $(this).parent().prev().find('span a, a').attr('href');
 			$(this).html(' <strike>$' + Number(oldPrice).toFixed(2) + '</strike> <b style="color:red">$' + Number(newPrice).toFixed(2) + '</b> <span><span style="font-size:70%">at</span> <span style="font-size:60%"><a target="_top" href="' + href + '">AMAZON</a></span></span>');
 		}
