@@ -37,10 +37,8 @@
 		/*!
 		* Start Bootstrap - Small Business HTML Template (https://startbootstrap.com)
 		*/
-		body {
-		#csebox{max-width:600px;}
-		padding-top: 70px; /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
-		}
+		
+		
 		.navbar-fixed-top .nav {
 		padding: 15px 0;
 		}
@@ -52,7 +50,7 @@
 		}
 		@media(min-width:768px) {
 		body {
-		padding-top: 100px; /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
+		
 		}
 		.navbar-fixed-top .navbar-brand {
 		padding: 15px 0;
@@ -88,9 +86,10 @@
 		style for indiv pages got via infiniti scroll (their local <style doesn't work here)
 		COPY AS IS FROM any page-N.html
 		-->
-		<style>#csebox{max-width:600px;} #vidcont{max-width:600px} table.printprices tr{border-bottom:dotted 1px #aaa;} td{padding:3px 5px;} .imgtd img {width:100%;max-width:200px} .imgtd a {display:block;width:100%} td.imgtd {width:50%;vertical-align:top} td.txttd{text-align:right;vertical-align:top}</style>
+		<style>  #vidcont{max-width:600px} table.printprices tr{border-bottom:dotted 1px #aaa;} td{padding:3px 5px;} .imgtd img {width:100%;max-width:200px} .imgtd a {display:block;width:100%} td.imgtd {width:50%;vertical-align:top} td.txttd{text-align:right;vertical-align:top}</style>
 		<!-- /INDIV PAGES STYLE -->
 		<!--  -->
+		<!-- cse --> <script> (function() { var cx = thsBlg_cse; var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true; gcse.src = 'https://cse.google.com/cse.js?cx=' + cx; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s); })(); </script>
 	</head>
 	<body>
 		<script>
@@ -100,37 +99,10 @@
 		ga('send', 'pageview');
 		</script>
 		<!-- Navigation -->
-		<nav style="background-color:white;border-color:white;" class="navbar navbar-default navbar-fixed-top" role="navigation">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">
-						<img style="height:50px;padding:5px;" src="zedign_200_trans.png" alt="">
-					</a>
-				</div>
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<li>
-							<a href="/">Home</a>
-						</li>
-						<li>
-							<a href="https://store.zedign.com/">Store</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<!-- /.container -->
-		</nav>
+		<!-- ZD MASTER NAV WITH CSE MODAL (REQ CSE SCRIPT IN HEAD) --> <nav style="background-color:white;border-color:white;" class="navbar navbar-default" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" style="padding:0;" href="#"><img style="" src="https://c.zedign.com/s/zedign_logo_header_150x50.png" alt=""></a> </div> <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> <ul class="nav navbar-nav"> <li> <a href="/">Books</a> </li> <li> <a href="https://store.zedign.com/search/label/zedign-art-posters">Posters</a> </li> <li> <a data-target="#myModal" data-toggle="modal" href="#"><big><span class="glyphicon glyphicon-search" aria-hidden="true"></span></big></a> </li> </ul>  </div>  </div> <hr style="margin:0"/> </nav> <!-- /ZD MASTER NAV -->
 		<!-- Page Content -->
 		<div class="container">
-		<!-- cse -->
-		<div id='csebox'><script> if (window.self !== window.top) { /* */ } else { (function() { var cx = thsBlg_cse; var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true; gcse.src = 'https://cse.google.com/cse.js?cx=' + cx; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s); })(); document.write('<gcse:search></gcse:search>');} </script></div>
-		<!-- cse -->
+			
 			<!-- Heading Row -->
 			<div class="row">
 				<div class="col-md-8">
@@ -188,10 +160,11 @@
 					<p>Available in multiple sizes and priced accordingly.  All editions and variations contain full content.</p>
 				</div>
 				<hr/>
-				<h2> Choose a Book </h2>
+				<h2> Choose a Book <small>Or <a href="#browse">Browse Collection</a></small></h2>
 				<table id="books_table">
 					<tr>
 						<!-- PASTE HERE FROM Index Chunk  -->
+						
 						 <td><a href='page-2.html'> Oscar-Claude Monet - The Paintings</a></td>
  <td><a href='page-3.html'> Édouard Manet - The Paintings</a></td>
 </tr><tr> <td><a href='page-4.html'> Paul Gauguin - Paintings & Drawings</a></td>
@@ -273,32 +246,27 @@
 </tr><tr> <td><a href='page-80.html'> Artemisia Gentileschi - The Paintings</a></td>
  <td><a href='page-81.html'> Henri Lebasque - Paintings & Drawings Vol 1</a></td>
 </tr><tr> <td><a href='page-82.html'> Henri Lebasque - Paintings & Drawings Vol 2</a></td>
-  
- <td></td>  
-	
-						<!-- INSERT/DEL EMPTY <td></td> IF ONLY 1 OR > 2  -->
-						<!-- /PASTE HERE FROM Index Chunk  -->
-					</tr>
-				</table>
-				<hr/>
-				<h2> Browse Our Collection Below</h2>
-			</div>
-			<nav id="pagination">
-				<p>
-					<a href="page-2.html">Page 2</a>
-				</p>
-			</nav>
-			<!-- Footer -->
-			<footer>
-				<div class="row">
-					<div class="col-lg-12">
-						<p>Copyright &copy; The Zedign House</p>
-					</div>
-				</div>
-			</footer>
+						
+					<td></td>
+					
+					<!-- INSERT/DEL EMPTY <td></td> IF ONLY 1 OR > 2  -->
+					<!-- /PASTE HERE FROM Index Chunk  -->
+				</tr>
+			</table>
+			<hr/>
+			<h2 id="browse"> Browse Our Collection Below</h2>
 		</div>
-		<script src="script.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
-		<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&amp;adInstanceId=a215510e-7a90-461f-a4a1-abc276a3fe54"></script> <!-- amz OneLink -->
-	</body>
+		<nav id="pagination">
+			<p>
+				<a href="page-2.html">Page 2</a>
+			</p>
+		</nav>
+		<!-- Footer -->
+<!-- ZD MASTER FOOTER --><hr/><footer> <div class="container"> <div class="row"> <div class="col-lg-12"> <p> <a href="https://store.zedign.com"><img src="https://c.zedign.com/s/zedign_logo_header_150x50.png"/></a> &copy; The Zedign House | <a href="/privacy.html">Privacy Policy</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a rel="nofollow" href="https://facebook.com/TheZedignHouse"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/facebook.png"/></a> <a rel="nofollow" href="https://twitter.com/zedign"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/twitter.png"/></a> </p> </div> </div> </div> </footer><!-- /ZD MASTER FOOTER -->
+	</div>
+	<!-- CSE Modal --> <div role="dialog" class="modal fade" id="myModal" style="display: none;" aria-hidden="true"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-body" style="height:100vh;max-height:calc(100vh - 50px);overflow-y: auto;"> <a style="float:right;margin:10px;" data-dismiss="modal" role="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> <div class="gcse-searchbox"></div> <div class="gcse-searchresults"></div><!-- this req for res popup --> </div> </div> </div> </div> <!-- /CSE Modal -->
+	<script src="script.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&amp;adInstanceId=a215510e-7a90-461f-a4a1-abc276a3fe54"></script> <!-- amz OneLink -->
+</body>
 </html>
