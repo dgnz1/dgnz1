@@ -92,6 +92,38 @@ function amzNtv_sync(type, qry, affId, linkId, title, defCat) {
 		'<script src="https://z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>' +
 		'');
 }
+
+function addthis_a(aTid, divId, customUrlTitle, url, title, contId, inStyle, addServHtml) {
+	/**
+	- V3 - 
+	*/
+	var addthis_id = aTid;
+	var markup = addServHtml;
+	//
+	if (customUrlTitle == "custom") {
+		var customUrlHtml = ' addthis:url="' + url + '" addthis:title="' + title + '" class="addthis_button_';
+		try {
+			markup = addServHtml.replace(/class\="addthis_button_/gm, customUrlHtml);
+		} catch (e) {}
+	}
+	var html = '<style>' + inStyle + '</style>' +
+		'<div id="' + contId + '" class="addthis_toolbox addthis_32x32_style ' + contId + '"> ' + markup + '</div>';
+	var addthis_config = addthis_config || {};
+	addthis_config.pubid = addthis_id;
+	// 
+	if (document.getElementById('addthisAsyncScript')) {
+		/////////////////////
+	} else {
+		var addthisScript = document.createElement('script');
+		addthisScript.setAttribute('src', '//s7.addthis.com/js/300/addthis_widget.js#domready=1');
+		addthisScript.setAttribute('id', 'addthisAsyncScript');
+		document.body.appendChild(addthisScript);
+	}
+	document.getElementById(divId).insertAdjacentHTML("beforeend", html);
+	try {
+		addthis.toolbox('.' + contId);
+	} catch (e) {}
+}
 //////////////////   /funcs   ///////////////////////
 //////////////////////  MAIN  ////////////////////////////
 if (siteSection == "main") {
@@ -137,14 +169,25 @@ if (siteSection == "main") {
 	// 			});
 	// 		});
 	// });
+	$(document).ready(function() {
+		$('h1').before('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>')
+		addthis_a(
+			'ra-4f85722b54841026', // aTid REQ
+			'aTrec', // divId REQ
+			'', // customUrlTitle
+			'', // url
+			'', // title
+			'xyz_aTrec', // contId REQ
+			'', // inStyle
+			' <a rel="nofollow" class="addthis_button_facebook"></a> <a rel="nofollow" class="addthis_button_twitter"></a> <a rel="nofollow" class="addthis_button_expanded"></a>' // addServHtml
+		);
+	}); // document
 }
 //////////////////////  MAIN  ////////////////////////////
 //
-//////////////////////  MAIN  ////////////////////////////
+//////////////////////  SINGLE  ////////////////////////////
 if (siteSection == "single") {
-
 	// console.log(window.location.href);
-
 	///// discounted prices
 	var regex = new RegExp(/\$[0-9]+\.[0-9]+/); // expression here
 	$("td span").filter(function() {
@@ -153,19 +196,31 @@ if (siteSection == "single") {
 			var newPrice = parseFloat($(this).text().replace("$", ""));
 			var oldPrice = Math.ceil(newPrice + 3.25) - 0.05;
 			var href = $(this).parent().prev().find('span a, a').attr('href');
-			var source = ( href.match(/amazon/)) ? 'AMAZON' : 'PATREON';
-			$(this).html(' <strike>$' + Number(oldPrice).toFixed(2) + '</strike> <b style="color:red">$' + Number(newPrice).toFixed(2) + '</b> <span><span style="font-size:70%">at</span> <span style="font-size:60%"><a target="_top" rel="nofollow" href="' + href + '">'+source+'</a></span></span>');
+			var source = (href.match(/amazon/)) ? 'AMAZON' : 'PATREON';
+			$(this).html(' <strike>$' + Number(oldPrice).toFixed(2) + '</strike> <b style="color:red">$' + Number(newPrice).toFixed(2) + '</b> <span><span style="font-size:70%">at</span> <span style="font-size:60%"><a target="_top" rel="nofollow" href="' + href + '">' + source + '</a></span></span>');
 		}
 	});
-
 	$('head').append('<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"> <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>');
-
-		$('.singlepage').wrap('<div class="container"></div>');
-// 
-		$('body').prepend('<!-- ZD MASTER NAV WITH CSE MODAL (REQ CSE SCRIPT IN HEAD) --> <nav style="background-color:white;border-color:white;" class="navbar navbar-default" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" style="padding:0;" href="#"><img style="" src="https://c.zedign.com/s/zedign_logo_header_150x50.png" alt=""></a> </div> <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> <ul class="nav navbar-nav"> <li> <a href="/">Books</a> </li> <li> <a href="https://store.zedign.com/search/label/zedign-art-posters">Posters</a> </li> <li> <a data-target="#myModal" data-toggle="modal" href="#"><big><span class="glyphicon glyphicon-search" aria-hidden="true"></span></big></a> </li> </ul>  </div>  </div> <hr style="margin:0"/> </nav> <!-- /ZD MASTER NAV -->').append('<!-- CSE Modal --> <div role="dialog" class="modal fade" id="myModal" style="display: none;" aria-hidden="true"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-body" style="height:100vh;max-height:calc(100vh - 50px);overflow-y: auto;"> <a style="float:right;margin:10px;" data-dismiss="modal" role="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> <div class="gcse-searchbox"></div> <div class="gcse-searchresults"></div><!-- this req for res popup --> </div> </div> </div> </div> <!-- /CSE Modal -->');
-
-		// 
-		$('body').append('<!-- ZD MASTER FOOTER --><hr/><footer> <div class="container"> <div class="row"> <div class="col-lg-12"> <p> <a href="https://store.zedign.com"><img src="https://c.zedign.com/s/zedign_logo_header_150x50.png"/></a> &copy; The Zedign House | <a href="/privacy.html">Privacy Policy</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a rel="nofollow" href="https://facebook.com/TheZedignHouse"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/facebook.png"/></a> <a rel="nofollow" href="https://twitter.com/zedign"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/twitter.png"/></a> </p> </div> </div> </div> </footer><!-- /ZD MASTER FOOTER -->');
+	$('.singlepage').wrap('<div class="container"></div>');
+	// 
+	$('body').prepend('<!-- ZD MASTER NAV WITH CSE MODAL (REQ CSE SCRIPT IN HEAD) --> <nav style="background-color:white;border-color:white;" class="navbar navbar-default" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" style="padding:0;" href="#"><img style="" src="https://c.zedign.com/s/zedign_logo_header_150x50.png" alt=""></a> </div> <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> <ul class="nav navbar-nav"> <li> <a href="/">Books</a> </li> <li> <a href="https://store.zedign.com/search/label/zedign-art-posters">Posters</a> </li> <li> <a data-target="#myModal" data-toggle="modal" href="#"><big><span class="glyphicon glyphicon-search" aria-hidden="true"></span></big></a> </li> </ul>  </div>  </div> <hr style="margin:0"/> </nav> <!-- /ZD MASTER NAV -->').append('<!-- CSE Modal --> <div role="dialog" class="modal fade" id="myModal" style="display: none;" aria-hidden="true"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-body" style="height:100vh;max-height:calc(100vh - 50px);overflow-y: auto;"> <a style="float:right;margin:10px;" data-dismiss="modal" role="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> <div class="gcse-searchbox"></div> <div class="gcse-searchresults"></div><!-- this req for res popup --> </div> </div> </div> </div> <!-- /CSE Modal -->');
+	// 
+	$('body').append('<!-- ZD MASTER FOOTER --><hr/><footer> <div class="container"> <div class="row"> <div class="col-lg-12"> <p> <a href="https://store.zedign.com"><img src="https://c.zedign.com/s/zedign_logo_header_150x50.png"/></a> &copy; The Zedign House | <a href="/privacy.html">Privacy Policy</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a rel="nofollow" href="https://facebook.com/TheZedignHouse"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/facebook.png"/></a> <a rel="nofollow" href="https://twitter.com/zedign"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/twitter.png"/></a> </p> </div> </div> </div> </footer><!-- /ZD MASTER FOOTER -->');
+	// 
+	// 
+	$(document).ready(function() {
+		$('h2').after('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>')
+		addthis_a(
+			'ra-4f85722b54841026', // aTid REQ
+			'aTrec', // divId REQ
+			'', // customUrlTitle
+			'', // url
+			'', // title
+			'xyz_aTrec', // contId REQ
+			'', // inStyle
+			' <a rel="nofollow" class="addthis_button_facebook"></a> <a rel="nofollow" class="addthis_button_twitter"></a> <a rel="nofollow" class="addthis_button_expanded"></a>' // addServHtml
+		);
+	}); // document
 }
 //////////////////////  MAIN  ////////////////////////////
 //
