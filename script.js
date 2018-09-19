@@ -124,6 +124,19 @@ function addthis_a(aTid, divId, customUrlTitle, url, title, contId, inStyle, add
 		addthis.toolbox('.' + contId);
 	} catch (e) {}
 }
+
+function atHere() {
+	addthis_a(
+		'ra-4f85722b54841026', // aTid REQ
+		'aTrec', // divId REQ
+		'', // customUrlTitle
+		'', // url
+		'', // title
+		'xyz_aTrec', // contId REQ
+		'', // inStyle
+		' <a rel="nofollow" class="addthis_button_favorites"></a> <a rel="nofollow" class="addthis_button_email"></a> <a rel="nofollow" class="addthis_button_facebook"></a> <a rel="nofollow" class="addthis_button_twitter"></a> <a rel="nofollow" class="addthis_button_expanded"></a>' // addServHtml
+	);
+}
 //////////////////   /funcs   ///////////////////////
 //////////////////////  MAIN  ////////////////////////////
 if (siteSection == "main") {
@@ -170,23 +183,13 @@ if (siteSection == "main") {
 	// 		});
 	// });
 	$(document).ready(function() {
-		$('h1').before('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>')
-		addthis_a(
-			'ra-4f85722b54841026', // aTid REQ
-			'aTrec', // divId REQ
-			'', // customUrlTitle
-			'', // url
-			'', // title
-			'xyz_aTrec', // contId REQ
-			'', // inStyle
-			' <a rel="nofollow" class="addthis_button_facebook"></a> <a rel="nofollow" class="addthis_button_twitter"></a> <a rel="nofollow" class="addthis_button_expanded"></a>' // addServHtml
-		);
+		$('h1').before('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>');
+		atHere();
 	}); // document
 }
 //////////////////////  MAIN  ////////////////////////////
 //
 //////////////////////  SINGLE  ////////////////////////////
- 
 if (siteSection == "single") {
 	// console.log(window.location.href);
 	///// discounted prices
@@ -228,17 +231,8 @@ if (siteSection == "single") {
 	// 
 	// 
 	$(document).ready(function() {
-		$('h2').after('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>')
-		addthis_a(
-			'ra-4f85722b54841026', // aTid REQ
-			'aTrec', // divId REQ
-			'', // customUrlTitle
-			'', // url
-			'', // title
-			'xyz_aTrec', // contId REQ
-			'', // inStyle
-			' <a rel="nofollow" class="addthis_button_facebook"></a> <a rel="nofollow" class="addthis_button_twitter"></a> <a rel="nofollow" class="addthis_button_expanded"></a>' // addServHtml
-		);
+		$('h3').after('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>');
+		atHere();
 	}); // document
 }
 //////////////////////  MAIN  ////////////////////////////
