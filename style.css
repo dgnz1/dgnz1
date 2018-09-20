@@ -1,0 +1,57 @@
+.upIcons {
+  height: 1em;
+  display: inline-block;
+  vertical-align: middle;
+  opacity: 0.6;
+}
+
+.posterprices td, .printprices td, .digitalprices td {
+  padding: 5px;
+}
+
+#vidcont {
+  max-width: 600px;
+}
+
+table.printprices tr {
+  border-bottom: dotted 1px #aaa;
+}
+
+td {
+  padding: 3px 5px;
+}
+
+.posterprices td a, .printprices td a, .digitalprices td a {
+  font-weight: bold;
+  font-size: 120%;
+  font-family: Helvetica,Arial,sans-serif;
+  border-bottom: solid 1px lightblue;
+}
+
+.imgtd img {
+  width: 100%;
+  max-width: 200px;
+}
+
+.imgtd a {
+  display: block;
+  width: 100%;
+}
+
+td.imgtd {
+  width: 50%;
+  vertical-align: top;
+}
+
+td.txttd {
+  text-align: right;
+  vertical-align: top;
+}
+
+.zasinline {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAARCAMAAAB6iQVDAAAAGXRFWHRTb2Z0d2Fy ZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABhQTFRFYmJi////sbGxkJCQ0tLS5OTk 9fX1Nzc3ZisElgAAAOpJREFUeNqUUlsShDAIS4HK/W+8JNTX6n4s49RU0xCgGCsi KzCO8NiwjUfgtokrf7zFlQ8rWqb3Kn0QzFr3XFcHRYzam3HNGJjmBJMH45tvhMYq 3Gz5d4Hpp72DH0LhO8auj9L/4tMb1J+tnKfRPy7+/YX/GtKfj/785Et//MF/7f/M dcD0NpVwxH3MUONXTv1ht2+TfuiDEob07GzN1aTrK88LB9NqnnpQmY8isSbNIWI2 rpbOQZYar9Zt591Yk3b6bzyZpIVGXQFfzQqecutJ9wBi1VfW0KUFdLWUgGp9R9Na v7HT/0eAAQCplgaH3y4ZAAAAAABJRU5ErkJggg==");
+  display: inline-block;
+  height: 17px;
+  width: 47px;
+  vertical-align: middle;
+}
