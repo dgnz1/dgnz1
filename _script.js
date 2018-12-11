@@ -137,26 +137,6 @@ function atHere() {
 		' <a rel="nofollow" class="addthis_button_favorites"></a> <a rel="nofollow" class="addthis_button_email"></a> <a rel="nofollow" class="addthis_button_facebook"></a> <a rel="nofollow" class="addthis_button_twitter"></a> <a rel="nofollow" class="addthis_button_expanded"></a>' // addServHtml
 	);
 }
-
-
-/////// FOR VIDEO PREVIEW BUTTON IN MODAL (HTML hardcoded) //////////
-function autoPlayYouTubeModal(){
-  var trigger = $("body").find('[data-toggle="modal"]');
-  trigger.click(function() {
-    var theModal = $(this).data( "target" ),
-    videoSRC = $(this).attr( "data-theVideo" ), 
-    videoSRCauto = videoSRC+"?autoplay=1&rel=0&cc_load_policy=1" ;
-    $(theModal+' iframe').attr('src', videoSRCauto);
-    $(theModal+' button.close').click(function () {
-        $(theModal+' iframe').attr('src', videoSRC);
-    });   
-  });
-}
-/////// FOR VIDEO PREVIEW BUTTON IN MODAL (HTML hardcoded) //////////
-
-
-
-
 //////////////////   /funcs   ///////////////////////
 //////////////////////  MAIN  ////////////////////////////
 if (siteSection == "main") {
@@ -188,7 +168,6 @@ if (siteSection == "main") {
 						});
 					});
 			});
-		autoPlayYouTubeModal(); // for hardcoded preview button modal
 		// a to button
 		// $('a[href*=page-]').attr('role','button');
 		// $('a[href*=page-]').attr('class','btn btn-default');
@@ -252,13 +231,9 @@ if (siteSection == "single") {
 	// 
 	// 
 	$(document).ready(function() {
-				autoPlayYouTubeModal(); // for hardcoded preview button modal
-
 		$('h3').after('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>');
 		atHere();
 	}); // document
-
-
 }
 //////////////////////  MAIN  ////////////////////////////
 //
