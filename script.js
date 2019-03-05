@@ -2,6 +2,7 @@
 // 
 // 
 thsBlg_as = '\x70' + 'u' + '\x62\x2D' + '5' + '69\x30' + '2' + '\x3031' + '1' + '33' + '5' + '97' + '2' + '1';
+thsBlg_zzl = "238115903514203736";
 // 
 if (typeof siteSection == "undefined") {
 	siteSection = "main";
@@ -31,6 +32,201 @@ pagelevelIfNotHardcoded();
 // 
 // 
 /////////////// funcs ////////////////////////
+function affLocalize(objAmAffIds, strEPNId, strZzlId) {
+	// v5
+	// req: jq
+	function zzlLocalize(strTLD, url) {
+		if (strTLD) {
+			switch (strTLD) {
+				case 'UK':
+				case 'JP':
+				case 'NZ':
+					strTLD = 'co.' + strTLD;
+					break;
+				case 'AU':
+				case 'BR':
+					strTLD = 'com.' + strTLD;
+					break;
+				case 'CA':
+				case 'DE':
+				case 'ES':
+				case 'FR':
+				case 'PT':
+				case 'SE':
+				case 'NL':
+				case 'AT':
+				case 'CH':
+				case 'BE':
+					strTLD = strTLD;
+					break;
+				default:
+					strTLD = 'com';
+			}
+		}
+		var affUrl, zProd, zAffTag;
+		zProd = parseURL(url.replace(/[\?\&]rf\=[0-9]+/, ""));
+		affUrl = 'https://www.zazzle.' + strTLD + zProd.path + zProd.querystring;
+		zAffTag = (affUrl.match(/\?/) ? '&rf=' : '?rf=') + strZzlId;
+		affUrl = affUrl + zAffTag;
+		return affUrl;
+	}
+
+	function ebLocalize(strTLD, url) {
+		if (strTLD) {
+			switch (strTLD) {
+				case 'AT':
+					cntry = "5221-53469-19255-0";
+					icep = "229473";
+					break;
+				case 'AU':
+					cntry = "705-53470-19255-0";
+					icep = "229515";
+					break;
+				case 'BE':
+					cntry = "1553-53471-19255-0";
+					icep = "229522";
+					break;
+				case 'CA':
+					cntry = "706-53473-19255-0";
+					icep = "229529";
+					break;
+				case 'CH':
+					cntry = "5222-53480-19255-0";
+					icep = "229536";
+					break;
+				case 'DE':
+					cntry = "707-53477-19255-0";
+					icep = "229487";
+					break;
+				case 'ES':
+					cntry = "1185-53479-19255-0";
+					icep = "229501";
+					break;
+				case 'FR':
+					cntry = "709-53476-19255-0";
+					icep = "229480";
+					break;
+				case 'IE':
+					cntry = "5282-53468-19255-0";
+					icep = "229543";
+					break;
+				case 'IN':
+					cntry = "4686-53472-19255-0";
+					icep = "229550";
+					break;
+				case 'IT':
+					cntry = "724-53478-19255-0";
+					icep = "229494";
+					break;
+				case 'NL':
+					cntry = "1346-53482-19255-0";
+					icep = "229557";
+					break;
+				case 'UK':
+					cntry = "710-53481-19255-0";
+					icep = "229508";
+					break;
+				default:
+					cntry = "711-53200-19255-0";
+					icep = "229466";
+			}
+		}
+		var affUrl = url;
+		affUrl = affUrl.replace(/\/[0-9]+\-[0-9]+\-19255\-0\//, '/' + cntry + '/');
+		affUrl = affUrl.replace(/vectorid\=[0-9]+/, 'icep_vectorid=' + icep);
+		return affUrl;
+	}
+	// 
+	function amLocalize(itmId, strTLD) {
+		if (strTLD) {
+			switch (strTLD) {
+				case 'JP':
+					strTLD = 'co.jp';
+					break;
+				case 'GB':
+				case 'JE':
+				case 'GG':
+				case 'IM':
+				case 'IE':
+				case 'UK':
+					strTLD = 'co.uk';
+					break;
+				case 'CH':
+				case 'AT':
+					strTLD = 'de';
+					break;
+				case 'PT':
+					strTLD = 'es';
+					break;
+				default:
+					strTLD = (objAmAffIds[strTLD.toLowerCase()] != null ? strTLD.toLowerCase() : 'com');
+					break;
+			}
+			affId = objAmAffIds[strTLD.toLowerCase()];
+		}
+		// OneLink Mod  DEL IF NOT USING OneLink <script> in html
+		strTLD = (strTLD == 'ca' || strTLD == 'co.uk') ? "com" : strTLD;
+		affId = thsBlg_amz.com; ///// default US tag for this site
+		// /OneLink Mod
+		return "https://www.amazon." + strTLD + "/exec/obidos/ASIN/" + itmId + "/" + affId;
+	}
+	// 
+	function parseURL(href) {
+		// v1 returns url parths as given. works with relative ones too.
+		var match = href.match(/^(?:(https?\:)\/\/)?(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
+		return match && {
+			href: href,
+			protocol: match[1],
+			host: match[2],
+			hostname: match[3],
+			port: match[4],
+			path: match[5],
+			querystring: match[6],
+			hash: match[7]
+		}
+	}
+	// 
+	$.ajax({
+		method: "GET",
+		dataType: "json",
+		cache: true,
+		// kaput
+		// url: "https://freegeoip.net/json/" // OR (no HTTPS) // url: "http://api.ipstack.com/186.116.207.169?access_key="+thsBlg_ipsapi+"&output=json&legacy=1"
+		// url: "https://geoip.tools/v1/json" // 
+		url: "https://freegeoip.app/json/" // new 11/18
+	}).done(function(json) {
+		try {
+			var strTLD = json.country_code;
+			// var strTLD = "AU"; // for tstng
+			var zzlUrlReg = /zazzle\./;
+			var epnUrlReg = /vectorid/;
+			var amzUrlReg = RegExp("/([a-zA-Z0-9]{10})(?:[/?]|$)");
+			// var amzUrlReg = RegExp("/(?!/e|st)../([A-Z0-9]{10})");
+			// "/(?!/e|st)../([A-Z0-9]{10})"
+			$('a').each(function(index) {
+				var url = unescape($(this).attr('href'));
+				// AMZ
+				if (url.match(amzUrlReg)) {
+					var itmId = url.match(amzUrlReg)[1];
+					// console.log(itmId)
+					// amLocalize is OFF (USING ONELINK) (uncommnt to enable)
+					// $(this).attr('href', amLocalize(itmId, strTLD));
+				}
+				// EPN
+				if (url.match(epnUrlReg)) {
+					$(this).attr('href', ebLocalize(strTLD, url));
+				}
+				// ZZL
+				if (url.match(zzlUrlReg)) {
+					$(this).attr('href', zzlLocalize(strTLD, url));
+				}
+			});
+			// 
+		} catch (e) {}
+	}).fail(function(error) {
+		// console.log(error);
+	});
+}
 ///////////////////  QS   //////////////////
 /// qs.get("s") ...
 /// if (qs2.contains("q")) {	pkSrQry = qs2.get("q"); }
@@ -137,26 +333,20 @@ function atHere() {
 		' <a rel="nofollow" class="addthis_button_favorites"></a> <a rel="nofollow" class="addthis_button_email"></a> <a rel="nofollow" class="addthis_button_facebook"></a> <a rel="nofollow" class="addthis_button_twitter"></a> <a rel="nofollow" class="addthis_button_expanded"></a>' // addServHtml
 	);
 }
-
-
 /////// FOR VIDEO PREVIEW BUTTON IN MODAL (HTML hardcoded) //////////
-function autoPlayYouTubeModal(){
-  var trigger = $("body").find('[data-toggle="modal"]');
-  trigger.click(function() {
-    var theModal = $(this).data( "target" ),
-    videoSRC = $(this).attr( "data-theVideo" ), 
-    videoSRCauto = videoSRC+"?autoplay=1&rel=0&cc_load_policy=1" ;
-    $(theModal+' iframe').attr('src', videoSRCauto);
-    $(theModal+' button.close').click(function () {
-        $(theModal+' iframe').attr('src', videoSRC);
-    });   
-  });
+function autoPlayYouTubeModal() {
+	var trigger = $("body").find('[data-toggle="modal"]');
+	trigger.click(function() {
+		var theModal = $(this).data("target"),
+			videoSRC = $(this).attr("data-theVideo"),
+			videoSRCauto = videoSRC + "?autoplay=1&rel=0&cc_load_policy=1";
+		$(theModal + ' iframe').attr('src', videoSRCauto);
+		$(theModal + ' button.close').click(function() {
+			$(theModal + ' iframe').attr('src', videoSRC);
+		});
+	});
 }
 /////// FOR VIDEO PREVIEW BUTTON IN MODAL (HTML hardcoded) //////////
-
-
-
-
 //////////////////   /funcs   ///////////////////////
 //////////////////////  MAIN  ////////////////////////////
 if (siteSection == "main") {
@@ -252,13 +442,10 @@ if (siteSection == "single") {
 	// 
 	// 
 	$(document).ready(function() {
-				autoPlayYouTubeModal(); // for hardcoded preview button modal
-
+		autoPlayYouTubeModal(); // for hardcoded preview button modal
 		$('h3').after('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>');
 		atHere();
 	}); // document
-
-
 }
 //////////////////////  MAIN  ////////////////////////////
 //
@@ -285,3 +472,13 @@ if (siteSection == "dyn_catcher") {
 }
 // 
 /////////////////    /DYN_CATCHER   ///////////////////
+////////////////
+///////////////
+$(window).on("load", function() {
+	if (siteSection == "single") {
+		// ** amazon amLocalize IS >>OFF<< in affLocalize() (using onelink) **
+		affLocalize("", "", thsBlg_zzl);
+	}
+});
+//
+//
