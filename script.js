@@ -402,16 +402,46 @@ if (siteSection == "main") {
 //
 //////////////////////  SINGLE  ////////////////////////////
 if (siteSection == "single") {
-
 	///////////////////////////////
 	////// Volume in headline
 	if (/Volume\s+1/.test($('#headcont h4').text())) {
 		// console.log('is volume');
-		var hhtml=$('#headcont h4').html().replace(/(.+)(Volume\s+[^\(]+\([^\)]+\)).*/m,'$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; <a style="white-space:nowrap" href="/"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a></div>');
-		console.log(hhtml);
+		var hhtml = $('#headcont h4').html().replace(/(.+)(Volume\s+[^\(]+\([^\)]+\)).*/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; <a style="white-space:nowrap" href="/"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a></div>');
+		// console.log(hhtml);
 		$('#headcont h4').html(hhtml);
 	}
-
+	///////////////////////////////
+	///// PRINT: GET TEXT FROM a's title to make body text
+	$('.printprices .edicont').each(function(index) {
+		//// 1. Volume info
+		try {
+			var a;
+			a = $(this).find("a").attr('title').match(/Volume\s+[^\)]+\)/)[0];
+			$(this).find("a").after('<h5>' + a + '. <a href="/">See All Volumes</a> <small>(or get <em>All-Volumes-In-One Bound-Set</em> edition below)</small></h5>');
+		} catch (e) {}
+		// 
+		//// 2. Composite info
+		try {
+			var a;
+			a = $(this).find("a").attr('title').match(/Composite\s+[0-9Ee\s]+dition/)[0].replace(/[Ee]dition/, "").replace(/2/,"Two").replace(/4/,"Four");
+			$(this).find("a:eq(0)").after('<h5><small><b style="font-family:serif;text-transform:uppercase">' + a + '</b> Format</small></h5>');
+		} catch (e) {}
+		// 
+		//// 3. Size info
+		try {
+			var a, b;
+			a = $(this).find("h3").text();
+			switch (a) { // like if (abc == "cou") {}...
+				case (a.match(/Premier|B&W|Reference/) || {}).input:
+					b = '8.5&times;8.5 inches';
+					break;
+				default:
+					b = '8.5&times;11 inches';
+			}
+			$(this).find("a:eq(0)").after('<h5>' + b + ' </h5>');
+		} catch (e) {}
+		console.log(a);
+	});
 	///////////////////////////////
 	///// DISCOUNTED PRICES
 	var regex = new RegExp(/\$[0-9]+\.[0-9]+/); // expression here
@@ -439,8 +469,6 @@ if (siteSection == "single") {
 		}
 	}); // td span
 	///// DISCOUNTED PRICES
-
-
 	///////// ppbk xup icons
 	// $('.printprices div:eq(0)').append(' <img class="upIcons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFnUBAGhoa////YijECgAAAB5JREFUeNpiYEQDDIxMKAAkwIAEhroAuufQAECAAQBYMAClJsidJQAAAABJRU5ErkJggg=="/>');
 	// $('.printprices div:eq(1)').append(' <img class="upIcons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFs7KyGhoa////ZrSl/AAAAB5JREFUeNpiYEQDDIxMKAAkwIAEhroAuufQAECAAQBYMAClJsidJQAAAABJRU5ErkJggg=="/>');
@@ -451,7 +479,7 @@ if (siteSection == "single") {
 	// 
 	// $('body').prepend('<!-- ZD MASTER NAV WITH CSE MODAL (REQ CSE SCRIPT IN HEAD) --> <nav style="background-color:white;border-color:white;" class="navbar navbar-default" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" style="padding:0;" href="#"><img style="" src="https://c.zedign.com/s/zedign_logo_header_150x50.png" alt=""></a> </div> <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> <ul class="nav navbar-nav"> <li> <a href="/">Books</a> </li> <li> <a href="https://store.zedign.com/search/label/zedign-art-posters">Posters</a> </li> <li> <a data-target="#myModal" data-toggle="modal" href="#"><big><span class="glyphicon glyphicon-search" aria-hidden="true"></span></big></a> </li> </ul>  </div>  </div> <hr style="margin:0"/> </nav> <!-- /ZD MASTER NAV -->').append('<!-- CSE Modal --> <div role="dialog" class="modal fade" id="myModal" style="display: none;" aria-hidden="true"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-body" style="height:100vh;max-height:calc(100vh - 50px);overflow-y: auto;"> <a style="float:right;margin:10px;" data-dismiss="modal" role="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> <div class="gcse-searchbox"></div> <div class="gcse-searchresults"></div><!-- this req for res popup --> </div> </div> </div> </div> <!-- /CSE Modal -->');
 	// 
-	$('body').append('<!-- ZD MASTER FOOTER --><div style="margin-top:50px">&nbsp;</div><hr/><footer> <div class="container"> <div class="row"> <div class="col-lg-12"> <p> <!-- <a href="https://store.zedign.com"><img src="https://c.zedign.com/s/zedign_logo_header_150x50.png"/></a> --> &copy;&nbsp;The&nbsp;Zedign&nbsp;House | <a href="/privacy.html">Privacy Policy</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a rel="nofollow" href="https://facebook.com/TheZedignHouse"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/facebook.png"/></a> <a rel="nofollow" href="https://twitter.com/zedign"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/twitter.png"/></a> </p> </div> </div> </div> </footer><!-- /ZD MASTER FOOTER -->');
+	$('body').append('<!-- ZD MASTER FOOTER --><div style="margin-top:50px">&nbsp;</div><hr/><footer> <div class="container"> <div class="row"> <div class="col-lg-12"> <p> <!-- <a href="https://store.zedign.com"><img src="https://c.zedign.com/s/zedign_logo_header_150x50.png"/></a> --> &copy;&nbsp;The&nbsp;Zedign&nbsp;House | <a href="/privacy.html">Privacy Policy</a>   &nbsp;&nbsp;   <a rel="nofollow" href="https://facebook.com/TheZedignHouse"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/facebook.png"/></a>&nbsp;<a rel="nofollow" href="https://twitter.com/zedign"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/twitter.png"/></a> </p> </div> </div> </div> </footer><!-- /ZD MASTER FOOTER -->');
 	// 
 	// 
 	$(document).ready(function() {
