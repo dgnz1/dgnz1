@@ -1,31 +1,59 @@
+#headcont img {
+  width: 100%;
+}
+
+#headerbanner {
+  padding: 0;
+  margin: 0;
+}
+
+#headerbanner img {
+  width: 100%;
+}
+
+.price {
+  font-family: Times, serif;
+  font-weight: bold;
+  font-size: 110%;
+  background: #f9fdb0;
+  padding: 4px;
+}
+
+.digitalprices .packshot {
+  float: left;
+  width: 50%;
+  max-width: 300px;
+}
+
+.digitalprices .vidcont {
+  width: 100%;
+}
+
+.printprices .packshot {
+  float: left;
+  width: 60%;
+  max-width: 200px;
+}
+
+.digitalprices > div, .printprices > div {
+  display: table;
+  width: 99%;
+  padding: 0 5px;
+  margin: 0 5px;
+  border-top: dotted 1px #aaa;
+}
+
 .upIcons {
-  height: 1em;
+  height: 1.5em;
   display: inline-block;
   vertical-align: middle;
   opacity: 0.6;
 }
 
-.posterprices td, .printprices td, .digitalprices td {
-  padding: 5px;
-}
-
-#vidcont {
-  max-width: 600px;
-}
-
-table.printprices tr {
-  border-bottom: dotted 1px #aaa;
-}
-
-td {
-  padding: 3px 5px;
-}
-
-.posterprices td a, .printprices td a, .digitalprices td a {
-  font-weight: bold;
-  font-size: 120%;
-  font-family: Helvetica,Arial,sans-serif;
-  border-bottom: solid 1px lightblue;
+.vidcont {
+  width: 99%;
+  background: black;
+  /*max-width: 600px;*/
 }
 
 .imgtd img {
