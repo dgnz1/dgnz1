@@ -11,12 +11,18 @@
   width: 100%;
 }
 
+.edicont {}
+
 .price {
   font-family: Times, serif;
   font-weight: bold;
   font-size: 110%;
   background: #f9fdb0;
   padding: 4px;
+}
+
+.packshot {
+  margin: 0 10px 0;
 }
 
 .digitalprices .packshot {
