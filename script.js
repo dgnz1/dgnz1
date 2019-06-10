@@ -346,6 +346,27 @@ function autoPlayYouTubeModal() {
 		});
 	});
 }
+
+function upIcons(up) {
+	var cx;
+	switch (up) { // like if (abc == "cou") {}... 
+		case "Premier":
+			cx = ' <img class="upIcons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFnUBAGhoa////YijECgAAAB5JREFUeNpiYEQDDIxMKAAkwIAEhroAuufQAECAAQBYMAClJsidJQAAAABJRU5ErkJggg=="/>';
+			break;
+		case "B&W":
+			cx = ' <img class="upIcons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFs7KyGhoa////ZrSl/AAAAB5JREFUeNpiYEQDDIxMKAAkwIAEhroAuufQAECAAQBYMAClJsidJQAAAABJRU5ErkJggg=="/>';
+			break;
+		case "Standard":
+			cx = ' <img class="upIcons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAQCAMAAAAVv241AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAxQTFRFoEVFqllZ////Ghoas2b5igAAADRJREFUeNpiYEYCDMxMcADmMDIAASOUwwAGpHFQDEA2mhGijBHMYYACAhwUPcimIQGAAAMAepYBJQFmpWcAAAAASUVORK5CYII="/>';
+			break;
+		case "Reference":
+			cx = ' <img class="upIcons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAxQTFRFoEZGqlhY////Ghoaq24vogAAAD9JREFUeNpiYEYDDMxMKAAkwMgABIxgihEswAAGEIpcAQxDsVjLCFYAhEjWwkyCm4EsgFUFI8wubLagAYAAAwC5egFf9a6rNAAAAABJRU5ErkJggg=="/>';
+			break;
+		default:
+			cx = ' ';
+	}
+	return cx;
+}
 /////// FOR VIDEO PREVIEW BUTTON IN MODAL (HTML hardcoded) //////////
 //////////////////   /funcs   ///////////////////////
 //////////////////////  MAIN  ////////////////////////////
@@ -404,9 +425,9 @@ if (siteSection == "main") {
 if (siteSection == "single") {
 	///////////////////////////////
 	////// Volume in headline
-	if (/Volume\s+1/.test($('#headcont h4').text())) {
+	if (/Volume\s+/.test($('#headcont h4').text())) {
 		// console.log('is volume');
-		var hhtml = $('#headcont h4').html().replace(/(.+)(Volume\s+[^\(]+\([^\)]+\)).*/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; <a style="white-space:nowrap" href="/"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a></div>');
+		var hhtml = $('#headcont h4').html().replace(/^(.+)(Volume[^\(]+\([^\)]+\)).*$/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; <a style="white-space:nowrap" href="/"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a> <small>(or see <i>All-Vols-In-One Bound</i> below.)</small></div>');
 		// console.log(hhtml);
 		$('#headcont h4').html(hhtml);
 	}
@@ -422,10 +443,11 @@ if (siteSection == "single") {
 		// 
 		//// 2. Composite info
 		try {
-			var a;
-			a = $(this).find("a").attr('title').match(/Composite\s+[0-9Ee\s]+dition/)[0].replace(/[Ee]dition/, "").replace(/2/,"Two").replace(/4/,"Four");
-			$(this).find("a:eq(0)").after('<h5><small><b style="font-family:serif;text-transform:uppercase">' + a + '</b> Format</small></h5>');
+			var a="", b="";
+			a = $(this).find("a").attr('title').match(/Composite\s+[0-9Ee\s]+dition/)[0].replace(/[Ee]dition/, "").replace(/2/, "Two").replace(/4/, "Four");
 		} catch (e) {}
+		b = $(this).find("h3").text().match(/(Premier|B&W|Standard|Reference)/)[0];
+		$(this).find("a:eq(0)").after('<h5>' + upIcons(b) + ' <small><b style="font-family:serif;text-transform:uppercase">' + a + '</b> Format</small></h5>');
 		// 
 		//// 3. Size info
 		try {
@@ -440,7 +462,7 @@ if (siteSection == "single") {
 			}
 			$(this).find("a:eq(0)").after('<h5>' + b + ' </h5>');
 		} catch (e) {}
-		console.log(a);
+		// console.log(a);
 	});
 	///////////////////////////////
 	///// DISCOUNTED PRICES
@@ -475,6 +497,8 @@ if (siteSection == "single") {
 	// $('.printprices div:eq(2), .printprices td:eq(8)').append(' <img class="upIcons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAQCAMAAAAVv241AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAxQTFRFoEVFqllZ////Ghoas2b5igAAADRJREFUeNpiYEYCDMxMcADmMDIAASOUwwAGpHFQDEA2mhGijBHMYYACAhwUPcimIQGAAAMAepYBJQFmpWcAAAAASUVORK5CYII="/>');
 	// $('.printprices div:eq(3), .printprices td:eq(10)').append(' <img class="upIcons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAxQTFRFoEZGqlhY////Ghoaq24vogAAAD9JREFUeNpiYEYDDMxMKAAkwMgABIxgihEswAAGEIpcAQxDsVjLCFYAhEjWwkyCm4EsgFUFI8wubLagAYAAAwC5egFf9a6rNAAAAABJRU5ErkJggg=="/>');
 	// $('head').append('<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"> <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>');
+	// 
+	// 
 	$('.singlepage').wrap('<div class="container"></div>');
 	// 
 	// $('body').prepend('<!-- ZD MASTER NAV WITH CSE MODAL (REQ CSE SCRIPT IN HEAD) --> <nav style="background-color:white;border-color:white;" class="navbar navbar-default" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" style="padding:0;" href="#"><img style="" src="https://c.zedign.com/s/zedign_logo_header_150x50.png" alt=""></a> </div> <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> <ul class="nav navbar-nav"> <li> <a href="/">Books</a> </li> <li> <a href="https://store.zedign.com/search/label/zedign-art-posters">Posters</a> </li> <li> <a data-target="#myModal" data-toggle="modal" href="#"><big><span class="glyphicon glyphicon-search" aria-hidden="true"></span></big></a> </li> </ul>  </div>  </div> <hr style="margin:0"/> </nav> <!-- /ZD MASTER NAV -->').append('<!-- CSE Modal --> <div role="dialog" class="modal fade" id="myModal" style="display: none;" aria-hidden="true"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-body" style="height:100vh;max-height:calc(100vh - 50px);overflow-y: auto;"> <a style="float:right;margin:10px;" data-dismiss="modal" role="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> <div class="gcse-searchbox"></div> <div class="gcse-searchresults"></div><!-- this req for res popup --> </div> </div> </div> </div> <!-- /CSE Modal -->');
