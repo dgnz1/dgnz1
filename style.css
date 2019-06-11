@@ -1,3 +1,61 @@
+/* MAIN */
+
+.media {
+  border-top: solid 1px #aaa;
+  /*outline: solid 1px yellow;*/
+}
+
+.media img {
+  width: 100px;
+}
+
+.singlevol, .parentvol {
+  clear: both;
+}
+
+.parentvol {}
+
+.childvol {}
+
+/* SCALE OPTION */
+.media.parentvol {
+  /*to compensate childvol space after scale*/
+  /*margin-bottom: -1em;*/
+}
+
+.media.childvol {
+  /* margin-left: 4em;
+   border-top: none;
+   transform: scale(0.8);
+   transform-origin: 0 0;
+   margin-bottom: -3em;*/
+  /*to compensate childvol space after scale*/
+}
+
+/*NON-SCALE OPTION*/
+
+.media.childvol {
+  width: 30%;
+  float: left;
+  border-top: none;
+  margin: 0;
+  min-width: 250px;
+  border-left: solid 30px transparent;
+  display: table;
+}
+
+.media.childvol img {
+  width: 80px;
+}
+
+.media.childvol h4 {
+  font-size: 95%;
+}
+
+/* /MAIN */
+
+/* SINGLE */
+
 #headcont img {
   width: 100%;
 }

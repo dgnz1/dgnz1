@@ -373,6 +373,25 @@ function upIcons(up) {
 if (siteSection == "main") {
 	// 
 	$(document).ready(function() {
+		// 
+		/////////// REMOVE DESC FROM CHILD VOLS
+		$('.childvol .media-body p').each(function() {
+			try {
+				$(this).text(
+					$(this).text().replace(/^.*(Volum[^\)]+\)).*$/m, "$1")
+				);
+			} catch (e) {}
+		});
+		// 
+		/////////// ADD ALLINONE HTML IN PARENT VOLS
+		$('.parentvol').each(function() {
+			try {
+				// todo  fix allinone text (following breaks on 2 consecutive parentvols)
+				// $(this).nextAll('.singlevol:first').before('<div><a href="">All-Volumes-In-One Bound-Set</a></div>');
+			} catch (e) {}
+		});
+		// 
+		// 
 		$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js")
 			.done(function() {
 				$('.amz_Btm').iFrameResize({
