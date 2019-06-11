@@ -373,50 +373,18 @@ function upIcons(up) {
 if (siteSection == "main") {
 	// 
 	$(document).ready(function() {
-		var grid = $('.grid');
-		grid.infinitescroll({
-				// Pagination element that will be hidden
-				navSelector: '#pagination',
-				// Next page link
-				nextSelector: '#pagination p a',
-				// Selector of items to retrieve
-				itemSelector: '.grid-item',
-				// Loading message
-				loadingText: 'Loading new items…'
-			},
-			// Function called once the elements are retrieved
-			function(new_elts) {
-				var elts = $(new_elts).css('opacity', 0);
-				elts.animate({
-					opacity: 1
+		$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js")
+			.done(function() {
+				$('.amz_Btm').iFrameResize({
+					// log: true, // Enable console logging
+					// enablePublicMethods: true, // Enable methods within iframe hosted page
+					// heightCalculationMethod: 'max',
 				});
-				$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js")
-					.done(function() {
-						$('.amz_Btm').iFrameResize({
-							// log: true, // Enable console logging
-							// enablePublicMethods: true, // Enable methods within iframe hosted page
-							// heightCalculationMethod: 'max',
-						});
-					});
 			});
-		// autoPlayYouTubeModal(); // for hardcoded preview button modal
-		// a to button
-		// $('a[href*=page-]').attr('role','button');
-		// $('a[href*=page-]').attr('class','btn btn-default');
 	});
-	// $(window).on("load", function() {
-	// 	$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js")
-	// 		.done(function() {
-	// 			$('#amz_Btm').iFrameResize({
-	// 				log: true, // Enable console logging
-	// 				// enablePublicMethods: true, // Enable methods within iframe hosted page
-	// 				// heightCalculationMethod: 'max',
-	// 			});
-	// 		});
-	// });
 	$(document).ready(function() {
-		$('h1').before('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>');
-		atHere();
+		// $('h1').before('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>');
+		// atHere();
 	}); // document
 }
 //////////////////////  MAIN  ////////////////////////////
@@ -443,7 +411,8 @@ if (siteSection == "single") {
 		// 
 		//// 2. Composite info
 		try {
-			var a="", b="";
+			var a = "",
+				b = "";
 			a = $(this).find("a").attr('title').match(/Composite\s+[0-9Ee\s]+dition/)[0].replace(/[Ee]dition/, "").replace(/2/, "Two").replace(/4/, "Four");
 		} catch (e) {}
 		b = $(this).find("h3").text().match(/(Premier|B&W|Standard|Reference)/)[0];
