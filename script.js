@@ -383,11 +383,22 @@ if (siteSection == "main") {
 			} catch (e) {}
 		});
 		// 
-		/////////// ADD ALLINONE HTML IN PARENT VOLS
-		$('.parentvol').each(function() {
+		/////////// ADD ALLINONE HTML AFTER VOLS ONES
+		$('.childvol').each(function() {
+			var a = $(this).next();
+			var b = a.attr('class');
 			try {
-				// todo  fix allinone text (following breaks on 2 consecutive parentvols)
-				// $(this).nextAll('.singlevol:first').before('<div><a href="">All-Volumes-In-One Bound-Set</a></div>');
+				if (b.match(/(parent|single)vol/)) {
+					// EXTRACT ZAS # FROM 1UP png...
+					// var x = a.find('.media-left img').attr('src').match(/^i\/p\/([0-9]+)_.*$/m)[1]; /// DOESN'T WORK (ALLINONE pngs HAVE OWN AIO ZAS #)
+					var c = $(this).find('.media-body h4 a');
+					var d = c.text().match(/^(.*)Vol.*$/m)[1];
+					var e = c.attr('href');
+					a.before(' <div style="margin:5px;padding:5px;background:#f5f5f5" class="media childvol"><div class="media-left"><a href="page-8.html">' +
+						'<span style="font-size:50px;line-height:1em;">&#x1f4e6;</span>' +
+						// '<img class="media-object" src="i/p/'+c+'_ALLINONE4UP.png" alt=""/>'+
+						'</a></div><div class="media-body"><a href="' + e + '#ALLINONE4UP"> </a><h4><a href="' + e + '#ALLINONE4UP">' + d + ' <small style="font-family:serif">All-IN-ONE</small></a> </h4> <p> <span style="display:inline-block;vertical-align:middle;font-size:60%;background:yellow;color:maroon">&nbsp;SAVE!&nbsp;</span> All Volumes Bound Together as One Edition </p> </div></div>');
+				}
 			} catch (e) {}
 		});
 		// 
@@ -414,7 +425,7 @@ if (siteSection == "single") {
 	////// Volume in headline
 	if (/Volume\s+/.test($('#headcont h4').text())) {
 		// console.log('is volume');
-		var hhtml = $('#headcont h4').html().replace(/^(.+)(Volume[^\(]+\([^\)]+\)).*$/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; <a style="white-space:nowrap" href="/"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a> <small>(or see <i>All-Vols-In-One Bound</i> below.)</small></div>');
+		var hhtml = $('#headcont h4').html().replace(/^(.+)(Volume[^\(]+\([^\)]+\)).*$/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; <a style="white-space:nowrap" href="/"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a> <small>(or see <a href="#ALLINONE4UP"><i>All-Vols-In-One Bound</i></a> below.)</small></div>');
 		// console.log(hhtml);
 		$('#headcont h4').html(hhtml);
 	}
@@ -425,7 +436,7 @@ if (siteSection == "single") {
 		try {
 			var a;
 			a = $(this).find("a").attr('title').match(/Volume\s+[^\)]+\)/)[0];
-			$(this).find("a").after('<h5>' + a + '. <a href="/">See All Volumes</a> <small>(or get <em>All-Volumes-In-One Bound-Set</em> edition below)</small></h5>');
+			$(this).find("a").after('<h5>' + a + '. <a href="/">See All Volumes</a> <small>(or get <a href="#ALLINONE4UP"><em>All-Volumes-In-One</a> Bound-Set</em> edition below)</small></h5>');
 		} catch (e) {}
 		// 
 		//// 2. Composite info
