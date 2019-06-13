@@ -421,10 +421,15 @@ if (siteSection == "main") {
 //
 //////////////////////  SINGLE  ////////////////////////////
 if (siteSection == "single") {
+	isVol = "no";
 	///////////////////////////////
 	////// Volume in headline
 	if (/Volume\s+/.test($('#headcont h4').text())) {
 		// console.log('is volume');
+		isVol = "yes";
+		try {
+			totalVols = parseFloat($('#headcont h4').text().match(/\(of\s+([0-9])+\)/m)[1]);
+		} catch (e) {}
 		var hhtml = $('#headcont h4').html().replace(/^(.+)(Volume[^\(]+\([^\)]+\)).*$/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; <a style="white-space:nowrap" href="/"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a> <small>(or see <a href="#ALLINONE4UP"><i>All-Vols-In-One Bound</i></a> below.)</small></div>');
 		// console.log(hhtml);
 		$('#headcont h4').html(hhtml);
@@ -463,6 +468,8 @@ if (siteSection == "single") {
 		} catch (e) {}
 		// console.log(a);
 	});
+	// 
+	// 
 	///////////////////////////////
 	///// DISCOUNTED PRICES
 	var regex = new RegExp(/\$[0-9]+\.[0-9]+/); // expression here
@@ -489,18 +496,22 @@ if (siteSection == "single") {
 			$(this).html(' <strike>$' + Number(oldPrice).toFixed(2) + '</strike> <b style="color:red">$' + Number(newPrice).toFixed(2) + '</b> <span><span style="font-size:70%">at</span>&nbsp;<span style="font-size:60%"><a target="_top" rel="nofollow" href="' + href + '">' + source + '</a></span></span>');
 		}
 	}); // td span
-	///// DISCOUNTED PRICES
-	///////// ppbk xup icons
-	// $('.printprices div:eq(0)').append(' <img class="upIcons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFnUBAGhoa////YijECgAAAB5JREFUeNpiYEQDDIxMKAAkwIAEhroAuufQAECAAQBYMAClJsidJQAAAABJRU5ErkJggg=="/>');
-	// $('.printprices div:eq(1)').append(' <img class="upIcons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFs7KyGhoa////ZrSl/AAAAB5JREFUeNpiYEQDDIxMKAAkwIAEhroAuufQAECAAQBYMAClJsidJQAAAABJRU5ErkJggg=="/>');
-	// $('.printprices div:eq(2), .printprices td:eq(8)').append(' <img class="upIcons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAQCAMAAAAVv241AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAxQTFRFoEVFqllZ////Ghoas2b5igAAADRJREFUeNpiYEYCDMxMcADmMDIAASOUwwAGpHFQDEA2mhGijBHMYYACAhwUPcimIQGAAAMAepYBJQFmpWcAAAAASUVORK5CYII="/>');
-	// $('.printprices div:eq(3), .printprices td:eq(10)').append(' <img class="upIcons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAxQTFRFoEZGqlhY////Ghoaq24vogAAAD9JREFUeNpiYEYDDMxMKAAkwMgABIxgihEswAAGEIpcAQxDsVjLCFYAhEjWwkyCm4EsgFUFI8wubLagAYAAAwC5egFf9a6rNAAAAABJRU5ErkJggg=="/>');
-	// $('head').append('<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"> <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>');
+	// ///// /DISCOUNTED PRICES
 	// 
+	// 
+	/////////// ALLINONE PRICE COMPARISON
+	if (isVol == "yes") {
+		try {
+			$('#ALLINONE4UP').next().find('h3').before('<div>  <span style="background:lightgreen;color:black;display:table;margin:0 auto;"><small> &nbsp; GREAT DEAL! &nbsp; </small></span></div>')
+			var price4UP = parseFloat($("#4UPCO").next().find('.price b').text().replace(/\$/igm, "")).toFixed(2);
+			var totalPrice = parseFloat(price4UP * totalVols).toFixed(2);
+			var priceALLINONE4UP = parseFloat($("#ALLINONE4UP").next().find('.price b').text().replace(/\$/igm, "")).toFixed(2);
+			$('#ALLINONE4UP').next().find('.price').after('<div> <small> Buy ' + totalVols + ' Volumes separate: <b>$' + totalPrice + '</b> <br/> <span style="background:lightgreen"> &nbsp; Buy All ' + totalVols + ' Vols in One Bound, YOU SAVE: <b>$' + (totalPrice - priceALLINONE4UP).toFixed(2) + '</b> &nbsp; </span>  </small></div>');
+		} catch (e) {}
+	}
 	// 
 	$('.singlepage').wrap('<div class="container"></div>');
 	// 
-	// $('body').prepend('<!-- ZD MASTER NAV WITH CSE MODAL (REQ CSE SCRIPT IN HEAD) --> <nav style="background-color:white;border-color:white;" class="navbar navbar-default" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" style="padding:0;" href="#"><img style="" src="https://c.zedign.com/s/zedign_logo_header_150x50.png" alt=""></a> </div> <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> <ul class="nav navbar-nav"> <li> <a href="/">Books</a> </li> <li> <a href="https://store.zedign.com/search/label/zedign-art-posters">Posters</a> </li> <li> <a data-target="#myModal" data-toggle="modal" href="#"><big><span class="glyphicon glyphicon-search" aria-hidden="true"></span></big></a> </li> </ul>  </div>  </div> <hr style="margin:0"/> </nav> <!-- /ZD MASTER NAV -->').append('<!-- CSE Modal --> <div role="dialog" class="modal fade" id="myModal" style="display: none;" aria-hidden="true"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-body" style="height:100vh;max-height:calc(100vh - 50px);overflow-y: auto;"> <a style="float:right;margin:10px;" data-dismiss="modal" role="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> <div class="gcse-searchbox"></div> <div class="gcse-searchresults"></div><!-- this req for res popup --> </div> </div> </div> </div> <!-- /CSE Modal -->');
 	// 
 	$('body').append('<!-- ZD MASTER FOOTER --><div style="margin-top:50px">&nbsp;</div><hr/><footer> <div class="container"> <div class="row"> <div class="col-lg-12"> <p> <!-- <a href="https://store.zedign.com"><img src="https://c.zedign.com/s/zedign_logo_header_150x50.png"/></a> --> &copy;&nbsp;The&nbsp;Zedign&nbsp;House | <a href="/privacy.html">Privacy Policy</a>   &nbsp;&nbsp;   <a rel="nofollow" href="https://facebook.com/TheZedignHouse"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/facebook.png"/></a>&nbsp;<a rel="nofollow" href="https://twitter.com/zedign"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/twitter.png"/></a> </p> </div> </div> </div> </footer><!-- /ZD MASTER FOOTER -->');
 	// 
