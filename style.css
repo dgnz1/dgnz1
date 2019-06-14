@@ -99,6 +99,13 @@
   max-width: 200px;
 }
 
+.posterprices .packshot {
+  width: 99%;
+  display: block;
+  margin: 0 auto;
+  max-width: 700px;
+}
+
 .digitalprices > div, .printprices > div {
   display: table;
   width: 99%;
