@@ -372,6 +372,17 @@ function upIcons(up) {
 //////////////////////  MAIN  ////////////////////////////
 if (siteSection == "main") {
 	// 
+	$('.lazy').Lazy({
+		// your configuration goes here
+		scrollDirection: 'vertical',
+		effect: 'fadeIn',
+		effectTime: 500,
+		visibleOnly: true,
+		onError: function(element) {
+			console.log('error loading ' + element.data('src'));
+		}
+	});
+	// 
 	$(document).ready(function() {
 		// 
 		/////////// REMOVE DESC FROM CHILD VOLS
@@ -412,6 +423,8 @@ if (siteSection == "main") {
 				});
 			});
 	});
+	// 
+	// 
 	$(document).ready(function() {
 		// $('h1').before('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>');
 		// atHere();
