@@ -443,7 +443,11 @@ if (siteSection == "single") {
 		try {
 			totalVols = parseFloat($('#headcont h4').text().match(/\(of\s+([0-9])+\)/m)[1]);
 		} catch (e) {}
-		var hhtml = $('#headcont h4').html().replace(/^(.+)(Volume[^\(]+\([^\)]+\)).*$/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; <a style="white-space:nowrap" href="/"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a> <small>(or see <a href="#ALLINONE4UP"><i>All-Vols-In-One Bound</i></a> below.)</small></div>');
+		var thisfile;
+		try {
+			thisfile = window.location.href.match(/[^/]*$/)[0].match(/([^\.]*)\.*/)[1];
+		} catch (e) {}
+		var hhtml = $('#headcont h4').html().replace(/^(.+)(Volume[^\(]+\([^\)]+\)).*$/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; <a style="white-space:nowrap" href="./#' + thisfile + '"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a> <small>(or see <a href="#ALLINONE4UP"><i>All-Vols-In-One Bound</i></a> below.)</small></div>');
 		// console.log(hhtml);
 		$('#headcont h4').html(hhtml);
 	}
@@ -506,7 +510,7 @@ if (siteSection == "single") {
 					zsr = 'AMAZON';
 			}
 			var source = zsr; //(href.match(/amazon/)) ? 'AMAZON' : 'PATREON';
-			$(this).html(' <strike>$' + Number(oldPrice).toFixed(2) + '</strike> <b style="color:red">$' + Number(newPrice).toFixed(2) + '</b> <span><span style="font-size:70%">at</span>&nbsp;<span style="font-size:60%"><a target="_top" rel="nofollow" href="' + href + '">' + source + '</a></span></span>');
+			$(this).html(' <strike>$' + Number(oldPrice).toFixed(2) + '</strike> <b style="color:red">$' + Number(newPrice).toFixed(2) + '</b> <span><span style="font-size:70%"></span>&nbsp;<span style=""><a target="_top" rel="nofollow" href="' + href + '"> <span style="box-shadow:2px 2px 0 #555; display: inline-block; padding: 5px; background: orange; font-size: 60%; color: black; line-height: 1em;"> BUY NOW </span> <span style="font-size:70%;line-height:1em;color:black;text-decoration:underline"> AT ' + source + '</span>  </a></span></span>');
 		}
 	}); // td span
 	// ///// /DISCOUNTED PRICES
