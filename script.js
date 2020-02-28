@@ -426,7 +426,7 @@ if (siteSection == "main") {
 					var c = $(this).find('.media-body h4 a');
 					var d = c.text().match(/^(.*)Vol.*$/m)[1];
 					var e = c.attr('href');
-					a.before(' <div style="margin:5px;padding:5px;background:#f5f5f5" class="media childvol"><div class="media-left"><a href="page-8.html">' +
+					a.before(' <div style="margin:5px;padding:5px;background:#f5f5f5" class="media childvol"><div class="media-left"><a href="#">' +
 						'<span style="font-size:50px;line-height:1em;">&#x1f4e6;</span>' +
 						// '<img class="media-object" src="i/p/'+c+'_ALLINONE4UP.png" alt=""/>'+
 						'</a></div><div class="media-body"><a href="' + e + '#ALLINONE4UP"> </a><h4><a href="' + e + '#ALLINONE4UP">' + d + ' <small style="font-family:serif">All-IN-ONE</small></a> </h4> <p> <span style="display:inline-block;vertical-align:middle;font-size:60%;background:yellow;color:maroon">&nbsp;SAVE!&nbsp;</span> All Volumes Bound Together as One Edition </p> </div></div>');
@@ -439,7 +439,7 @@ if (siteSection == "main") {
 			.done(function() {
 				$('.amz_Btm').iFrameResize({
 					// log: true, // Enable console logging
-					// enablePublicMethods: true, // Enable methods within iframe hosted page
+				// enablePublicMethods: true, // Enable methods within iframe hosted page
 					// heightCalculationMethod: 'max',
 				});
 			});
