@@ -154,3 +154,19 @@ td.txttd {
   width: 47px;
   vertical-align: middle;
 }
+
+.posterorder {
+  margin: 20px 0;
+  padding: 10px;
+  font-size: 120%;
+  background: #ddd;
+}
+
+.posterorder > span {
+  font: italic 120%/1em serif;
+}
+
+.posterorder a {
+  font-weight: bold;
+  border-bottom: dotted 1px blue;
+}
