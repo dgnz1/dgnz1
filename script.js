@@ -393,16 +393,19 @@ function upIcons(up) {
 //////////////////////  MAIN  ////////////////////////////
 if (siteSection == "main") {
 	// 
-	$('.lazy').Lazy({
-		// your configuration goes here
-		scrollDirection: 'vertical',
-		effect: 'fadeIn',
-		effectTime: 500,
-		visibleOnly: true,
-		onError: function(element) {
-			console.log('error loading ' + element.data('src'));
-		}
-	});
+	///// images lazyload (via jquery plugin in html)
+	if (jQuery().Lazy) {
+		$('.lazy').Lazy({
+			// your configuration goes here
+			scrollDirection: 'vertical',
+			effect: 'fadeIn',
+			effectTime: 500,
+			visibleOnly: true,
+			onError: function(element) {
+				console.log('error loading ' + element.data('src'));
+			}
+		});
+	}
 	// 
 	$(document).ready(function() {
 		// 
@@ -439,7 +442,7 @@ if (siteSection == "main") {
 			.done(function() {
 				$('.amz_Btm').iFrameResize({
 					// log: true, // Enable console logging
-				// enablePublicMethods: true, // Enable methods within iframe hosted page
+					// enablePublicMethods: true, // Enable methods within iframe hosted page
 					// heightCalculationMethod: 'max',
 				});
 			});
