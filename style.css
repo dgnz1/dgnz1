@@ -1,5 +1,10 @@
 /* MAIN */
 
+/* hiddens */
+#edicont_video {
+  display: none;
+}
+
 .media {
   border-top: solid 1px #aaa;
   /*outline: solid 1px yellow;*/
