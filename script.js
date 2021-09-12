@@ -614,7 +614,7 @@ if (siteSection == "single") {
 				'<div style="text-align:center;background: #eee; display: table; padding: 10px;">' +
 				// 
 				' <strike>$' + Number(oldPrice).toFixed(2) + '</strike> ' +
-				'<b style="color:#b12704">$' + Number(newPrice).toFixed(2) + '</b> ' +
+				' &nbsp; <b style="color:#b12704">$' + Number(newPrice).toFixed(2) + '</b> ' +
 				'<br/><a style="font-weight:bold;margin-left:7px;background: orange;" rel="nofollow" href="' + href + '" type="button" class="btn btn-default">GET IT NOW</a> ' +
 				'<br/><span style="font-size:70%;line-height:1em;"> AT ' + source + '</span> ' +
 				// 
