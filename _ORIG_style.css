@@ -18,28 +18,17 @@
   clear: both;
 }
 
-.parentvol {}
+/* jq_multivolwrap divs (created via jquery) */
 
-.childvol {}
-
-/* SCALE OPTION */
-.media.parentvol {
-  /*to compensate childvol space after scale*/
-  /*margin-bottom: -1em;*/
+.jq_multivolwrap {
+  /*  outline: solid 2px red;
+  */
 }
 
-.media.childvol {
-  /* margin-left: 4em;
-   border-top: none;
-   transform: scale(0.8);
-   transform-origin: 0 0;
-   margin-bottom: -3em;*/
-  /*to compensate childvol space after scale*/
-}
+.jq_multivolwrap
+.media.vol1, .media.childvol, .media.allinonevol {}
 
-/*NON-SCALE OPTION*/
-
-.media.childvol {
+/*.media.vol1, .media.childvol {
   width: 30%;
   float: left;
   border-top: none;
@@ -47,6 +36,7 @@
   min-width: 250px;
   border-left: solid 30px transparent;
   display: table;
+  outline: solid 1px red;
 }
 
 .media.childvol img {
@@ -55,7 +45,9 @@
 
 .media.childvol h4 {
   font-size: 95%;
-}
+}*/
+
+/* /PARENT/CHILD VOLS */
 
 /* /MAIN */
 
