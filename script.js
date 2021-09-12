@@ -490,7 +490,7 @@ if (siteSection == "main") {
 				var data_4u = $("h4", this).attr("data-4u").trim();
 				data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Print ' + upIcons("Reference")) : "";
 				// 
-				$(".media-body", this).after('<div style="margin:0 auto;display:table;"><span style="font-size:11px;">BUY NOW</span>' + data_eb + data_4u + data_2u + '</div>');
+				$(".media-body", this).after('<div style="margin:0 auto;display:table;"><span style="font-size:11px;">BUY NOW</span> ' + data_eb + data_4u + data_2u + '</div>');
 				// 
 			} catch (e) {}
 		});
@@ -507,7 +507,7 @@ if (siteSection == "main") {
 	});
 	// 
 	function amzlinkify(asin, edition) {
-		return ' <a rel="nofollow" href="https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" type="button" class="btn btn-default btn-xs"> ' + edition + ' </a>   ';
+		return ' <a style="margin-left:7px;" rel="nofollow" href="https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" type="button" class="btn btn-default btn-xs"> ' + edition + ' </a>   ';
 		// <a href = "https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" > ' + edition + ' </a>
 	}
 	/ /
