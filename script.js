@@ -429,13 +429,50 @@ if (siteSection == "main") {
 					var c = $(this).find('.media-body h4 a');
 					var d = c.text().match(/^(.*)Vol.*$/m)[1];
 					var e = c.attr('href');
-					a.before(' <div style="margin:5px;padding:5px;background:#f5f5f5" class="media childvol"><div class="media-left"><a href="#">' +
+					a.before(' <div style="margin:5px;padding:5px;background:_#f5f5f5;border:none;" class="media childvol allinonevol"><div class="media-left"><a href="#">' +
 						'<span style="font-size:50px;line-height:1em;">&#x1f4e6;</span>' +
 						// '<img class="media-object" src="i/p/'+c+'_ALLINONE4UP.png" alt=""/>'+
-						'</a></div><div class="media-body"><a href="' + e + '#ALLINONE4UP"> </a><h4><a href="' + e + '#ALLINONE4UP">' + d + ' <small style="font-family:serif">All-IN-ONE</small></a> </h4> <p> <span style="display:inline-block;vertical-align:middle;font-size:60%;background:yellow;color:maroon">&nbsp;SAVE!&nbsp;</span> All Volumes Bound Together as One Edition </p> </div></div>');
+						'</a></div><div class="media-body"><a href="' + e + '#ALLINONE4UP"> </a><p><b><a href="' + e + '#ALLINONE4UP">' + d + ' <small style="font-family:serif;color:black">All-IN-ONE</small></a></b> <span style="vertical-align:middle;font-size:60%;background:yellow;color:maroon">&nbsp;SAVE!&nbsp;</span> <span style="font-size:90%">All Volumes Bound Together as One Print Edition </span> </p> </div></div>');
 				}
 			} catch (e) {}
 		});
+		//////////
+		//////// jq_multivolwrap //////////////
+		$('.media').each(function(index) {
+			//// 1. get all .vol1
+			if ($(this).hasClass("vol1")) {
+				var thsId = "jq_multivol" + index;
+				///// create a jq_multivolwrap div before it
+				$(this).before('<div id="' + thsId + '" class="jq_multivolwrap"></div>');
+				//// move all .childvols into jq_multivolwrap, DO IT for maximum number of vols (4?) plus allinone div
+				$(this).next(".childvol").appendTo("#" + thsId); //// vol1
+				$(this).next(".childvol").appendTo("#" + thsId); //// vol2
+				$(this).next(".childvol").appendTo("#" + thsId);
+				$(this).next(".childvol").appendTo("#" + thsId);
+				$(this).next(".childvol").appendTo("#" + thsId); /// allinone
+				//// 4. now prepend vol1 on top of them
+				$(this).prependTo("#" + thsId);
+			}
+		});
+		//// put all headlines together after vol1's headline
+		$('.jq_multivolwrap').each(function(index) {
+			$(".vol2 h4", this).after($(".vol3 h4", this));
+			$(".vol1 h4", this).after($(".vol2 h4", this));
+			//// 6. remove Volume 1 (of x) text and bold h4 headline
+			var text = $(".vol1 p", this).text().replace(/Volume.*/, "");
+			$(".vol1 p", this).html(text);
+			var head = $(".vol1 h4:nth-child(1) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b>: $1");
+			$(".vol1 h4:nth-child(1) a", this).html(head);
+			var head = $(".vol1 h4:nth-child(2) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b>: $1");
+			$(".vol1 h4:nth-child(2) a", this).html(head);
+			var head = $(".vol1 h4:nth-child(3) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b>: $1");
+			$(".vol1 h4:nth-child(3) a", this).html(head);
+			//// remove link from image (which goes to vol1 page)
+			$(".vol1 .media-left > a", this).removeAttr('href');
+		});
+		//// remove all vol 2 and 3
+		$(".vol2,.vol3").remove();
+		//////// /jq_multivolwrap //////////////
 		// 
 		// 
 		$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js")
@@ -471,7 +508,7 @@ if (siteSection == "single") {
 		try {
 			thisfile = window.location.href.match(/[^/]*$/)[0].match(/([^\.]*)\.*/)[1];
 		} catch (e) {}
-		var hhtml = $('#headcont h4').html().replace(/^(.+)(Volume[^\(]+\([^\)]+\)).*$/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; <a style="white-space:nowrap" href="./#' + thisfile + '"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a> <small>(or see <a href="#ALLINONE4UP"><i>All-Vols-In-One Bound</i></a> below.)</small></div>');
+		var hhtml = $('#headcont h4').html().replace(/^(.+)(Volume[^\(]+\([^\)]+\)).*$/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; <a style="white-space:nowrap" href="../#zas' + thisfile + '"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a> <small>(or see <a href="#ALLINONE4UP"><i>All-Vols-In-One Bound</i></a> below.)</small></div>');
 		// console.log(hhtml);
 		$('#headcont h4').html(hhtml);
 	}

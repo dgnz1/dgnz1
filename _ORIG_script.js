@@ -1,34 +1,12 @@
 ////////  THIS IS FOR books.zedign.com ////////////////
 // 
 // 
-thsBlg_as = '\x70' + 'u' + '\x62\x2D' + '5' + '69\x30' + '2' + '\x3031' + '1' + '33' + '5' + '97' + '2' + '1';
-thsBlg_zzl = "238115903514203736";
+thsBlg_zzl = "\x32\x33\x38\x31\x31\x35\x39\x30\x33\x35\x31\x34\x32\x30\x33\x37\x33\x36";
+thsBlg_cse = "00" + (73986844630617.38 + 11121455924030.328 + 156076660893376.3) + "\x37\x37\x34\x31" + ":\x36\x73\x2D\x72\x30\x68\x67\x77\x62\x6D\x63";
 // 
 if (typeof siteSection == "undefined") {
 	siteSection = "main";
 }
-// 
-//// ----------<pagelevelIfNotHardcoded>---------- //
-//// v2
-function pagelevelIfNotHardcoded() {
-	try {
-		var plTag = document.getElementsByTagName("head")[0].getElementsByTagName("script") || 0;
-		for (var i = 0; i < plTag.length; i++) {
-			if (plTag[i].textContent.match(/enable_page_level_ads/im)) {
-				return;
-			}
-		}
-		(adsbygoogle = window.adsbygoogle || []).push({
-			google_ad_client: thsBlg_as,
-			enable_page_level_ads: true
-		});
-	} catch (e) {}
-}
-// 
-pagelevelIfNotHardcoded();
-////
-//// ----------</pagelevelIfNotHardcoded>---------- //
-////
 // 
 // 
 /////////////// funcs ////////////////////////
@@ -289,6 +267,49 @@ function amzNtv_sync(type, qry, affId, linkId, title, defCat) {
 		'');
 }
 
+function gCSE(cseId, divId, phText, target) {
+	// v5 - all inclusive new API cse 
+	// best use within: $(window).on("load"...
+	// REQ JQUERY
+	// cse layout:full-width, theme:default
+	// <div id="DivId"></div>
+	// opt phText, 
+	// divId: divId of container 
+	// target : divId of results, or url of target pg or LEAVE UNDEFINED FOR AUTO ON SAME PG.
+	var placeholder = (typeof phText === 'undefined') ? "" : phText;
+	$.getScript('//www.google.com/cse/cse.js?cx=' + cseId)
+		.done(function(script, textStatus) {
+			var target = (typeof target === 'undefined') ? "one" : target;
+			// appnd BooStr-negating styles...
+			$('head').append('<style> input.gsc-input, .gsc-input-box, .gsc-input-box-hover, .gsc-input-box-focus, .gsc-search-button { box-sizing: content-box; line-height: normal; } .gsc-control-cse { margin: 0!important; padding: 0!important; } </style>');
+			if (target == "one") {
+				$('#' + divId).html('<div class="gcse-search"></div>');
+			} else if (target.match(/\/\//)) {
+				$('#' + divId).html('<div class="gcse-searchbox" data-resultsUrl="' + target + '" data-newWindow="true" data-queryParameterName="q" ></div>');
+			} else {
+				$('#' + divId).html('<div class="gcse-searchbox"></div>');
+				$('#' + target).html('<div class="gcse-searchresults"></div>');
+			}
+			// console.log("done");
+		})
+		.fail(function(jqxhr, settings, exception) {
+			// console.log("failed");
+		});
+	// 
+	(function() {
+		// cse call back
+		window.__gcse = {
+			callback: myCSECallback
+		};
+
+		function myCSECallback() {
+			// console.log('EXECUTED');
+			// rmve "Cstm srch" txt frm gcse input
+			$('input.gsc-input').attr('placeholder', ' ' + placeholder);
+		}
+	})();
+}
+
 function addthis_a(aTid, divId, customUrlTitle, url, title, contId, inStyle, addServHtml) {
 	/**
 	- V3 - 
@@ -372,16 +393,19 @@ function upIcons(up) {
 //////////////////////  MAIN  ////////////////////////////
 if (siteSection == "main") {
 	// 
-	$('.lazy').Lazy({
-		// your configuration goes here
-		scrollDirection: 'vertical',
-		effect: 'fadeIn',
-		effectTime: 500,
-		visibleOnly: true,
-		onError: function(element) {
-			console.log('error loading ' + element.data('src'));
-		}
-	});
+	///// images lazyload (via jquery plugin in html)
+	if (jQuery().Lazy) {
+		$('.lazy').Lazy({
+			// your configuration goes here
+			scrollDirection: 'vertical',
+			effect: 'fadeIn',
+			effectTime: 500,
+			visibleOnly: true,
+			onError: function(element) {
+				console.log('error loading ' + element.data('src'));
+			}
+		});
+	}
 	// 
 	$(document).ready(function() {
 		// 
@@ -405,7 +429,7 @@ if (siteSection == "main") {
 					var c = $(this).find('.media-body h4 a');
 					var d = c.text().match(/^(.*)Vol.*$/m)[1];
 					var e = c.attr('href');
-					a.before(' <div style="margin:5px;padding:5px;background:#f5f5f5" class="media childvol"><div class="media-left"><a href="page-8.html">' +
+					a.before(' <div style="margin:5px;padding:5px;background:#f5f5f5" class="media childvol"><div class="media-left"><a href="#">' +
 						'<span style="font-size:50px;line-height:1em;">&#x1f4e6;</span>' +
 						// '<img class="media-object" src="i/p/'+c+'_ALLINONE4UP.png" alt=""/>'+
 						'</a></div><div class="media-body"><a href="' + e + '#ALLINONE4UP"> </a><h4><a href="' + e + '#ALLINONE4UP">' + d + ' <small style="font-family:serif">All-IN-ONE</small></a> </h4> <p> <span style="display:inline-block;vertical-align:middle;font-size:60%;background:yellow;color:maroon">&nbsp;SAVE!&nbsp;</span> All Volumes Bound Together as One Edition </p> </div></div>');
@@ -510,7 +534,7 @@ if (siteSection == "single") {
 					zsr = 'AMAZON';
 			}
 			var source = zsr; //(href.match(/amazon/)) ? 'AMAZON' : 'PATREON';
-			$(this).html(' <strike>$' + Number(oldPrice).toFixed(2) + '</strike> <b style="color:red">$' + Number(newPrice).toFixed(2) + '</b> <span><span style="font-size:70%"></span>&nbsp;<span style=""><a target="_top" rel="nofollow" href="' + href + '"> <span style="box-shadow:2px 2px 0 #555; display: inline-block; padding: 5px; background: orange; font-size: 60%; color: black; line-height: 1em;"> BUY NOW </span> <span style="font-size:70%;line-height:1em;color:black;text-decoration:underline"> AT ' + source + '</span>  </a></span></span>');
+			$(this).html(' <strike>$' + Number(oldPrice).toFixed(2) + '</strike> <b style="color:red">$' + Number(newPrice).toFixed(2) + '</b> <span><span style="font-size:70%"></span>&nbsp;<span style=""><a target="_top" rel="nofollow" href="' + href + '"> <span style="box-shadow:2px 2px 0 #555; display: inline-block; padding: 5px; background: orange; font-size: 60%; color: black; line-height: 1em;"> GET IT NOW </span> <span style="font-size:70%;line-height:1em;color:black;text-decoration:underline"> AT ' + source + '</span>  </a></span></span>');
 		}
 	}); // td span
 	// ///// /DISCOUNTED PRICES
@@ -567,6 +591,10 @@ if (siteSection == "dyn_catcher") {
 ////////////////
 ///////////////
 $(window).on("load", function() {
+	///// wip cse
+	$('h1').before('<table style="margin-top:10px;width:99%;"><tr><td style="max-width:50px;"><span style="font: 12px/1em sans-serif; display: inline-block;">Find a book/artist:</span></td><td><div style="background:grey"><div id="search"></div></div></td></tr></table>');
+	gCSE(thsBlg_cse, "search");
+	//////
 	if (siteSection == "single") {
 		// ** amazon amLocalize IS >>OFF<< in affLocalize() (using onelink) **
 		affLocalize("", "", thsBlg_zzl);
