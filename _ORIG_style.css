@@ -15,6 +15,8 @@
 }
 
 .singlevol, .parentvol {
+  margin-top: 20px;
+  padding-top: 20px;
   clear: both;
 }
 
@@ -116,6 +118,7 @@
   display: inline-block;
   vertical-align: middle;
   opacity: 0.6;
+  width: auto !important;
 }
 
 .vidcont {

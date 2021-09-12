@@ -439,41 +439,62 @@ if (siteSection == "main") {
 		//////////
 		//////// jq_multivolwrap //////////////
 		$('.media').each(function(index) {
-			//// 1. get all .vol1
-			if ($(this).hasClass("vol1")) {
-				var thsId = "jq_multivol" + index;
-				///// create a jq_multivolwrap div before it
-				$(this).before('<div id="' + thsId + '" class="jq_multivolwrap"></div>');
-				//// move all .childvols into jq_multivolwrap, DO IT for maximum number of vols (4?) plus allinone div
-				$(this).next(".childvol").appendTo("#" + thsId); //// vol1
-				$(this).next(".childvol").appendTo("#" + thsId); //// vol2
-				$(this).next(".childvol").appendTo("#" + thsId);
-				$(this).next(".childvol").appendTo("#" + thsId);
-				$(this).next(".childvol").appendTo("#" + thsId); /// allinone
-				//// 4. now prepend vol1 on top of them
-				$(this).prependTo("#" + thsId);
-			}
+			try {
+				//// 1. get all .vol1
+				if ($(this).hasClass("vol1")) {
+					var thsId = "jq_multivol" + index;
+					///// create a jq_multivolwrap div before it
+					$(this).before('<div style="margin-top:15px" id="' + thsId + '" class="jq_multivolwrap"></div>');
+					//// move all .childvols into jq_multivolwrap, DO IT for maximum number of vols (4?) plus allinone div
+					$(this).next(".childvol").appendTo("#" + thsId); //// vol1
+					$(this).next(".childvol").appendTo("#" + thsId); //// vol2
+					$(this).next(".childvol").appendTo("#" + thsId);
+					$(this).next(".childvol").appendTo("#" + thsId);
+					$(this).next(".childvol").appendTo("#" + thsId); /// allinone
+					//// 4. now prepend vol1 on top of them
+					$(this).prependTo("#" + thsId);
+				}
+			} catch (e) {}
 		});
 		//// put all headlines together after vol1's headline
 		$('.jq_multivolwrap').each(function(index) {
-			$(".vol2 h4", this).after($(".vol3 h4", this));
-			$(".vol1 h4", this).after($(".vol2 h4", this));
-			//// 6. remove Volume 1 (of x) text and bold h4 headline
-			var text = $(".vol1 p", this).text().replace(/Volume.*/, "");
-			$(".vol1 p", this).html(text);
-			var head = $(".vol1 h4:nth-child(1) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b>: $1");
-			$(".vol1 h4:nth-child(1) a", this).html(head);
-			var head = $(".vol1 h4:nth-child(2) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b>: $1");
-			$(".vol1 h4:nth-child(2) a", this).html(head);
-			var head = $(".vol1 h4:nth-child(3) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b>: $1");
-			$(".vol1 h4:nth-child(3) a", this).html(head);
-			//// remove link from image (which goes to vol1 page)
-			$(".vol1 .media-left > a", this).removeAttr('href');
+			try {
+				$(".vol2 h4", this).after($(".vol3 h4", this));
+				$(".vol1 h4", this).after($(".vol2 h4", this));
+				//// 6. remove Volume 1 (of x) text and bold h4 headline
+				var text = $(".vol1 p", this).text().replace(/Volume.*/, "");
+				$(".vol1 p", this).html(text);
+				var head = $(".vol1 h4:nth-child(1) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b>: $1");
+				$(".vol1 h4:nth-child(1) a", this).html(head);
+				var head = $(".vol1 h4:nth-child(2) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b>: $1");
+				$(".vol1 h4:nth-child(2) a", this).html(head);
+				var head = $(".vol1 h4:nth-child(3) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b>: $1");
+				$(".vol1 h4:nth-child(3) a", this).html(head);
+				//// remove link from image (which goes to vol1 page)
+				$(".vol1 .media-left > a", this).removeAttr('href');
+			} catch (e) {}
 		});
 		//// remove all vol 2 and 3
 		$(".vol2,.vol3").remove();
 		//////// /jq_multivolwrap //////////////
 		// 
+		///// amz dir links
+		$('.singlevol').each(function(index) {
+			try {
+				var data_eb = $("h4", this).attr("data-eb").trim();
+				data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> Digital ') : "";
+				// 
+				var data_2u = $("h4", this).attr("data-2u").trim();
+				data_2u = data_2u.match(/.+/) ? amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Print ' + upIcons("Standard")) : "";
+				// 
+				var data_4u = $("h4", this).attr("data-4u").trim();
+				data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Print ' + upIcons("Reference")) : "";
+				// 
+				$(".media-body", this).after('<div style="margin:0 auto;display:table;"><span style="font-size:11px;">BUY NOW</span> ' + data_eb + data_4u + data_2u + '</div>');
+				// 
+			} catch (e) {}
+		});
+		/////
 		// 
 		$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js")
 			.done(function() {
@@ -485,11 +506,14 @@ if (siteSection == "main") {
 			});
 	});
 	// 
-	// 
-	$(document).ready(function() {
-		// $('h1').before('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>');
-		// atHere();
-	}); // document
+	function amzlinkify(asin, edition) {
+		return ' <a style="margin-left:7px;" rel="nofollow" href="https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" type="button" class="btn btn-default btn-xs"> ' + edition + ' </a>   ';
+		// <a href = "https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" > ' + edition + ' </a>
+	}
+	/ /
+	// $(document).ready(function() {
+	// $(window).on("load", function() {
+	// }); // document
 }
 //////////////////////  MAIN  ////////////////////////////
 //
