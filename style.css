@@ -68,7 +68,23 @@
   width: 100%;
 }
 
-.edicont {}
+.edicont {
+  display: table;
+  border-bottom: solid 2px #aaa;
+  padding: 10px 0;
+  margin: 10px 0;
+  width: 99%;
+  max-width: 800px;
+  word-wrap: break-word;
+}
+
+.edicont h3 {
+  font-size: 20px;
+}
+
+.edicont hr {
+  display: none;
+}
 
 .price {
   font-family: Times, serif;
@@ -106,11 +122,11 @@
 }
 
 .digitalprices > div, .printprices > div {
-  display: table;
-  width: 99%;
-  padding: 0 5px;
-  margin: 0 5px;
-  border-top: dotted 1px #aaa;
+  /*  display: table;
+    width: 99%;
+    padding: 0 5px;
+    margin: 0 5px;
+    border-top: dotted 1px #aaa;*/
 }
 
 .upIcons {

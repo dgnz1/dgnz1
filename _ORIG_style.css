@@ -73,9 +73,9 @@
 .price {
   font-family: Times, serif;
   font-weight: bold;
-  font-size: 110%;
-  background: #f9fdb0;
-  padding: 4px;
+  font-size: 120%;
+  /*background: #f9fdb0;*/
+  /*padding: 4px;*/
 }
 
 .packshot {

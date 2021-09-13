@@ -532,7 +532,13 @@ if (siteSection == "single") {
 		try {
 			thisfile = window.location.href.match(/[^/]*$/)[0].match(/([^\.]*)\.*/)[1];
 		} catch (e) {}
-		var hhtml = $('#headcont h4').html().replace(/^(.+)(Volume[^\(]+\([^\)]+\)).*$/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; <a style="white-space:nowrap" href="../#zas' + thisfile + '"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a> <small>(or see <a href="#ALLINONE4UP"><i>All-Vols-In-One Bound</i></a> below.)</small></div>');
+		var hhtml = $('#headcont h4').html().replace(/^(.+)(Volume[^\(]+\([^\)]+\)).*$/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; ' +
+			// 
+			'<a style="white-space:nowrap" href="../#zas' + thisfile + '"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a>' +
+			// 
+			'<!-- <small>(or see <a href="#ALLINONE4UP"><i>All-Vols-In-One Bound</i></a> below.)</small> --> ' +
+			'</div>'
+		);
 		// console.log(hhtml);
 		$('#headcont h4').html(hhtml);
 	}
@@ -543,7 +549,15 @@ if (siteSection == "single") {
 		try {
 			var a;
 			a = $(this).find("a").attr('title').match(/Volume\s+[^\)]+\)/)[0];
-			$(this).find("a").after('<h5>' + a + '. <a href="/">See All Volumes</a> <small>(or get <a href="#ALLINONE4UP"><em>All-Volumes-In-One</a> Bound-Set</em> edition below)</small></h5>');
+			console.log(a, thisfile);
+			var ccc = a.replace(/^(.*)(\(.*\))$/, '$1 <a style="text-decoration:underline;font-weight:bold;" href="../#zas' + thisfile + '">$2</a>');
+			$(this).find("a").after(
+				// 
+				'<h5>' + ccc + '. ' +
+				// '<a href="../#zas' + thisfile + '">See All Volumes</a> ' +
+				// '<!--<small>(or get <a href="#ALLINONE4UP"><em>All-Volumes-In-One</a> Bound-Set</em> edition below)</small> --> '+
+				'</h5>'
+			);
 		} catch (e) {}
 		// 
 		//// 2. Composite info
@@ -595,7 +609,18 @@ if (siteSection == "single") {
 					zsr = 'AMAZON';
 			}
 			var source = zsr; //(href.match(/amazon/)) ? 'AMAZON' : 'PATREON';
-			$(this).html(' <strike>$' + Number(oldPrice).toFixed(2) + '</strike> <b style="color:red">$' + Number(newPrice).toFixed(2) + '</b> <span><span style="font-size:70%"></span>&nbsp;<span style=""><a target="_top" rel="nofollow" href="' + href + '"> <span style="box-shadow:2px 2px 0 #555; display: inline-block; padding: 5px; background: orange; font-size: 60%; color: black; line-height: 1em;"> GET IT NOW </span> <span style="font-size:70%;line-height:1em;color:black;text-decoration:underline"> AT ' + source + '</span>  </a></span></span>');
+			$(this).html(
+				// 
+				'<div style="text-align:center;background: #eee; display: table; padding: 10px;">' +
+				// 
+				' <strike>$' + Number(oldPrice).toFixed(2) + '</strike> ' +
+				' &nbsp; <b style="color:#b12704">$' + Number(newPrice).toFixed(2) + '</b> ' +
+				'<br/><a style="font-weight:bold;margin-left:7px;background: orange;" rel="nofollow" href="' + href + '" type="button" class="btn btn-default">GET IT NOW</a> ' +
+				'<br/><span style="font-size:70%;line-height:1em;"> AT ' + source + '</span> ' +
+				// 
+				'</div>' +
+				// 
+				'');
 		}
 	}); // td span
 	// ///// /DISCOUNTED PRICES
@@ -608,7 +633,17 @@ if (siteSection == "single") {
 			var price4UP = parseFloat($("#4UPCO").next().find('.price b').text().replace(/\$/igm, "")).toFixed(2);
 			var totalPrice = parseFloat(price4UP * totalVols).toFixed(2);
 			var priceALLINONE4UP = parseFloat($("#ALLINONE4UP").next().find('.price b').text().replace(/\$/igm, "")).toFixed(2);
-			$('#ALLINONE4UP').next().find('.price').after('<div> <small> Buy ' + totalVols + ' Volumes separate: <b>$' + totalPrice + '</b> <br/> <span style="background:lightgreen"> &nbsp; Buy All ' + totalVols + ' Vols in One Bound, YOU SAVE: <b>$' + (totalPrice - priceALLINONE4UP).toFixed(2) + '</b> &nbsp; </span>  </small></div>');
+			$('#ALLINONE4UP').next().find('.price').after(
+				'<div> ' +
+				'<small> ' + totalVols + ' Volumes separate: ' +
+				'<b>$' + totalPrice + '</b>' +
+				'<br/>' +
+				'<span style="">All ' + totalVols + ' Vols in One Bound, YOU SAVE: ' +
+				'<b>$' + (totalPrice - priceALLINONE4UP).toFixed(2) + '</b>' +
+				' &nbsp; </span>  ' +
+				'</small>' +
+				'</div>'
+			);
 		} catch (e) {}
 	}
 	// 
