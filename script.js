@@ -519,6 +519,13 @@ if (siteSection == "main") {
 //
 //////////////////////  SINGLE  ////////////////////////////
 if (siteSection == "single") {
+	///////// remove paintings and drawing from title
+	try {
+		var headtext = $('h1').text().replace(/(.\s+Paint.*|.\s+The\s+Paint.*)/im, "").trim();
+		console.log(headtext);
+		$('h1').html(headtext);
+	} catch (e) {}
+	///////////
 	isVol = "no";
 	///////////////////////////////
 	////// Volume in headline
@@ -704,7 +711,7 @@ if (siteSection == "dyn_catcher") {
 ///////////////
 $(window).on("load", function() {
 	///// wip cse
-	$('h1').before('<table style="margin-top:10px;width:99%;"><tr><td style="max-width:50px;"><span style="font: 12px/1em sans-serif; display: inline-block;">Find a book/artist:</span></td><td><div style="background:grey"><div id="search"></div></div></td></tr></table>');
+	$('h1').before('<table style="margin-top:10px;width:99%;"><tr><td style="max-width:50px;"><span style="font: 12px/1em sans-serif; display: inline-block;">Find a book/artist:</span></td><td><div style="background:grey"><div id="search"></div></div></td></tr></table> <div style="font-size:110%;margin-top:1em;margin-bottom:-1em;"> <a style="text-decoration:underline;" href="/">All Masters</a>  &gt; </div>');
 	gCSE(thsBlg_cse, "search");
 	//////
 	if (siteSection == "single") {

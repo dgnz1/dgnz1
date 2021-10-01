@@ -55,6 +55,10 @@
 
 /* SINGLE */
 
+.singlepage h1 {
+  font-weight: bolder;
+}
+
 #headcont img {
   width: 100%;
 }
