@@ -482,15 +482,24 @@ if (siteSection == "main") {
 		$('.singlevol').each(function(index) {
 			try {
 				var data_eb = $("h4", this).attr("data-eb").trim();
-				data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> Digital ') : "";
+				data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ') : "";
 				// 
 				var data_2u = $("h4", this).attr("data-2u").trim();
-				data_2u = data_2u.match(/.+/) ? amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Print ' + upIcons("Standard")) : "";
+				data_2u = data_2u.match(/.+/) ? amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
 				// 
 				var data_4u = $("h4", this).attr("data-4u").trim();
-				data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Print ' + upIcons("Reference")) : "";
+				data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
 				// 
-				$(".media-body", this).after('<div style="margin:0 auto;display:table;"><span style="font-size:11px;">BUY NOW</span> ' + data_eb + data_4u + data_2u + '</div>');
+				var data_zzcol = $("h4", this).attr("data-zzcol").trim();
+				data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
+				// 
+				$(".media-body", this).after('<div style="margin:0 auto;display:table;">' +
+					'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;BUY NOW&nbsp;&nbsp;—— </div> ' +
+					data_eb +
+					data_4u +
+					data_2u +
+					data_zzcol +
+					'</div>');
 				// 
 			} catch (e) {}
 		});
@@ -507,7 +516,7 @@ if (siteSection == "main") {
 	});
 	// 
 	function amzlinkify(asin, edition) {
-		return ' <a style="margin-left:7px;" rel="nofollow" href="https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" type="button" class="btn btn-default btn-xs"> ' + edition + ' </a>   ';
+		return ' <a style="font-size:10px;padding:5px;margin-left:7px;" rel="nofollow" href="https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" type="button" class="btn btn-default btn-xs"> ' + edition + ' </a>   ';
 		// <a href = "https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" > ' + edition + ' </a>
 	}
 	/ /
