@@ -408,6 +408,12 @@ if (siteSection == "main") {
 	}
 	// 
 	$(document).ready(function() {
+		///////
+		$('h4 a').each(function(index) {
+			var h4 = $(this).text().trim().replace(/([\s—\-]+Paintings & Drawings|[\s—\-]+The Paintings)/,"");
+			$(this).html(h4);
+			// 
+		});
 		// 
 		/////////// REMOVE DESC FROM CHILD VOLS
 		$('.childvol .media-body p').each(function() {
@@ -429,7 +435,7 @@ if (siteSection == "main") {
 					var c = $(this).find('.media-body h4 a');
 					var d = c.text().match(/^(.*)Vol.*$/m)[1];
 					var e = c.attr('href');
-					a.before(' <div style="margin:5px;padding:5px;background:_#f5f5f5;border:none;" class="media childvol allinonevol"><div class="media-left"><a href="#">' +
+					a.before(' <div style="" class="media childvol jq_allinonevol"><div class="media-left"><a href="#">' +
 						'<span style="font-size:50px;line-height:1em;">&#x1f4e6;</span>' +
 						// '<img class="media-object" src="i/p/'+c+'_ALLINONE4UP.png" alt=""/>'+
 						'</a></div><div class="media-body"><a href="' + e + '#ALLINONE4UP"> </a><p><b><a href="' + e + '#ALLINONE4UP">' + d + ' <small style="font-family:serif;color:black">All-IN-ONE</small></a></b> <span style="vertical-align:middle;font-size:60%;background:yellow;color:maroon">&nbsp;SAVE!&nbsp;</span> <span style="font-size:90%">All Volumes Bound Together as One Print Edition </span> </p> </div></div>');
@@ -464,11 +470,11 @@ if (siteSection == "main") {
 				//// 6. remove Volume 1 (of x) text and bold h4 headline
 				var text = $(".vol1 p", this).text().replace(/Volume.*/, "");
 				$(".vol1 p", this).html(text);
-				var head = $(".vol1 h4:nth-child(1) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b>: $1");
+				var head = $(".vol1 h4:nth-child(1) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b> : $1");
 				$(".vol1 h4:nth-child(1) a", this).html(head);
-				var head = $(".vol1 h4:nth-child(2) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b>: $1");
+				var head = $(".vol1 h4:nth-child(2) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b> : $1");
 				$(".vol1 h4:nth-child(2) a", this).html(head);
-				var head = $(".vol1 h4:nth-child(3) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b>: $1");
+				var head = $(".vol1 h4:nth-child(3) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b> : $1");
 				$(".vol1 h4:nth-child(3) a", this).html(head);
 				//// remove link from image (which goes to vol1 page)
 				$(".vol1 .media-left > a", this).removeAttr('href');
@@ -478,7 +484,8 @@ if (siteSection == "main") {
 		$(".vol2,.vol3").remove();
 		//////// /jq_multivolwrap //////////////
 		// 
-		///// amz dir links
+		///// buy dir links
+		/// single volume
 		$('.singlevol').each(function(index) {
 			try {
 				var data_eb = $("h4", this).attr("data-eb").trim();
@@ -503,7 +510,53 @@ if (siteSection == "main") {
 				// 
 			} catch (e) {}
 		});
+		//// wip
+		//// multi vols
+		$('.vol1 h4, .vol2 h4, .vol3 h4').each(function(index) {
+			// $(this).attr('style', 'outline:solid 1px red');
+			// 
+			var data_eb = $(this).attr("data-eb").trim();
+			data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ') : "";
+			// 
+			// 
+			var data_2u = $(this).attr("data-2u").trim();
+			data_2u = data_2u.match(/.+/) ? amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
+			// 
+			var data_4u = $(this).attr("data-4u").trim();
+			data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
+			// 
+			var data_zzcol = $(this).attr("data-zzcol").trim();
+			data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
+			// 
+			$(this).after('<div style="margin:0 auto;display:table;">' +
+				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;BUY NOW&nbsp;&nbsp;—— </div> ' +
+				data_eb +
+				data_4u +
+				data_2u +
+				data_zzcol +
+				'</div>');
+			//
+			//////
+			///
+		});
 		/////
+		//// ALLINONE jq_allinonevol
+		$('.jq_allinonevol').each(function(index) {
+			var data_a2 = $(this).parent().find("h4").attr("data-a2").trim();
+			data_a2 = data_a2.match(/.+/) ? amzlinkify(data_a2, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
+			// 
+			var data_a4 = $(this).parent().find("h4").attr("data-a4").trim();
+			data_a4 = data_a4.match(/.+/) ? amzlinkify(data_a4, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
+			// // // 
+			$(this).append('<div style="margin:0 auto;display:table;">' +
+				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;BUY NOW&nbsp;&nbsp;—— </div> ' +
+				data_a2 +
+				data_a4 +
+				'</div>');
+			//
+			//////
+			///
+		});
 		// 
 		$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js")
 			.done(function() {
