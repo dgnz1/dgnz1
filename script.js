@@ -1,4 +1,4 @@
-////////  THIS IS FOR books.zedign.com ////////////////
+////////  books.zedign.com ////////////////
 // 
 // 
 thsBlg_zzl = "\x32\x33\x38\x31\x31\x35\x39\x30\x33\x35\x31\x34\x32\x30\x33\x37\x33\x36";
@@ -410,7 +410,7 @@ if (siteSection == "main") {
 	$(document).ready(function() {
 		///////
 		$('h4 a').each(function(index) {
-			var h4 = $(this).text().trim().replace(/([\s—\-]+Paintings & Drawings|[\s—\-]+The Paintings)/,"");
+			var h4 = $(this).text().trim().replace(/([\s—\-]+Paintings & Drawings|[\s—\-]+The Paintings)/, "");
 			$(this).html(h4);
 			// 
 		});
@@ -572,7 +572,68 @@ if (siteSection == "main") {
 		return ' <a style="font-size:10px;padding:5px;margin-left:7px;" rel="nofollow" href="https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" type="button" class="btn btn-default btn-xs"> ' + edition + ' </a>   ';
 		// <a href = "https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" > ' + edition + ' </a>
 	}
-	/ /
+	// 
+	// 
+	/////////////////////////////////////////////
+	/////////// /scroll to top button ///////////
+	/////////////////////////////////////////////
+	//// v1
+	$('head').append('<style> #scRollToTopButton { display: none; position: fixed; bottom: 20px; right: 30px; z-index: 99; border: none; outline: none; background-color: #555; color: white; cursor: pointer; padding: 5px; border-radius: 10px; font-size: 26px; line-height:1em; opacity:0.7; } #scRollToTopButton:hover { background-color: #555; } </style>');
+	$('body').append(' <button onclick="scRollToTopButton()" id="scRollToTopButton" title="Go to top">&#128285;</button>');
+	//Get the button:
+	scTTBtn = document.getElementById("scRollToTopButton");
+	// When the user scrolls down 20px from the top of the document, show the button
+	window.onscroll = function() {
+		if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+			scTTBtn.style.display = "block";
+		} else {
+			scTTBtn.style.display = "none";
+		}
+	};
+	// When the user clicks on the button, scroll to the top of the document
+	function scRollToTopButton() {
+		document.body.scrollTop = 0; // For Safari
+		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+	}
+	/////////////////////////////////////////////
+	/////////// /scroll to top button ///////////
+	/////////////////////////////////////////////
+	// 
+	// 
+	// 
+	/////////////////////////////////////////////
+	/////////// SEARCH ON PAGE ///////////
+	/////////////////////////////////////////////
+	$('#books_table').before('<table style="margin:10px auto"> <tr><td><input class="form-control" type="text" id="link_id"> </td><td><input class="btn btn-default" type="button" id="link" value="Search" onClick="javascript:goTo()"></td></tr> </table>');
+
+	function findString(str) {
+		if (parseInt(navigator.appVersion) < 4) return;
+		var strFound;
+		if (window.find) { // if supported
+			strFound = self.find(str);
+			if (!strFound) {
+				strFound = self.find(str, 0, 1);
+				while (self.find(str, 0, 1)) continue;
+			}
+		}
+		if (!strFound) {
+			// alert("String '" + str + "' not found!");
+		}
+		return;
+	}
+	////////
+	function goTo() {
+		try {
+			var str = document.getElementById('link_id').value;
+			findString(str);
+		} catch (e) {}
+	}
+	/////////////////////////////////////////////
+	/////////// /SEARCH ON PAGE ///////////
+	/////////////////////////////////////////////
+	// 
+	// 
+	//
 	// $(document).ready(function() {
 	// $(window).on("load", function() {
 	// }); // document
