@@ -836,8 +836,9 @@ if (siteSection == "dyn_catcher") {
 ///////////////
 $(window).on("load", function() {
 	///// wip cse
-	$('.breadcrumbs').before('<table style="margin-top:10px;width:99%;"><tr><td style="max-width:50px;"><span style="font: 12px/1em sans-serif; display: inline-block;">Find a book/artist:</span></td><td><div style="background:grey"><div id="search"></div></div></td></tr></table> ');
-	gCSE(thsBlg_cse, "search");
+	///// off (many ads on top!)
+	// $('.breadcrumbs').before('<table style="margin-top:10px;width:99%;"><tr><td style="max-width:50px;"><span style="font: 12px/1em sans-serif; display: inline-block;">Find a book/artist:</span></td><td><div style="background:grey"><div id="search"></div></div></td></tr></table> ');
+	// gCSE(thsBlg_cse, "search");
 	//////
 	if (siteSection == "single") {
 		// ** amazon amLocalize IS >>OFF<< in affLocalize() (using onelink) **
