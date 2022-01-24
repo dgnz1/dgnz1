@@ -741,7 +741,19 @@ if (siteSection == "single") {
 		if (regex.test($(this).text())) {
 			// var raw = $(this).text();
 			var newPrice = parseFloat($(this).text().replace("$", ""));
-			var oldPrice = Math.ceil(newPrice + 3.25) - 0.05;
+			var oldPrice = Math.ceil(newPrice + 4.25) - 0.05;
+			// 
+			// ADJ PBK PRICE
+			// 
+			try {
+				var editionPrice = $(this).parent().parent().parent().attr('class'); /// price is for what eb/pb/etc 
+				if (editionPrice == "printprices") {
+					// oldPrice = Math.ceil(newPrice + ((newPrice * 33) / 100)) - 0.05;
+					oldPrice = Math.ceil(newPrice + 11.25) - 0.05;
+				}
+			} catch (e) {}
+			// /ADJ PBK PRICE
+			// 
 			var href = $(this).parent().prev().find('span a, a').attr('href');
 			switch (href) { // like if (abc == "cou") {}...
 				case (href.match(/zedign/) || {}).input:
