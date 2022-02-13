@@ -310,30 +310,6 @@ function gCSE(cseId, divId, phText, target) {
 	})();
 }
 
-function viewport(percentage, property) {
-	// v2 (vmax) - returns viewport % in pixels
-	// property='vw','vh','vmax', usage: viewport(40, "vh")+'px';
-	var w = Math.round((Math.max(document.documentElement.clientWidth, window.innerWidth || 0)) * percentage / 100);
-	var h = Math.round((Math.max(document.documentElement.clientHeight, window.innerHeight || 0)) * percentage / 100);
-	if (property == "vw") {
-		return w;
-	}
-	if (property == "vh") {
-		return h;
-	}
-	if (property == "vmax") {
-		if (w > h) {
-			return w;
-		}
-		if (h > w) {
-			return h;
-		}
-		if (w == h) {
-			return w;
-		}
-	}
-}
-
 function addthis_a(aTid, divId, customUrlTitle, url, title, contId, inStyle, addServHtml) {
 	/**
 	- V3 - 
@@ -412,16 +388,7 @@ function upIcons(up) {
 	}
 	return cx;
 }
-
-function amzlinkify(asin, edition) {
-	return ' <a style="font-size:10px;padding:5px;margin-left:7px;" rel="nofollow" href="https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" type="button" class="btn btn-default btn-xs"> ' + edition + ' </a>   ';
-	// <a href = "https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" > ' + edition + ' </a>
-}
 /////// FOR VIDEO PREVIEW BUTTON IN MODAL (HTML hardcoded) //////////
-function scRollToTopButton() {
-	document.body.scrollTop = 0; // For Safari
-	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
 //////////////////   /funcs   ///////////////////////
 //////////////////////  MAIN  ////////////////////////////
 if (siteSection == "main") {
@@ -599,49 +566,46 @@ if (siteSection == "main") {
 					// heightCalculationMethod: 'max',
 				});
 			});
-		// 
-		// 
-		/////////////////////////////////////////////
-		/////////// FEEDBACK MODAL BUTTON ///////////
-		/////////////////////////////////////////////
-		// 
-		$.getScript("common/modallink/jquery.modalLink-1.0.0.js")
-			.done(function() {
-				$('head').append('<link rel="stylesheet" href="common/modallink/jquery.modalLink-1.0.0.css">');
-				// 
-				$('#headerbanner').prepend('<a style="font-size:11px;position:absolute;right:10px;top:15px;z-index:2;opacity:0.7" role="button" class="btn btn-default btn-xs navbar-btn modal-link" href="c/?s=fdbk" class="modal-link" > <strong> Contact </strong> </a>');
-				// 
-				$(".modal-link").modalLink({
-					width: viewport(85, 'vw'),
-					height: viewport(75, 'vh'),
-					showTitle: true,
-					showClose: true,
-					overlayOpacity: 0.6,
-					method: "GET", // GET, POST, REF, CLONE
-					disableScroll: true,
-					onHideScroll: function() {},
-					onShowScroll: function() {}
-				});
-			});
-		// 
-		// 
-		/////////////////////////////////////////////
-		/////////// /FEEDBACK MODAL BUTTON ///////////
-		/////////////////////////////////////////////
-		// 
-		// 
-		// 
-	}); //// $(document).ready
+	});
+	// 
+	function amzlinkify(asin, edition) {
+		return ' <a style="font-size:10px;padding:5px;margin-left:7px;" rel="nofollow" href="https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" type="button" class="btn btn-default btn-xs"> ' + edition + ' </a>   ';
+		// <a href = "https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" > ' + edition + ' </a>
+	}
+	// 
+	// 
+	/////////////////////////////////////////////
+	/////////// /scroll to top button ///////////
+	/////////////////////////////////////////////
+	//// v1
+	$('head').append('<style> #scRollToTopButton { display: none; position: fixed; bottom: 20px; right: 30px; z-index: 99; border: none; outline: none; background-color: #555; color: white; cursor: pointer; padding: 5px; border-radius: 10px; font-size: 26px; line-height:1em; opacity:0.7; } #scRollToTopButton:hover { background-color: #555; } </style>');
+	$('body').append(' <button onclick="scRollToTopButton()" id="scRollToTopButton" title="Go to top">&#128285;</button>');
+	//Get the button:
+	scTTBtn = document.getElementById("scRollToTopButton");
+	// When the user scrolls down 20px from the top of the document, show the button
+	window.onscroll = function() {
+		if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+			scTTBtn.style.display = "block";
+		} else {
+			scTTBtn.style.display = "none";
+		}
+	};
+	// When the user clicks on the button, scroll to the top of the document
+	function scRollToTopButton() {
+		document.body.scrollTop = 0; // For Safari
+		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+	}
+	/////////////////////////////////////////////
+	/////////// /scroll to top button ///////////
+	/////////////////////////////////////////////
+	// 
 	// 
 	// 
 	/////////////////////////////////////////////
 	/////////// SEARCH ON PAGE ///////////
 	/////////////////////////////////////////////
-	try {
-		document.getElementById('books_table').insertAdjacentHTML("beforebegin", '<table style="margin:10px auto"> <tr><td><input class="form-control" type="text" id="link_id"> </td><td><input onkeypress="return event.keyCode != 13;" class="btn btn-default" type="button" id="link" value="Search" onClick="javascript:goTo()"></td></tr> </table>');
-		/// disable enter key on 
-	} catch (e) {}
-	// $('#books_table').before();
+	$('#books_table').before('<table style="margin:10px auto"> <tr><td><input class="form-control" type="text" id="link_id"> </td><td><input class="btn btn-default" type="button" id="link" value="Search" onClick="javascript:goTo()"></td></tr> </table>');
+
 	function findString(str) {
 		if (parseInt(navigator.appVersion) < 4) return;
 		var strFound;
@@ -666,27 +630,6 @@ if (siteSection == "main") {
 	}
 	/////////////////////////////////////////////
 	/////////// /SEARCH ON PAGE ///////////
-	/////////////////////////////////////////////
-	// 
-	/////////////////////////////////////////////
-	/////////// SCROLL TO TOP BUTTON ///////////
-	/////////////////////////////////////////////
-	//// v1
-	document.getElementsByTagName('head')[0].insertAdjacentHTML("beforeend", '<style> #scRollToTopButton { display: none; position: fixed; bottom: 20px; right: 30px; z-index: 99; border: none; outline: none; background-color: #555; color: white; cursor: pointer; padding: 5px; border-radius: 10px; font-size: 26px; line-height:1em; opacity:0.7; } #scRollToTopButton:hover { background-color: #555; } </style>');
-	document.getElementsByTagName('body')[0].insertAdjacentHTML("beforeend", ' <button onclick="scRollToTopButton()" id="scRollToTopButton" title="Go to top">&#128285;</button>');
-	//Get the button:
-	scTTBtn = document.getElementById("scRollToTopButton");
-	// When the user scrolls down 20px from the top of the document, show the button
-	window.onscroll = function() {
-		if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-			scTTBtn.style.display = "block";
-		} else {
-			scTTBtn.style.display = "none";
-		}
-	};
-	// When the user clicks on the button, scroll to the top of the document
-	/////////////////////////////////////////////
-	/////////// /SCROLL TO TOP BUTTON ///////////
 	/////////////////////////////////////////////
 	// 
 	// 
@@ -884,157 +827,6 @@ if (siteSection == "single") {
 // 
 if (siteSection == "dyn_catcher") {
 	// 
-	// 
-	if (qs.get("s") == "fdbk") {
-		// 
-		function formSubmit() {
-			// alert( document.getElementById('form').serialize());
-			// alert(new URLSearchParams(new FormData(document.getElementById('form'))).toString());
-			//// join all fields in one to send
-			$('#entry_703433844').val((
-				$('input[name*="wikipedia_url"] ').val() +
-				', ' + $('input[name*="your_name"] ').val() +
-				', ' + $('input[name*="your_email"] ').val()).trim());
-			// 
-			$('input[name*="group"] ').remove();
-			$('input[name*="wikipedia_url"] ').remove();
-			$('input[name*="your"] ').remove();
-			$('form').trigger('goForward'); // api call for slideform to go forward to the last "thank you" slide
-			return true;
-		}
-		// 
-		$.getScript("../common/slideform/js/slideform.js")
-			.done(function() {
-				$.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js")
-					.done(function() {
-						$.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js")
-							.done(function() {
-								var gdf = "\x68\x74\x74\x70\x73\x3A\x2F\x2F\x64\x6F\x63\x73\x2E\x67\x6F\x6F\x67\x6C\x65\x2E\x63\x6F\x6D\x2F\x66\x6F\x72\x6D\x73\x2F\x64\x2F\x65\x2F\x31\x46\x41\x49\x70\x51\x4C\x53\x63\x31\x79\x47\x32\x71\x79\x78\x4D\x76\x41\x76\x4B\x5A\x4F\x44\x78\x4A\x4B\x6E\x30\x6A\x4B\x37\x57\x4D\x2D\x76\x49\x73\x43\x57\x31\x34\x64\x44\x57\x7A\x30\x36\x2D\x46\x70\x6F\x7A\x35\x6C\x67\x2F\x66\x6F\x72\x6D\x52\x65\x73\x70\x6F\x6E\x73\x65";
-								//place your code here, the scripts are all loaded
-								$('head').append(
-									'<link rel="stylesheet" href="../common/slideform/css/slideform.css">' +
-									'<style>html, body { font-family:sans-serif; height: 100%; width: 100%; padding: 0; margin: 0; overflow: hidden; position: fixed; top: 0; bottom: 0; left: 0; right: 0; }</style>' +
-									'');
-								$('body').prepend('' +
-									// 
-									'<iframe name="OUR_hidden_iframe" id="OUR_hidden_iframe" style="display:none;" onload=""></iframe> ' +
-									//  onsubmit="doit();"  
-									'<form onsubmit="formSubmit();" action="' + gdf + '" name="unique_frm_name" id="unique_frm_id" target="OUR_hidden_iframe">' +
-									//
-									////// first slide must be an intro for this thing to work
-									'<div class="slideform-slide"> <div class="slideform-group">' +
-									'<h1>Contact us </h1>' +
-									'<p>Please use this form to contact us.</p>' +
-									'</div> </div>' +
-									// 
-									// 1. menu
-									'<div class="slideform-slide"> <div class="slideform-group">' +
-									'<h2>Reason for contacting: </h2>' +
-									'<h3>Please select</h3>' +
-									'<div class="options options-buttons">' +
-									'<label for="" > <input type="radio" name="group1" value="reasona"> <span>Request to make a new Zedign Art Series book of a master\'s work not currently part of the series. </span> </label>' +
-									'<label for="" onclick="window.top.location.href=\'https://art.zedign.com/order/\';return false;" > <input type="radio" name="group1" value="reasonb"> <span>Request a poster from an image </span> </label>' +
-									'</div> </div> </div>' +
-									// 
-									// 2. sub menu
-									'<div class="slideform-slide"> <div class="slideform-group">' +
-									'<div data-condition="input.group1 == \'reasona\'">' +
-									'<h2>Which Artist</h2><p>Enter a wikipedia URL (e.g. <a target="_blank" href="https://en.wikipedia.org/wiki/Claude_Monet">https://en.wikipedia.org/wiki/Claude_Monet</a>)</p>' +
-									'<label><input type="text" name="wikipedia_url" placeholder="URL"></label>' +
-									'</div>' +
-									'<div data-condition="input.group1 == \'reasonb\'"> </div>' +
-									'</div> </div>' +
-									// 
-									// 3. final
-									'<div class="slideform-slide"> <div class="slideform-group">' +
-									'<div data-condition="input.group1 == \'reasona\'">' +
-									' ' +
-									'<label> <span>Your Name</span> <input type="text" name="your_name" placeholder="Your name"> </label>' +
-									'<label> <span>Your Email</span> <input type="text" name="your_email" placeholder="Your email"> </label>' +
-									//
-									'<input name="entry.703433844" id="entry_703433844" data-comment="Feedback" value="test 8" type="hidden">' +
-									'</div>' +
-									'' +
-									'</div> </div>' +
-									// 
-									// 
-									//// LAST THANK YOU SLIDE AFTER FORM SUBMIT VIA formSubmit()
-									////// last slide must be a dummy like this for this thing to work
-									'<div class="slideform-slide"> <div class="slideform-group">' +
-									'<h2 style="height:' + viewport(25, "vh") + 'px;">Thank you! Your feedback is sent.<h2><div class="options options-list">' +
-									'</div> </div> </div>' +
-									// 
-									// 
-									// 
-									// '<footer class="slideform-footer">' +
-									// '<div class="buttons">' +
-									// '<button class="slideform-btn slideform-btn-next">Next' +
-									// '</button>' +
-									// '<button class="slideform-btn slideform-btn-prev">Prev' +
-									// '</button>' +
-									// '</div>' +
-									// '</footer>' +
-									'</form>' +
-									'');
-								// 
-								// 
-								//// disable enter key on form because entering it doesn't send always!
-								$('form').keypress(
-									function(event) {
-										if (event.which == '13') {
-											event.preventDefault();
-										}
-									});
-								// 
-								var $form = $('form');
-								$form.slideform({
-									// submit: null,
-									nextButtonText: 'Next',
-									prevButtonText: 'Prev',
-									submitButtonText: 'Submit',
-									// 
-									// submit: function(event, form) {
-									// 	// $form.trigger('goForward');
-									// 	// $form.submit();
-									// },
-									//// form validation using jquery.validate
-									validate: {
-										rules: {
-											group1: {
-												required: true,
-											},
-											wikipedia_url: {
-												required: true,
-												pattern: ".+[Ww]ikipedia.+",
-											},
-											// your_name: {
-											// 	required: true,
-											// },
-											// your_email: {
-											// 	required: true,
-											// }
-										},
-										messages: {
-											group1: {
-												required: 'Please select an option',
-											},
-											wikipedia_url: {
-												required: 'A valid wikipedia url is required',
-												pattern: 'A valid wikipedia url is required',
-											},
-										}
-									},
-									//// /form validation using jquery.validate
-								});
-							});
-					});
-			});
-		// 
-		// 
-		// 
-		// 
-		// 
-	}
 	// 
 	if (qs.get("s") == "amz") {
 		var qry = decodeURIComponent(qs.get("n"));
