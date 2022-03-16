@@ -888,17 +888,26 @@ if (siteSection == "dyn_catcher") {
 	if (qs.get("s") == "fdbk") {
 		// 
 		function formSubmit() {
-			// alert( document.getElementById('form').serialize());
-			// alert(new URLSearchParams(new FormData(document.getElementById('form'))).toString());
+			// alert('hello');
+			// return false;
 			//// join all fields in one to send
 			$('#entry_703433844').val((
 				$('input[name*="wikipedia_url"] ').val() +
-				', ' + $('input[name*="your_name"] ').val() +
-				', ' + $('input[name*="your_email"] ').val()).trim());
+				$('input[name*="namea"] ').val() +
+				$('input[name*="emaila"] ').val() +
+				$('input[name*="namec"] ').val() +
+				$('input[name*="emailc"] ').val() +
+				', ' + $('textarea[name*="messagec"] ').val()
+				// 
+			).trim());
+			/// testing
+			// alert(new URLSearchParams(new FormData(document.getElementById('fdbk'))).toString());
 			// 
-			$('input[name*="group"] ').remove();
-			$('input[name*="wikipedia_url"] ').remove();
-			$('input[name*="your"] ').remove();
+			// $('input[name*="group"] ').remove();
+			// $('input[name*="wikipedia_url"] ').remove();
+			// $('input[id*="name"] ').remove();
+			// $('input[id*="email"] ').remove();
+			// 
 			$('form').trigger('goForward'); // api call for slideform to go forward to the last "thank you" slide
 			return true;
 		}
@@ -919,7 +928,7 @@ if (siteSection == "dyn_catcher") {
 									// 
 									'<iframe name="OUR_hidden_iframe" id="OUR_hidden_iframe" style="display:none;" onload=""></iframe> ' +
 									//  onsubmit="doit();"  
-									'<form onsubmit="formSubmit();" action="' + gdf + '" name="unique_frm_name" id="unique_frm_id" target="OUR_hidden_iframe">' +
+									'<form onsubmit="formSubmit();" action="' + gdf + '" name="unique_frm_name" id="fdbk" target="OUR_hidden_iframe">' +
 									//
 									////// first slide must be an intro for this thing to work
 									'<div class="slideform-slide"> <div class="slideform-group">' +
@@ -930,31 +939,55 @@ if (siteSection == "dyn_catcher") {
 									// 1. menu
 									'<div class="slideform-slide"> <div class="slideform-group">' +
 									'<h2>Reason for contacting: </h2>' +
-									'<h3>Please select</h3>' +
+									'<h3>Please select one</h3>' +
 									'<div class="options options-buttons">' +
+									// Q1
 									'<label for="" > <input type="radio" name="group1" value="reasona"> <span>Request to make a new Zedign Art Series book of a master\'s work not currently part of the series. </span> </label>' +
+									// Q3
+									'<label for="" > <input type="radio" name="group1" value="reasonc"> <span>Hire us to make a book for you</span> </label>' +
+									// Q2
 									'<label for="" onclick="window.top.location.href=\'https://art.zedign.com/order/\';return false;" > <input type="radio" name="group1" value="reasonb"> <span>Request a poster from an image </span> </label>' +
+									// 
 									'</div> </div> </div>' +
 									// 
 									// 2. sub menu
 									'<div class="slideform-slide"> <div class="slideform-group">' +
+									// Q1
 									'<div data-condition="input.group1 == \'reasona\'">' +
 									'<h2>Which Artist</h2><p>Enter a wikipedia URL (e.g. <a target="_blank" href="https://en.wikipedia.org/wiki/Claude_Monet">https://en.wikipedia.org/wiki/Claude_Monet</a>)</p>' +
-									'<label><input type="text" name="wikipedia_url" placeholder="URL"></label>' +
+									'<label><input data-msg="Please enter valid wikipedia url" pattern=".+[Ww]ikipedia.+" type="text" name="wikipedia_url" placeholder="URL"></label>' +
 									'</div>' +
+									// Q2
+									'<div data-condition="input.group1 == \'reasonc\'">' +
+									'<h2>Hire us for less</h2><p>If you\'re an artist with a portfolio of works of art, and wish to have it published in digital and paper formats… or an author with a manuscript who needs professional quality books designed… contact us. We\'ll give you a complete package of ebook and paper book, ready to be uploaded and published on Amazon. (We can even show you how to set up an Amazon account for yourself so that you will have complete control and rewards.)</p>' +
+									'</div>' +
+									// 
 									'<div data-condition="input.group1 == \'reasonb\'"> </div>' +
 									'</div> </div>' +
 									// 
-									// 3. final
+									// 3. form
 									'<div class="slideform-slide"> <div class="slideform-group">' +
-									'<div data-condition="input.group1 == \'reasona\'">' +
-									' ' +
-									'<label> <span>Your Name</span> <input type="text" name="your_name" placeholder="Your name"> </label>' +
-									'<label> <span>Your Email</span> <input type="text" name="your_email" placeholder="Your email"> </label>' +
-									//
-									'<input name="entry.703433844" id="entry_703433844" data-comment="Feedback" value="test 8" type="hidden">' +
+									/// Q1
+									'<div data-condition="input.group1 == \'reasona\'"> ' +
+									'<label> <span>Your Name</span> <input id="namea" type="text" name="namea" placeholder="Your name"> </label>' +
+									'<label> <span>Your Email</span> <input id="emaila" type="text" name="emaila" placeholder="Your email"> </label> ' +
+									// ' <input name="entry.703433844" id="entry_703433844" data-comment="Feedback" value="" type="hidden"> ' +
 									'</div>' +
-									'' +
+									// 
+									/// Q2
+									'<div data-condition="input.group1 == \'reasonc\'"> ' +
+									'<label> <span>Your Name</span> <input id="namec" type="text" name="namec" placeholder="Your name"> </label>' +
+									'<label> <span>Your Email</span> <input id="emailc" type="text" name="emailc" placeholder="Your email"> </label> ' +
+									'<label> <span>Your Message</span> <textarea name="messagec"></textarea> </label>' +
+									// '<input name="entry.703433844" id="entry_703433844" data-comment="Feedback" value="" type="hidden"> ' +
+									'</div>' +
+									// 
+									'</div> </div>' +
+									// 
+									// 4. final submit button (combines allinto gd input)
+									'<div class="slideform-slide"> <div class="slideform-group">' +
+									'<p>Hit Submit to send...</p>' +
+									'<input name="entry.703433844" id="entry_703433844" data-comment="Feedback" value="" type="hidden"> ' +
 									'</div> </div>' +
 									// 
 									// 
@@ -997,7 +1030,10 @@ if (siteSection == "dyn_catcher") {
 									// 	// $form.trigger('goForward');
 									// 	// $form.submit();
 									// },
-									//// form validation using jquery.validate
+									// form validation using jquery.validate
+									// NEW: using html tags now
+									//// NOTE: THIS IS JUST TO REQUIRE THE ENTIRE group1 of multiple choices,
+									//// the <inputs> enterable fields are validated via html tags in markup
 									validate: {
 										rules: {
 											group1: {
@@ -1005,24 +1041,9 @@ if (siteSection == "dyn_catcher") {
 											},
 											wikipedia_url: {
 												required: true,
-												pattern: ".+[Ww]ikipedia.+",
-											},
-											// your_name: {
-											// 	required: true,
-											// },
-											// your_email: {
-											// 	required: true,
-											// }
+											}
+											// 
 										},
-										messages: {
-											group1: {
-												required: 'Please select an option',
-											},
-											wikipedia_url: {
-												required: 'A valid wikipedia url is required',
-												pattern: 'A valid wikipedia url is required',
-											},
-										}
 									},
 									//// /form validation using jquery.validate
 								});
