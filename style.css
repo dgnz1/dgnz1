@@ -13,6 +13,17 @@
   width: 100px;
 }
 
+.media-body p {
+  font-size: 12px;
+}
+
+.media-body h4 {
+  font-variant: small-caps;
+  font-family: "Times New Roman", Times, serif;
+  font-weight: bold;
+  font-size: 160%;
+}
+
 .singlevol, .parentvol {
   margin-top: 20px;
   padding-top: 20px;
@@ -35,7 +46,8 @@
 .jq_allinonevol {
   border: dotted 1px #bbb;
   padding: 10px;
-  margin: 0;
+  margin: 0 auto;
+  max-width: 400px;
 }
 
 /* /MAIN */
