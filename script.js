@@ -922,7 +922,9 @@ if (siteSection == "dyn_catcher") {
 								//place your code here, the scripts are all loaded
 								$('head').append(
 									'<link rel="stylesheet" href="../common/slideform/css/slideform.css">' +
-									'<style>html, body { font-family:sans-serif; height: 100%; width: 100%; padding: 0; margin: 0; overflow: hidden; position: fixed; top: 0; bottom: 0; left: 0; right: 0; }</style>' +
+									'<style>html, body { font-family:sans-serif; font-size:90%}</style>' +
+									/// no messing with full size as it doesn't show properly
+									// '<style>html, body { font-family:sans-serif; height: 100%; width: 100%; padding: 0; margin: 0; overflow: hidden; position: fixed; top: 0; bottom: 0; left: 0; right: 0; }</style>' +
 									'');
 								$('body').prepend('' +
 									// 
@@ -994,7 +996,7 @@ if (siteSection == "dyn_catcher") {
 									//// LAST THANK YOU SLIDE AFTER FORM SUBMIT VIA formSubmit()
 									////// last slide must be a dummy like this for this thing to work
 									'<div class="slideform-slide"> <div class="slideform-group">' +
-									'<h2 style="height:' + viewport(25, "vh") + 'px;">Thank you! Your feedback is sent.<h2><div class="options options-list">' +
+									'<h2 _NOTANYMORE_style="height:' + viewport(25, "vh") + 'px;">Thank you! Your feedback is sent.<h2><div class="options options-list">' +
 									'</div> </div> </div>' +
 									// 
 									// 
