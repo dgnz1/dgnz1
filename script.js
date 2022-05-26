@@ -413,9 +413,16 @@ function upIcons(up) {
 	return cx;
 }
 
-function amzlinkify(asin, edition) {
+function _amzlinkify(asin, edition) {
 	return ' <a style="font-size:10px;padding:5px;margin-left:7px;" rel="nofollow" href="https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" type="button" class="btn btn-default btn-xs"> ' + edition + ' </a>   ';
 	// <a href = "https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" > ' + edition + ' </a>
+}
+
+function amzlinkify(asin, linkHTML, edition) {
+	/// dir url is https://read.amazon.com/kp/embed?linkCode=kpe&asin=' + asin + '&tag=zdn-20&preview=newtab
+	/// we're now using preview urls
+	var prevLink = (edition == "ebook") ? 'https://read.amazon.com/kp/embed?linkCode=kpe&asin=' + asin + '&tag=zdn-20&preview=newtab' : 'https://www.amazon.com/gp/reader/' + asin + '/?tag=zdn-20&asin=' + asin + '&revisionId=&format=4&depth=1#reader-link';
+	return ' <a style="font-size:10px;padding:5px;margin-left:7px;" rel="nofollow" href="' + prevLink + '" type="button" class="btn btn-default btn-xs"> ' + linkHTML + ' </a>   ';
 }
 /////// FOR VIDEO PREVIEW BUTTON IN MODAL (HTML hardcoded) //////////
 function scRollToTopButton() {
@@ -517,12 +524,13 @@ if (siteSection == "main") {
 		$(".vol2,.vol3").remove();
 		//////// /jq_multivolwrap //////////////
 		// 
+		var buyNowText = "READ NOW"; /// BUY NOW or READ NOW depending on what's in amzlinkify
 		///// buy dir links
 		/// single volume
 		$('.singlevol').each(function(index) {
 			try {
 				var data_eb = $("h4", this).attr("data-eb").trim();
-				data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ') : "";
+				data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ', 'ebook') : "";
 				// 
 				var data_2u = $("h4", this).attr("data-2u").trim();
 				data_2u = data_2u.match(/.+/) ? amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
@@ -534,22 +542,26 @@ if (siteSection == "main") {
 				data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
 				// 
 				$(".media-body", this).after('<div style="margin:0 auto;display:table;">' +
-					'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;BUY NOW&nbsp;&nbsp;—— </div> ' +
+					'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
 					data_eb +
 					data_4u +
 					data_2u +
 					data_zzcol +
 					'</div>');
 				// 
+				///
 			} catch (e) {}
 		});
-		//// wip
+		// 
+		// 
+		// 
+		// 
 		//// multi vols
 		$('.vol1 h4, .vol2 h4, .vol3 h4').each(function(index) {
 			// $(this).attr('style', 'outline:solid 1px red');
 			// 
 			var data_eb = $(this).attr("data-eb").trim();
-			data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ') : "";
+			data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ', 'ebook') : "";
 			// 
 			// 
 			var data_2u = $(this).attr("data-2u").trim();
@@ -562,7 +574,7 @@ if (siteSection == "main") {
 			data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
 			// 
 			$(this).after('<div style="margin:0 auto;display:table;">' +
-				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;BUY NOW&nbsp;&nbsp;—— </div> ' +
+				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
 				data_eb +
 				data_4u +
 				data_2u +
@@ -582,7 +594,7 @@ if (siteSection == "main") {
 			data_a4 = data_a4.match(/.+/) ? amzlinkify(data_a4, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
 			// // // 
 			$(this).append('<div style="margin:0 auto;display:table;">' +
-				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;BUY NOW&nbsp;&nbsp;—— </div> ' +
+				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
 				data_a2 +
 				data_a4 +
 				'</div>');
