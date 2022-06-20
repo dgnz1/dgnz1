@@ -433,7 +433,10 @@ function scRollToTopButton() {
 //////////////////////  MAIN  ////////////////////////////
 if (siteSection == "main") {
 	// 
-	///// images lazyload (via jquery plugin in html)
+	///// JQUERY LAZY  https://github.com/dkern/jquery.lazy
+	// 1. prepare <img class="lazy" data-src="image.jpg" src="" <<< !IMP
+	// 2. load content
+	// 3. execute below
 	if (jQuery().Lazy) {
 		$('.lazy').Lazy({
 			// your configuration goes here
