@@ -878,19 +878,29 @@ if (siteSection == "single") {
 			);
 		} catch (e) {}
 	}
-	// 
+	/////// MISC
 	$('.singlepage').wrap('<div class="container"></div>');
 	// 
+	////////// ART.ZEDIGN FINE ART POSTERS LINKS TO BUTTONS
+	/// <a style="margin: 5px" href="claude-monet/signature-posters/" role="button" class="btn btn-default">Signature Posters</a>
+	try {
+		$('#classicposters, #signatureposters').attr({
+			role: "button",
+			class: "btn btn-default",
+			style: "margin: 5px"
+		});
+	} catch (e) {}
 	// 
+	// 
+	///////////// FOOTER /////////
+	//////////////
 	$('body').append('<!-- ZD MASTER FOOTER --><div style="margin-top:50px">&nbsp;</div><hr/><footer> <div class="container"> <div class="row"> <div class="col-lg-12"> <p> <!-- <a href="https://store.zedign.com"><img src="https://c.zedign.com/s/zedign_logo_header_150x50.png"/></a> --> &copy;&nbsp;The&nbsp;Zedign&nbsp;House | <a href="/privacy.html">Privacy Policy</a> ' +
 		// ' &nbsp;&nbsp;   <a rel="nofollow" href="https://facebook.com/TheZedignHouse"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/facebook.png"/></a>' +
 		'&nbsp;&nbsp;&nbsp;<a rel="nofollow" href="https://twitter.com/zedign"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/twitter.png"/></a> </p> </div> </div> </div> </footer><!-- /ZD MASTER FOOTER -->');
 	// 
 	// 
 	$(document).ready(function() {
-		// autoPlayYouTubeModal(); // for hardcoded preview button modal
-		// $('h3').after('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>');
-		// atHere();
+		// autoPlayYouTubeModal(); // for hardcoded 
 	}); // document
 }
 //////////////////////  MAIN  ////////////////////////////
