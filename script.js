@@ -527,7 +527,7 @@ if (siteSection == "main") {
 		$(".vol2,.vol3").remove();
 		//////// /jq_multivolwrap //////////////
 		// 
-		var buyNowText = "READ NOW"; /// BUY NOW or READ NOW depending on what's in amzlinkify
+		var buyNowText = "VIEW NOW"; /// BUY NOW or READ NOW depending on what's in amzlinkify
 		///// buy dir links
 		/// single volume
 		$('.singlevol').each(function(index) {
@@ -541,8 +541,14 @@ if (siteSection == "main") {
 				var data_4u = $("h4", this).attr("data-4u").trim();
 				data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
 				// 
+				/// EITHER DIRECT ZAZ LINK OR LINK TO art.zedign.com/
+				/// 1. dir zazz
+				// var data_zzcol = $("h4", this).attr("data-zzcol").trim();
+				// data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
+				//  2. art.zedign
 				var data_zzcol = $("h4", this).attr("data-zzcol").trim();
-				data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
+				var data_posterslug = $("h4", this).attr("data-posterslug").trim();
+				data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/#' + data_posterslug + '" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
 				// 
 				$(".media-body", this).after('<div style="margin:0 auto;display:table;">' +
 					'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
@@ -573,8 +579,15 @@ if (siteSection == "main") {
 			var data_4u = $(this).attr("data-4u").trim();
 			data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
 			// 
+			// 
+			/// EITHER DIRECT ZAZ LINK OR LINK TO art.zedign.com/
+			/// 1. dir zazz
+			// var data_zzcol = $(this).attr("data-zzcol").trim();
+			// data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
+			//  2. art.zedign
 			var data_zzcol = $(this).attr("data-zzcol").trim();
-			data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
+			var data_posterslug = $(this).attr("data-posterslug").trim();
+			data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/#' + data_posterslug + '" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
 			// 
 			$(this).after('<div style="margin:0 auto;display:table;">' +
 				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
