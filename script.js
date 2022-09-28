@@ -897,7 +897,7 @@ if (siteSection == "single") {
 	////////// ART.ZEDIGN FINE ART POSTERS LINKS TO BUTTONS
 	/// <a style="margin: 5px" href="claude-monet/signature-posters/" role="button" class="btn btn-default">Signature Posters</a>
 	try {
-		$('#classicposters, #signatureposters').attr({
+		$('#classicposters, #signatureposters, #postcards').attr({
 			role: "button",
 			class: "btn btn-default",
 			style: "margin: 5px"

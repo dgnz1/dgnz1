@@ -413,9 +413,16 @@ function upIcons(up) {
 	return cx;
 }
 
-function amzlinkify(asin, edition) {
+function _amzlinkify(asin, edition) {
 	return ' <a style="font-size:10px;padding:5px;margin-left:7px;" rel="nofollow" href="https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" type="button" class="btn btn-default btn-xs"> ' + edition + ' </a>   ';
 	// <a href = "https://www.amazon.com/dp/' + asin + '/ref=nosim?tag=zdn-20" > ' + edition + ' </a>
+}
+
+function amzlinkify(asin, linkHTML, edition) {
+	/// dir url is https://read.amazon.com/kp/embed?linkCode=kpe&asin=' + asin + '&tag=zdn-20&preview=newtab
+	/// we're now using preview urls
+	var prevLink = (edition == "ebook") ? 'https://read.amazon.com/kp/embed?linkCode=kpe&asin=' + asin + '&tag=zdn-20&preview=newtab' : 'https://www.amazon.com/gp/reader/' + asin + '/?tag=zdn-20&asin=' + asin + '&revisionId=&format=4&depth=1#reader-link';
+	return ' <a style="font-size:10px;padding:5px;margin-left:7px;" rel="nofollow" href="' + prevLink + '" type="button" class="btn btn-default btn-xs"> ' + linkHTML + ' </a>   ';
 }
 /////// FOR VIDEO PREVIEW BUTTON IN MODAL (HTML hardcoded) //////////
 function scRollToTopButton() {
@@ -426,7 +433,10 @@ function scRollToTopButton() {
 //////////////////////  MAIN  ////////////////////////////
 if (siteSection == "main") {
 	// 
-	///// images lazyload (via jquery plugin in html)
+	///// JQUERY LAZY  https://github.com/dkern/jquery.lazy
+	// 1. prepare <img class="lazy" data-src="image.jpg" src="" <<< !IMP
+	// 2. load content
+	// 3. execute below
 	if (jQuery().Lazy) {
 		$('.lazy').Lazy({
 			// your configuration goes here
@@ -517,12 +527,13 @@ if (siteSection == "main") {
 		$(".vol2,.vol3").remove();
 		//////// /jq_multivolwrap //////////////
 		// 
+		var buyNowText = "VIEW NOW"; /// BUY NOW or READ NOW depending on what's in amzlinkify
 		///// buy dir links
 		/// single volume
 		$('.singlevol').each(function(index) {
 			try {
 				var data_eb = $("h4", this).attr("data-eb").trim();
-				data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ') : "";
+				data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ', 'ebook') : "";
 				// 
 				var data_2u = $("h4", this).attr("data-2u").trim();
 				data_2u = data_2u.match(/.+/) ? amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
@@ -530,26 +541,36 @@ if (siteSection == "main") {
 				var data_4u = $("h4", this).attr("data-4u").trim();
 				data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
 				// 
+				/// EITHER DIRECT ZAZ LINK OR LINK TO art.zedign.com/
+				/// 1. dir zazz
+				// var data_zzcol = $("h4", this).attr("data-zzcol").trim();
+				// data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
+				//  2. art.zedign
 				var data_zzcol = $("h4", this).attr("data-zzcol").trim();
-				data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
+				var data_posterslug = $("h4", this).attr("data-posterslug").trim();
+				data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/#' + data_posterslug + '" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
 				// 
 				$(".media-body", this).after('<div style="margin:0 auto;display:table;">' +
-					'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;BUY NOW&nbsp;&nbsp;—— </div> ' +
+					'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
 					data_eb +
 					data_4u +
 					data_2u +
 					data_zzcol +
 					'</div>');
 				// 
+				///
 			} catch (e) {}
 		});
-		//// wip
+		// 
+		// 
+		// 
+		// 
 		//// multi vols
 		$('.vol1 h4, .vol2 h4, .vol3 h4').each(function(index) {
 			// $(this).attr('style', 'outline:solid 1px red');
 			// 
 			var data_eb = $(this).attr("data-eb").trim();
-			data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ') : "";
+			data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ', 'ebook') : "";
 			// 
 			// 
 			var data_2u = $(this).attr("data-2u").trim();
@@ -558,11 +579,18 @@ if (siteSection == "main") {
 			var data_4u = $(this).attr("data-4u").trim();
 			data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
 			// 
+			// 
+			/// EITHER DIRECT ZAZ LINK OR LINK TO art.zedign.com/
+			/// 1. dir zazz
+			// var data_zzcol = $(this).attr("data-zzcol").trim();
+			// data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
+			//  2. art.zedign
 			var data_zzcol = $(this).attr("data-zzcol").trim();
-			data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
+			var data_posterslug = $(this).attr("data-posterslug").trim();
+			data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/#' + data_posterslug + '" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
 			// 
 			$(this).after('<div style="margin:0 auto;display:table;">' +
-				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;BUY NOW&nbsp;&nbsp;—— </div> ' +
+				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
 				data_eb +
 				data_4u +
 				data_2u +
@@ -582,7 +610,7 @@ if (siteSection == "main") {
 			data_a4 = data_a4.match(/.+/) ? amzlinkify(data_a4, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
 			// // // 
 			$(this).append('<div style="margin:0 auto;display:table;">' +
-				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;BUY NOW&nbsp;&nbsp;—— </div> ' +
+				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
 				data_a2 +
 				data_a4 +
 				'</div>');
@@ -863,19 +891,29 @@ if (siteSection == "single") {
 			);
 		} catch (e) {}
 	}
-	// 
+	/////// MISC
 	$('.singlepage').wrap('<div class="container"></div>');
 	// 
+	////////// ART.ZEDIGN FINE ART POSTERS LINKS TO BUTTONS
+	/// <a style="margin: 5px" href="claude-monet/signature-posters/" role="button" class="btn btn-default">Signature Posters</a>
+	try {
+		$('#classicposters, #signatureposters').attr({
+			role: "button",
+			class: "btn btn-default",
+			style: "margin: 5px"
+		});
+	} catch (e) {}
 	// 
+	// 
+	///////////// FOOTER /////////
+	//////////////
 	$('body').append('<!-- ZD MASTER FOOTER --><div style="margin-top:50px">&nbsp;</div><hr/><footer> <div class="container"> <div class="row"> <div class="col-lg-12"> <p> <!-- <a href="https://store.zedign.com"><img src="https://c.zedign.com/s/zedign_logo_header_150x50.png"/></a> --> &copy;&nbsp;The&nbsp;Zedign&nbsp;House | <a href="/privacy.html">Privacy Policy</a> ' +
 		// ' &nbsp;&nbsp;   <a rel="nofollow" href="https://facebook.com/TheZedignHouse"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/facebook.png"/></a>' +
 		'&nbsp;&nbsp;&nbsp;<a rel="nofollow" href="https://twitter.com/zedign"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/twitter.png"/></a> </p> </div> </div> </div> </footer><!-- /ZD MASTER FOOTER -->');
 	// 
 	// 
 	$(document).ready(function() {
-		// autoPlayYouTubeModal(); // for hardcoded preview button modal
-		// $('h3').after('<table style="width:100%"><tr><td><div id="aTrec" style="float:right"></div></td></tr></table>');
-		// atHere();
+		// autoPlayYouTubeModal(); // for hardcoded 
 	}); // document
 }
 //////////////////////  MAIN  ////////////////////////////
