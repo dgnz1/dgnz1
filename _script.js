@@ -1,4 +1,4 @@
-////////  books.zedign.com ////////////////
+////////  books.zedign.com/script.js ////////////////
 // 
 // 
 thsBlg_zzl = "\x32\x33\x38\x31\x31\x35\x39\x30\x33\x35\x31\x34\x32\x30\x33\x37\x33\x36";
@@ -231,6 +231,15 @@ sc_qstrng.prototype.contains = function(key) {
 }
 var qs = new sc_qstrng();
 ///////////////////  /QS   //////////////////
+
+function detectmob() {
+	if (window.innerWidth < 760) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function amzNtv_sync(type, qry, affId, linkId, title, defCat) {
 	// v2
 	// type: "links"||"custom";
@@ -891,10 +900,13 @@ if (siteSection == "single") {
 			);
 		} catch (e) {}
 	}
+
 	/////// MISC
 	$('.singlepage').wrap('<div class="container"></div>');
 	// 
+
 	////////// ART.ZEDIGN FINE ART POSTERS LINKS TO BUTTONS
+
 	/// <a style="margin: 5px" href="claude-monet/signature-posters/" role="button" class="btn btn-default">Signature Posters</a>
 	try {
 		$('#classicposters, #signatureposters, #postcards').attr({
@@ -903,6 +915,30 @@ if (siteSection == "single") {
 			style: "margin: 5px"
 		});
 	} catch (e) {}
+
+	///// WIP add art.zedign widgets 
+
+	// var zscss = detectmob() ? "height:560px;width:328px;" : "height:374px;width:492px;";
+
+	// $('#postcards').wrap('<div class="text-center" id="pcwrap">');
+	// $('#pcwrap').append('<div>' +
+	// 	'<iframe style="' + zscss + 'display:block; margin:0 auto;" class="" src="https://art.zedign.com/common/c/?s=zs&n=https%3A%2F%2Ffeed.zazzle.com%2Fstore%2Fzedignpostcards%2Frss%3Fps%3D6%26st%3Dpopularity%26qs%3D' +
+	// 	encodeURIComponent(artist_last) + '" scrolling="no" frameborder="0" border="0"></iframe>' +
+	// 	'</div> <hr> ');
+
+	// $('#classicposters').wrap('<div class="text-center" id="cpwrap">');
+	// $('#cpwrap').append('<div>' +
+	// 	'<iframe style="' + zscss + 'display:block; margin:0 auto;" class="" src="https://art.zedign.com/common/c/?s=zs&n=https%3A%2F%2Ffeed.zazzle.com%2Fstore%2Fzedign%2Frss%3Fps%3D6%26st%3Dpopularity%26qs%3D' +
+	// 	encodeURIComponent(artist_last) + '" scrolling="no" frameborder="0" border="0"></iframe>' +
+	// 	'</div> <hr> ');
+
+	// $('#signatureposters').wrap('<div class="text-center" id="spwrap">');
+	// $('#spwrap').append('<div>' +
+	// 	'<iframe style="' + zscss + 'display:block; margin:0 auto;" class="" src="https://art.zedign.com/common/c/?s=zs&amp;n=https%3A%2F%2Fart.zedign.com%2Fcommon%2Fzazz_rss_redir.html" scrolling="no" frameborder="0" border="0"></iframe>' +
+	// 	'</div> <hr> ');
+
+
+
 	// 
 	// 
 	///////////// FOOTER /////////
@@ -1125,7 +1161,7 @@ $(window).on("load", function() {
 	//////
 	if (siteSection == "single") {
 		// ** amazon amLocalize IS >>OFF<< in affLocalize() (using onelink) **
-		affLocalize("", "", thsBlg_zzl);
+		// affLocalize("", "", thsBlg_zzl);
 	}
 });
 //
