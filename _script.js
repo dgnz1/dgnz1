@@ -7,6 +7,9 @@ thsBlg_cse = "00" + (73986844630617.38 + 11121455924030.328 + 156076660893376.3)
 if (typeof siteSection == "undefined") {
 	siteSection = "main";
 }
+
+var buyNowText = "VIEW NOW"; /// BUY NOW or READ NOW depending on what's in amzlinkify
+
 // 
 // 
 /////////////// funcs ////////////////////////
@@ -453,307 +456,693 @@ function artWidgets() {
 
 }
 
+function loadAddToAnyAsync(className, float = "float", items = "") {
+	// v1 req jq
+	// items = "<a class="a2a_button_facebook"></a><a class="a2a_button_pinterest"></a><a class="a2a_button_twitter"></a><a class="a2a_button_email"></a><a class="a2a_button_copy_link"></a>"... 
+
+	var nofloat = (float == "float") ? 'a2a_floating_style a2a_vertical_style" style = "left:20px; bottom:20px; background:none;' : 'a2a_default_style';
+
+	// Define the a2a_config object before loading the AddToAny script
+	window.a2a_config = window.a2a_config || {};
+	window.a2a_config.onclick = 1;
+	window.a2a_config.prioritize = ['copy_link', 'email', 'twitter', 'facebook', 'pinterest', 'whatsapp', 'reddit', 'linkedin'];
+
+	// window.a2a_config.num_services = 6; // Specify the number of services
+
+	var a2a = document.createElement('script');
+	a2a.type = 'text/javascript';
+	a2a.async = true;
+	a2a.src = 'https://static.addtoany.com/menu/page.js';
+	a2a.onload = function() {
+		$('.' + className).html('<div class="a2a_kit a2a_kit_size_32 ' +
+
+			nofloat +
+			// 'a2a_default_style' +
+			// 'a2a_floating_style a2a_vertical_style" style="right:0px; bottom:150px;"' +
+
+			' "><a class="a2a_dd" href="https://www.addtoany.com/share"></a>' + items + '</div>');
+
+		// Add custom CSS to center the mini menu
+		var css = document.createElement('style');
+		css.type = 'text/css';
+		css.innerHTML = '  .a2a_menu { position: fixed !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; box-shadow: 0 0 20px #000; }';
+		document.body.appendChild(css);
+
+	};
+
+	document.body.appendChild(a2a);
+}
+
 /////// FOR VIDEO PREVIEW BUTTON IN MODAL (HTML hardcoded) //////////
 function scRollToTopButton() {
-	document.body.scrollTop = 0; // For Safari
-	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+	// document.body.scrollTop = 0; // For Safari
+	// document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+	/////////////////////////////////////////////
+	/////////// SCROLL TO TOP BUTTON ///////////
+	/////////////////////////////////////////////
+	//// v1
+	document.getElementsByTagName('head')[0].insertAdjacentHTML("beforeend", '<style> #scRollToTopButton { display: none; position: fixed; bottom: 20px; right: 30px; z-index: 99; border: none; outline: none; background-color: #555; color: white; cursor: pointer; padding: 5px; border-radius: 10px; font-size: 26px; line-height:1em; opacity:0.7; } #scRollToTopButton:hover { background-color: #555; } </style>');
+	document.getElementsByTagName('body')[0].insertAdjacentHTML("beforeend",
+
+		// ' <button onclick="scRollToTopButton()" id="scRollToTopButton" title="Go to top">&#128285;</button>'
+		' <button onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0; return false;" id="scRollToTopButton" title="Go to top">&#128285;</button>'
+
+	);
+	//Get the button:
+	scTTBtn = document.getElementById("scRollToTopButton");
+	// When the user scrolls down 20px from the top of the document, show the button
+	window.onscroll = function() {
+		if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+			scTTBtn.style.display = "block";
+		} else {
+			scTTBtn.style.display = "none";
+		}
+	};
+	// When the user clicks on the button, scroll to the top of the document
+	/////////////////////////////////////////////
+	/////////// /SCROLL TO TOP BUTTON ///////////
+	/////////////////////////////////////////////
 }
+
+function feedbackModalButton() {
+	/////////////////////////////////////////////
+	/////////// FEEDBACK MODAL BUTTON ///////////
+	/////////////////////////////////////////////
+	// 
+	$.getScript("common/modallink/jquery.modalLink-1.0.0.js")
+		.done(function() {
+			$('head').append('<link rel="stylesheet" href="common/modallink/jquery.modalLink-1.0.0.css">');
+			// 
+			$('#headerbanner').prepend('<a style="font-size:11px;position:absolute;right:10px;top:15px;z-index:2;opacity:0.7" role="button" class="btn btn-default btn-xs navbar-btn modal-link" href="c/?s=fdbk" class="modal-link" > <strong> Contact </strong> </a>');
+			// 
+			$(".modal-link").modalLink({
+				width: viewport(85, 'vw'),
+				height: viewport(75, 'vh'),
+				showTitle: true,
+				showClose: true,
+				overlayOpacity: 0.6,
+				method: "GET", // GET, POST, REF, CLONE
+				disableScroll: true,
+				onHideScroll: function() {},
+				onShowScroll: function() {}
+			});
+		});
+	// 
+	// 
+	/////////////////////////////////////////////
+	/////////// /FEEDBACK MODAL BUTTON ///////////
+	/////////////////////////////////////////////
+}
+
+function searchOnPage() {
+
+	$('head').append(`
+
+		<style> 
+
+		// #search {
+		//   display: inline-block;
+		// }
+
+		#results { display: none; position: relative;  background-color: #f9f9f9; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; padding: 20px; } 
+
+		// #closebutton {
+  // display: none;
+  // position: relative;
+  // padding: 5px 10px;
+  // cursor: pointer;
+  // background-color: #ccc;
+  // color: #333;
+  // border: none;
+  // border-radius: 50%;
+  // margin-left: 10px; /* Add some space between the search bar and the close button */
+} 
+
+		</style>
+
+		`);
+
+	$('#books_table').prepend(`
+
+
+
+    <div class="input-group" style="width:100%;max-width:300px;">
+      <input id="search" type="text" class="form-control" placeholder="Search for...">
+      <span class="input-group-btn">
+        <button id="closebutton" class="btn btn-default" type="button">X</button>
+      </span>
+    </div><!-- /input-group -->
+    <ul id="results" class="list-group"></ul>
+
+
+		`);
+
+	$(document).ready(function() {
+		$("#search").on("keyup", function() {
+
+			// accent insensitive! don't use
+			// var value = $(this).val().toLowerCase();
+			// var results = '';
+			// if ($.trim(value)) { // Use $.trim() to remove spaces
+			// 	$("h4").each(function() {
+			// 		if ($(this).text().toLowerCase().includes(value)) {
+			// 			results += '<li class="list-group-item"><a href="#' + $(this).attr('id') + '">' + $(this).text() + '</a></li>';
+			// 		}
+			// 	});
+			// }
+
+			// accent insensitive
+			var value = $.trim($(this).val().toLowerCase());
+			value = value.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove accents from the search string
+			var results = '';
+			if (value) {
+				$("h4").each(function() {
+					var text = $(this).text().toLowerCase();
+					text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove accents from the h4 text
+					if (text.includes(value)) {
+						results += '<li class="list-group-item"><a href="#' + $(this).attr('id') + '">' + $(this).text() + '</a></li>';
+					}
+				});
+			}
+
+			//////
+
+			$("#results").html(results);
+			if (results) {
+				$("#results").show();
+			} else {
+				$("#results").hide();
+			}
+		});
+
+		$("#closebutton").on("click", function() {
+			$("#results").hide();
+			$("#search").val('');
+		});
+	});
+
+}
+
+function _DELTHIS_searchOnPage() {
+	/////////////////////////////////////////////
+	/////////// SEARCH ON PAGE ///////////
+	/////////////////////////////////////////////
+	try {
+		document.getElementById('books_table').insertAdjacentHTML("beforebegin", '<table style="margin:10px auto"> <tr><td><input class="form-control" type="text" id="link_id"> </td><td><input onkeypress="return event.keyCode != 13;" class="btn btn-default" type="button" id="link" value="Search" onClick="javascript:goTo()"></td></tr> </table>');
+		/// disable enter key on 
+	} catch (e) {}
+	// $('#books_table').before();
+	function findString(str) {
+		if (parseInt(navigator.appVersion) < 4) return;
+		var strFound;
+		if (window.find) { // if supported
+			strFound = self.find(str);
+			if (!strFound) {
+				strFound = self.find(str, 0, 1);
+				while (self.find(str, 0, 1)) continue;
+			}
+		}
+		if (!strFound) {
+			// alert("String '" + str + "' not found!");
+		}
+		return;
+	}
+	////////
+	function goTo() {
+		try {
+			var str = document.getElementById('link_id').value;
+			findString(str);
+		} catch (e) {}
+	}
+	/////////////////////////////////////////////
+	/////////// /SEARCH ON PAGE ///////////
+	/////////////////////////////////////////////
+}
+
+function main_loadJQueryLazy() {
+	///// JQUERY LAZY  https://github.com/dkern/jquery.lazy
+	// 1. prepare <img class="lazy" data-src="image.jpg" src="" <<< !IMP
+	// 2. load content
+	// 3. execute below
+	if (jQuery().Lazy) {
+		$('.lazy').Lazy({
+			// your configuration goes here
+			scrollDirection: 'vertical',
+			effect: 'fadeIn',
+			effectTime: 500,
+			visibleOnly: true,
+			onError: function(element) {
+				console.log('error loading ' + element.data('src'));
+			}
+		});
+	}
+	// 
+}
+
+function main_cleanupTitles() {
+	///////
+	$('h4 a').each(function(index) {
+		var h4 = $(this).text().trim().replace(/([\s—\-]+Paintings & Drawings|[\s—\-]+The Paintings)/, "");
+		$(this).html(h4);
+		// 
+	});
+	//
+}
+
+function main_removeDescFromChildVols() {
+	/////////// REMOVE DESC FROM CHILD VOLS
+	$('.childvol .media-body p').each(function() {
+		try {
+			$(this).text(
+				$(this).text().replace(/^.*(Volum[^\)]+\)).*$/m, "$1")
+			);
+		} catch (e) {}
+	});
+}
+
+function main_addAllInOneHTMLafterVols() {
+	/////////// ADD ALLINONE HTML AFTER VOLS ONES
+	$('.childvol').each(function() {
+		var a = $(this).next();
+		var b = a.attr('class');
+		try {
+			if (b.match(/(parent|single)vol/)) {
+				// EXTRACT ZAS # FROM 1UP png...
+				// var x = a.find('.media-left img').attr('src').match(/^i\/p\/([0-9]+)_.*$/m)[1]; /// DOESN'T WORK (ALLINONE pngs HAVE OWN AIO ZAS #)
+				var c = $(this).find('.media-body h4 a');
+				var d = c.text().match(/^(.*)Vol.*$/m)[1];
+				var e = c.attr('href');
+				a.before(' <div style="" class="media childvol jq_allinonevol"><div class="media-left"><a href="#">' +
+					'<span style="font-size:50px;line-height:1em;">&#x1f4e6;</span>' +
+					// '<img class="media-object" src="i/p/'+c+'_ALLINONE4UP.png" alt=""/>'+
+					'</a></div><div class="media-body"><a href="' + e + '#ALLINONE4UP"> </a><p><b><a href="' + e + '#ALLINONE4UP">' + d + ' <small style="font-family:serif;color:black">All-IN-ONE</small></a></b> <span style="vertical-align:middle;font-size:60%;background:yellow;color:maroon">&nbsp;SAVE!&nbsp;</span> <span style="font-size:90%">All Volumes Bound Together as One Print Edition </span> </p> </div></div>');
+			}
+		} catch (e) {}
+	});
+}
+
+function main_multivolWrap() {
+	//////// jq_multivolwrap //////////////
+
+	$('.media').each(function(index) {
+		try {
+			//// 1. get all .vol1
+			if ($(this).hasClass("vol1")) {
+				var thsId = "jq_multivol" + index;
+				///// create a jq_multivolwrap div before it
+				$(this).before('<div style="margin-top:15px" id="' + thsId + '" class="jq_multivolwrap"></div>');
+				//// move all .childvols into jq_multivolwrap, DO IT for maximum number of vols (4?) plus allinone div
+				$(this).next(".childvol").appendTo("#" + thsId); //// vol1
+				$(this).next(".childvol").appendTo("#" + thsId); //// vol2
+				$(this).next(".childvol").appendTo("#" + thsId);
+				$(this).next(".childvol").appendTo("#" + thsId);
+				$(this).next(".childvol").appendTo("#" + thsId); /// allinone
+				//// 4. now prepend vol1 on top of them
+				$(this).prependTo("#" + thsId);
+			}
+		} catch (e) {}
+	});
+
+	//// put all headlines together after vol1's headline
+	$('.jq_multivolwrap').each(function(index) {
+		try {
+			$(".vol2 h4", this).after($(".vol3 h4", this));
+			$(".vol1 h4", this).after($(".vol2 h4", this));
+			//// 6. remove Volume 1 (of x) text and bold h4 headline
+			var text = $(".vol1 p", this).text().replace(/Volume.*/, "");
+			$(".vol1 p", this).html(text);
+			var head = $(".vol1 h4:nth-child(1) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b> : $1");
+			$(".vol1 h4:nth-child(1) a", this).html(head);
+			var head = $(".vol1 h4:nth-child(2) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b> : $1");
+			$(".vol1 h4:nth-child(2) a", this).html(head);
+			var head = $(".vol1 h4:nth-child(3) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b> : $1");
+			$(".vol1 h4:nth-child(3) a", this).html(head);
+			//// remove link from image (which goes to vol1 page)
+			$(".vol1 .media-left > a", this).removeAttr('href');
+		} catch (e) {}
+	});
+	//// remove all vol 2 and 3
+	$(".vol2,.vol3").remove();
+	//////// /jq_multivolwrap //////////////
+}
+
+function main_buyDirectLinks() {
+	// 
+	///// buy dir links
+	/// single volume
+
+	$('.singlevol').each(function(index) {
+		try {
+			var data_eb = $("h4", this).attr("data-eb").trim();
+			data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ', 'ebook') : "";
+			// 
+			var data_2u = $("h4", this).attr("data-2u").trim();
+			data_2u = data_2u.match(/.+/) ? amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
+			// 
+			var data_4u = $("h4", this).attr("data-4u").trim();
+			data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
+			// 
+			/// EITHER DIRECT ZAZ LINK OR LINK TO art.zedign.com/
+			/// 1. dir zazz
+			// var data_zzcol = $("h4", this).attr("data-zzcol").trim();
+			// data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
+			//  2. art.zedign
+			var data_zzcol = $("h4", this).attr("data-zzcol").trim();
+			var data_posterslug = $("h4", this).attr("data-posterslug").trim();
+			data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/#' + data_posterslug + '" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
+			// 
+			$(".media-body", this).after('<div style="margin:0 auto;display:table;">' +
+				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
+				data_eb +
+				data_4u +
+				data_2u +
+				data_zzcol +
+				'</div>');
+			// 
+			///
+		} catch (e) {}
+	});
+
+	// 
+	// 
+	// 
+	// 
+	//// multi vols
+	$('.vol1 h4, .vol2 h4, .vol3 h4').each(function(index) {
+		// $(this).attr('style', 'outline:solid 1px red');
+		// 
+		var data_eb = $(this).attr("data-eb").trim();
+		data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ', 'ebook') : "";
+		// 
+		// 
+		var data_2u = $(this).attr("data-2u").trim();
+		data_2u = data_2u.match(/.+/) ? amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
+		// 
+		var data_4u = $(this).attr("data-4u").trim();
+		data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
+		// 
+		// 
+		/// EITHER DIRECT ZAZ LINK OR LINK TO art.zedign.com/
+		/// 1. dir zazz
+		// var data_zzcol = $(this).attr("data-zzcol").trim();
+		// data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
+		//  2. art.zedign
+		var data_zzcol = $(this).attr("data-zzcol").trim();
+		var data_posterslug = $(this).attr("data-posterslug").trim();
+		data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/#' + data_posterslug + '" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
+		// 
+		$(this).after('<div style="margin:0 auto;display:table;">' +
+			'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
+			data_eb +
+			data_4u +
+			data_2u +
+			data_zzcol +
+			'</div>');
+		//
+		//////
+		///
+	});
+
+}
+
+function main_allInOnePanels() {
+	/////
+
+	//// ALLINONE jq_allinonevol
+	$('.jq_allinonevol').each(function(index) {
+		var data_a2 = $(this).parent().find("h4").attr("data-a2").trim();
+		data_a2 = data_a2.match(/.+/) ? amzlinkify(data_a2, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
+		// 
+		var data_a4 = $(this).parent().find("h4").attr("data-a4").trim();
+		data_a4 = data_a4.match(/.+/) ? amzlinkify(data_a4, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
+		// // // 
+		$(this).append('<div style="margin:0 auto;display:table;">' +
+			'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
+			data_a2 +
+			data_a4 +
+			'</div>');
+		//
+		//////
+		///
+	});
+}
+
+function main_iframeResizer() {
+	$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js")
+		.done(function() {
+			$('.amz_Btm').iFrameResize({
+				// log: true, // Enable console logging
+				// enablePublicMethods: true, // Enable methods within iframe hosted page
+				// heightCalculationMethod: 'max',
+			});
+		});
+}
+
+function single_cleanupTitle() {
+	///////// remove paintings and drawing from title
+	try {
+		var headtext = $('h1').text().replace(/(.\s+Paint.*|.\s+The\s+Paint.*)/im, "").trim();
+		// console.log(headtext);
+		$('h1').html(headtext);
+	} catch (e) {}
+}
+
+function single_breadcrumbs() {
+	//////// breadcrumbs
+	$('h1').before('<div class="breadcrumbs" style="font-size:110%;margin-top:1em;margin-bottom:-1em;"> <a style="text-decoration:underline;" href="/">All Masters</a>  &gt; </div>');
+	///////////
+}
+
+function single_VolumeInHeadline() {
+	///////////////////////////////
+	////// Volume in headline
+	isVol = "no";
+
+	if (/Volume\s+/.test($('#headcont h4').text())) {
+		// console.log('is volume');
+		isVol = "yes";
+		try {
+			totalVols = parseFloat($('#headcont h4').text().match(/\(of\s+([0-9])+\)/m)[1]);
+		} catch (e) {}
+		var thisfile;
+		try {
+			thisfile = window.location.href.match(/[^/]*$/)[0].match(/([^\.]*)\.*/)[1];
+		} catch (e) {}
+		var hhtml = $('#headcont h4').html().replace(/^(.+)(Volume[^\(]+\([^\)]+\)).*$/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; ' +
+			// 
+			'<a style="white-space:nowrap" href="../#zas' + thisfile + '"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a>' +
+			// 
+			'<!-- <small>(or see <a href="#ALLINONE4UP"><i>All-Vols-In-One Bound</i></a> below.)</small> --> ' +
+			'</div>'
+		);
+		// console.log(hhtml);
+		$('#headcont h4').html(hhtml);
+	}
+
+}
+
+function single_makeBodyFromTitle() {
+	///////////////////////////////
+	///// PRINT: GET TEXT FROM a's title to make body text
+	$('.printprices .edicont, #edicont_ebook').each(function(index) {
+		//// 1. Volume info: (of 2) and linkify
+		try {
+			var a;
+			a = $(this).find("a").attr('title').match(/Volume\s+[^\)]+\)/)[0];
+			// console.log(a, thisfile);
+			var ccc = a.replace(/^(.*)(\(.*\))$/, '$1 <a style="text-decoration:underline;font-weight:bold;" href="../#zas' + thisfile + '">$2</a>');
+			$(this).find("a").after(
+				// 
+				'<h5>' + ccc + '. ' +
+				// '<a href="../#zas' + thisfile + '">See All Volumes</a> ' +
+				// '<!--<small>(or get <a href="#ALLINONE4UP"><em>All-Volumes-In-One</a> Bound-Set</em> edition below)</small> --> '+
+				'</h5>'
+			);
+		} catch (e) {}
+		// 
+		//// 2. Composite info
+		try {
+			var a = "",
+				b = "";
+			a = $(this).find("a").attr('title').match(/Composite\s+[0-9Ee\s]+dition/)[0].replace(/[Ee]dition/, "").replace(/2/, "Two").replace(/4/, "Four");
+			b = $(this).find("h3").text().match(/(Premier|B&W|Standard|Reference)/)[0];
+			$(this).find("a:eq(0)").after('<h5>' + upIcons(b) + ' <small><b style="font-family:serif;text-transform:uppercase">' + a + '</b> Format</small></h5>');
+		} catch (e) {}
+		// 
+		//// 3. Size info
+		try {
+			var a, b;
+			a = $(this).find("h3").text();
+			switch (a) { // like if (abc == "cou") {}...
+				case (a.match(/Premier|B&W|Reference/) || {}).input:
+					b = '8.5&times;8.5 inches';
+					break;
+				default:
+					b = '8.5&times;11 inches';
+			}
+			if ($(this).attr('id') !== "edicont_ebook") {
+				/// no size on ebook
+				$(this).find("a:eq(0)").after('<h5>' + b + ' </h5>');
+			}
+		} catch (e) {}
+		// console.log(a);
+		////////// PRINT PREVIEW LINK
+		try {
+			if ($(this).attr('id') !== "edicont_ebook") {
+				// console.log($('a:eq(0)', this).attr('href').match(/.+dp\/([^\/]+)\/.+/)[1]);
+				var ppASIN = $('a:eq(0)', this).attr('href').match(/.+dp\/([^\/]+)\/.+/)[1].trim() || "";
+				if (ppASIN.match(/.../)) {
+					$('h3:eq(0)', this).prepend('<span style="display:block;position:relative;left:0;top:0;"><a style="" rel="nofollow" href="https://www.amazon.com/gp/reader/' + ppASIN + '/?tag=zdn-20&asin=' + ppASIN + '&revisionId=&format=4&depth=1#reader-link" type="button" class="btn btn-default btn-xs">PREVIEW &gt; </a></span>');
+				}
+				// 
+			}
+		} catch (e) {}
+		///////////
+		///////////
+	});
+	// 
+}
+
+function single_discountedPrices() {
+	///////////////////////////////
+	///// DISCOUNTED PRICES
+	var regex = new RegExp(/\$[0-9]+\.[0-9]+/); // expression here
+	$(".price").filter(function() {
+		if (regex.test($(this).text())) {
+			// var raw = $(this).text();
+			var newPrice = parseFloat($(this).text().replace("$", ""));
+			var oldPrice = Math.ceil(newPrice + 4.25) - 0.05;
+			// 
+			// ADJ PBK PRICE
+			// 
+			try {
+				var editionPrice = $(this).parent().parent().parent().attr('class'); /// price is for what eb/pb/etc 
+				if (editionPrice == "printprices") {
+					// oldPrice = Math.ceil(newPrice + ((newPrice * 33) / 100)) - 0.05;
+					oldPrice = Math.ceil(newPrice + 11.25) - 0.05;
+				}
+			} catch (e) {}
+			// /ADJ PBK PRICE
+			// 
+			var href = $(this).parent().prev().find('span a, a').attr('href');
+			switch (href) { // like if (abc == "cou") {}...
+				case (href.match(/zedign/) || {}).input:
+					zsr = 'ZAZZLE';
+					break;
+				case (href.match(/patreon/) || {}).input:
+					zsr = 'PATREON';
+					break;
+				case (href.match(/amazon/) || {}).input:
+					zsr = 'AMAZON';
+					break;
+				default:
+					zsr = 'AMAZON';
+			}
+			var source = zsr; //(href.match(/amazon/)) ? 'AMAZON' : 'PATREON';
+			$(this).html(
+				// 
+				'<div style="float:right; text-align:center;background: #eee; display: table; padding: 10px;">' +
+				// 
+				'<strike>$' + Number(oldPrice).toFixed(2) + '</strike>&nbsp;' +
+				'<b style="color:#b12704">$' + Number(newPrice).toFixed(2) + '</b> ' +
+				'<br/><a style="font-weight:bold;margin-left:7px;background: orange;" rel="nofollow" href="' + href + '" type="button" class="btn btn-default">GET IT NOW</a> ' +
+				'<br/><span style="font-size:70%;line-height:1em;"> AT ' + source + '</span> ' +
+				// 
+				'</div>' +
+				// 
+				'');
+		}
+	}); // td span
+	// ///// /DISCOUNTED PRICES
+}
+
+function single_allInOnePriceCompare() {
+	// 
+	/////////// ALLINONE PRICE COMPARISON
+	if (isVol == "yes") {
+		try {
+			$('#ALLINONE4UP').next().find('h3').before('<div>  <span style="background:lightgreen;color:black;display:table;margin:0 auto;"><small> &nbsp; GREAT DEAL! &nbsp; </small></span></div>')
+			var price4UP = parseFloat($("#4UPCO").next().find('.price b').text().replace(/\$/igm, "")).toFixed(2);
+			var totalPrice = parseFloat(price4UP * totalVols).toFixed(2);
+			var priceALLINONE4UP = parseFloat($("#ALLINONE4UP").next().find('.price b').text().replace(/\$/igm, "")).toFixed(2);
+			$('#ALLINONE4UP').next().find('.price').after(
+				'<div> ' +
+				'<small> ' + totalVols + ' Volumes separate: ' +
+				'<b>$' + totalPrice + '</b>' +
+				'<br/>' +
+				'<span style="">All ' + totalVols + ' Vols in One Bound, YOU SAVE: ' +
+				'<b>$' + (totalPrice - priceALLINONE4UP).toFixed(2) + '</b>' +
+				' &nbsp; </span>  ' +
+				'</small>' +
+				'</div>'
+			);
+		} catch (e) {}
+	}
+}
+
+function single_posterLinksToButtons() {
+	/////// MISC
+
+	// 
+
+	////////// ART.ZEDIGN FINE ART POSTERS LINKS TO BUTTONS
+
+	/// <a style="margin: 5px" href="claude-monet/signature-posters/" role="button" class="btn btn-default">Signature Posters</a>
+	try {
+		$('#classicposters, #signatureposters, #postcards').attr({
+			role: "button",
+			class: "btn btn-default",
+			style: "margin: 5px"
+		});
+	} catch (e) {}
+
+	///// WIP add art.zedign widgets 
+
+	try {
+		artWidgets();
+	} catch (e) {}
+
+}
+
+function zd_footer() {
+	// 
+	///////////// FOOTER /////////
+	//////////////
+	$('body').append('<!-- ZD MASTER FOOTER --><div style="margin-top:50px">&nbsp;</div><hr/><footer> <div class="container"> <div class="row"> <div class="col-lg-12"> <p> <!-- <a href="https://store.zedign.com"><img src="https://c.zedign.com/s/zedign_logo_header_150x50.png"/></a> --> &copy;&nbsp;The&nbsp;Zedign&nbsp;House | <a href="/privacy.html">Privacy Policy</a> ' +
+		// ' &nbsp;&nbsp;   <a rel="nofollow" href="https://facebook.com/TheZedignHouse"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/facebook.png"/></a>' +
+		'&nbsp;&nbsp;&nbsp;<a rel="nofollow" href="https://twitter.com/zedign"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/twitter.png"/></a> </p> </div> </div> </div> </footer><!-- /ZD MASTER FOOTER -->');
+}
+
 //////////////////   /funcs   ///////////////////////
 $(document).ready(function() {
 
 	//////////////////////  MAIN  ////////////////////////////
 
 	if (siteSection == "main") {
-		// 
-		///// JQUERY LAZY  https://github.com/dkern/jquery.lazy
-		// 1. prepare <img class="lazy" data-src="image.jpg" src="" <<< !IMP
-		// 2. load content
-		// 3. execute below
-		if (jQuery().Lazy) {
-			$('.lazy').Lazy({
-				// your configuration goes here
-				scrollDirection: 'vertical',
-				effect: 'fadeIn',
-				effectTime: 500,
-				visibleOnly: true,
-				onError: function(element) {
-					console.log('error loading ' + element.data('src'));
-				}
-			});
-		}
-		// 
-		$(document).ready(function() {
-			///////
-			$('h4 a').each(function(index) {
-				var h4 = $(this).text().trim().replace(/([\s—\-]+Paintings & Drawings|[\s—\-]+The Paintings)/, "");
-				$(this).html(h4);
-				// 
-			});
-			// 
-			/////////// REMOVE DESC FROM CHILD VOLS
-			$('.childvol .media-body p').each(function() {
-				try {
-					$(this).text(
-						$(this).text().replace(/^.*(Volum[^\)]+\)).*$/m, "$1")
-					);
-				} catch (e) {}
-			});
-			// 
-			/////////// ADD ALLINONE HTML AFTER VOLS ONES
-			$('.childvol').each(function() {
-				var a = $(this).next();
-				var b = a.attr('class');
-				try {
-					if (b.match(/(parent|single)vol/)) {
-						// EXTRACT ZAS # FROM 1UP png...
-						// var x = a.find('.media-left img').attr('src').match(/^i\/p\/([0-9]+)_.*$/m)[1]; /// DOESN'T WORK (ALLINONE pngs HAVE OWN AIO ZAS #)
-						var c = $(this).find('.media-body h4 a');
-						var d = c.text().match(/^(.*)Vol.*$/m)[1];
-						var e = c.attr('href');
-						a.before(' <div style="" class="media childvol jq_allinonevol"><div class="media-left"><a href="#">' +
-							'<span style="font-size:50px;line-height:1em;">&#x1f4e6;</span>' +
-							// '<img class="media-object" src="i/p/'+c+'_ALLINONE4UP.png" alt=""/>'+
-							'</a></div><div class="media-body"><a href="' + e + '#ALLINONE4UP"> </a><p><b><a href="' + e + '#ALLINONE4UP">' + d + ' <small style="font-family:serif;color:black">All-IN-ONE</small></a></b> <span style="vertical-align:middle;font-size:60%;background:yellow;color:maroon">&nbsp;SAVE!&nbsp;</span> <span style="font-size:90%">All Volumes Bound Together as One Print Edition </span> </p> </div></div>');
-					}
-				} catch (e) {}
-			});
-			//////////
-			//////// jq_multivolwrap //////////////
-			$('.media').each(function(index) {
-				try {
-					//// 1. get all .vol1
-					if ($(this).hasClass("vol1")) {
-						var thsId = "jq_multivol" + index;
-						///// create a jq_multivolwrap div before it
-						$(this).before('<div style="margin-top:15px" id="' + thsId + '" class="jq_multivolwrap"></div>');
-						//// move all .childvols into jq_multivolwrap, DO IT for maximum number of vols (4?) plus allinone div
-						$(this).next(".childvol").appendTo("#" + thsId); //// vol1
-						$(this).next(".childvol").appendTo("#" + thsId); //// vol2
-						$(this).next(".childvol").appendTo("#" + thsId);
-						$(this).next(".childvol").appendTo("#" + thsId);
-						$(this).next(".childvol").appendTo("#" + thsId); /// allinone
-						//// 4. now prepend vol1 on top of them
-						$(this).prependTo("#" + thsId);
-					}
-				} catch (e) {}
-			});
-			//// put all headlines together after vol1's headline
-			$('.jq_multivolwrap').each(function(index) {
-				try {
-					$(".vol2 h4", this).after($(".vol3 h4", this));
-					$(".vol1 h4", this).after($(".vol2 h4", this));
-					//// 6. remove Volume 1 (of x) text and bold h4 headline
-					var text = $(".vol1 p", this).text().replace(/Volume.*/, "");
-					$(".vol1 p", this).html(text);
-					var head = $(".vol1 h4:nth-child(1) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b> : $1");
-					$(".vol1 h4:nth-child(1) a", this).html(head);
-					var head = $(".vol1 h4:nth-child(2) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b> : $1");
-					$(".vol1 h4:nth-child(2) a", this).html(head);
-					var head = $(".vol1 h4:nth-child(3) a", this).text().replace(/(.*)(Vol.*)$/, "<b><i>$2</i></b> : $1");
-					$(".vol1 h4:nth-child(3) a", this).html(head);
-					//// remove link from image (which goes to vol1 page)
-					$(".vol1 .media-left > a", this).removeAttr('href');
-				} catch (e) {}
-			});
-			//// remove all vol 2 and 3
-			$(".vol2,.vol3").remove();
-			//////// /jq_multivolwrap //////////////
-			// 
-			var buyNowText = "VIEW NOW"; /// BUY NOW or READ NOW depending on what's in amzlinkify
-			///// buy dir links
-			/// single volume
-			$('.singlevol').each(function(index) {
-				try {
-					var data_eb = $("h4", this).attr("data-eb").trim();
-					data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ', 'ebook') : "";
-					// 
-					var data_2u = $("h4", this).attr("data-2u").trim();
-					data_2u = data_2u.match(/.+/) ? amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
-					// 
-					var data_4u = $("h4", this).attr("data-4u").trim();
-					data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
-					// 
-					/// EITHER DIRECT ZAZ LINK OR LINK TO art.zedign.com/
-					/// 1. dir zazz
-					// var data_zzcol = $("h4", this).attr("data-zzcol").trim();
-					// data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
-					//  2. art.zedign
-					var data_zzcol = $("h4", this).attr("data-zzcol").trim();
-					var data_posterslug = $("h4", this).attr("data-posterslug").trim();
-					data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/#' + data_posterslug + '" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
-					// 
-					$(".media-body", this).after('<div style="margin:0 auto;display:table;">' +
-						'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
-						data_eb +
-						data_4u +
-						data_2u +
-						data_zzcol +
-						'</div>');
-					// 
-					///
-				} catch (e) {}
-			});
-			// 
-			// 
-			// 
-			// 
-			//// multi vols
-			$('.vol1 h4, .vol2 h4, .vol3 h4').each(function(index) {
-				// $(this).attr('style', 'outline:solid 1px red');
-				// 
-				var data_eb = $(this).attr("data-eb").trim();
-				data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ', 'ebook') : "";
-				// 
-				// 
-				var data_2u = $(this).attr("data-2u").trim();
-				data_2u = data_2u.match(/.+/) ? amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
-				// 
-				var data_4u = $(this).attr("data-4u").trim();
-				data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
-				// 
-				// 
-				/// EITHER DIRECT ZAZ LINK OR LINK TO art.zedign.com/
-				/// 1. dir zazz
-				// var data_zzcol = $(this).attr("data-zzcol").trim();
-				// data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
-				//  2. art.zedign
-				var data_zzcol = $(this).attr("data-zzcol").trim();
-				var data_posterslug = $(this).attr("data-posterslug").trim();
-				data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/#' + data_posterslug + '" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
-				// 
-				$(this).after('<div style="margin:0 auto;display:table;">' +
-					'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
-					data_eb +
-					data_4u +
-					data_2u +
-					data_zzcol +
-					'</div>');
-				//
-				//////
-				///
-			});
-			/////
-			//// ALLINONE jq_allinonevol
-			$('.jq_allinonevol').each(function(index) {
-				var data_a2 = $(this).parent().find("h4").attr("data-a2").trim();
-				data_a2 = data_a2.match(/.+/) ? amzlinkify(data_a2, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
-				// 
-				var data_a4 = $(this).parent().find("h4").attr("data-a4").trim();
-				data_a4 = data_a4.match(/.+/) ? amzlinkify(data_a4, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
-				// // // 
-				$(this).append('<div style="margin:0 auto;display:table;">' +
-					'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
-					data_a2 +
-					data_a4 +
-					'</div>');
-				//
-				//////
-				///
-			});
-			// 
-			$.getScript("https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.5.14/iframeResizer.min.js")
-				.done(function() {
-					$('.amz_Btm').iFrameResize({
-						// log: true, // Enable console logging
-						// enablePublicMethods: true, // Enable methods within iframe hosted page
-						// heightCalculationMethod: 'max',
-					});
-				});
-			// 
-			// 
-			/////////////////////////////////////////////
-			/////////// FEEDBACK MODAL BUTTON ///////////
-			/////////////////////////////////////////////
-			// 
-			$.getScript("common/modallink/jquery.modalLink-1.0.0.js")
-				.done(function() {
-					$('head').append('<link rel="stylesheet" href="common/modallink/jquery.modalLink-1.0.0.css">');
-					// 
-					$('#headerbanner').prepend('<a style="font-size:11px;position:absolute;right:10px;top:15px;z-index:2;opacity:0.7" role="button" class="btn btn-default btn-xs navbar-btn modal-link" href="c/?s=fdbk" class="modal-link" > <strong> Contact </strong> </a>');
-					// 
-					$(".modal-link").modalLink({
-						width: viewport(85, 'vw'),
-						height: viewport(75, 'vh'),
-						showTitle: true,
-						showClose: true,
-						overlayOpacity: 0.6,
-						method: "GET", // GET, POST, REF, CLONE
-						disableScroll: true,
-						onHideScroll: function() {},
-						onShowScroll: function() {}
-					});
-				});
-			// 
-			// 
-			/////////////////////////////////////////////
-			/////////// /FEEDBACK MODAL BUTTON ///////////
-			/////////////////////////////////////////////
-			// 
-			// 
-			// 
-		}); //// $(document).ready
-		// 
-		// 
-		/////////////////////////////////////////////
-		/////////// SEARCH ON PAGE ///////////
-		/////////////////////////////////////////////
-		try {
-			document.getElementById('books_table').insertAdjacentHTML("beforebegin", '<table style="margin:10px auto"> <tr><td><input class="form-control" type="text" id="link_id"> </td><td><input onkeypress="return event.keyCode != 13;" class="btn btn-default" type="button" id="link" value="Search" onClick="javascript:goTo()"></td></tr> </table>');
-			/// disable enter key on 
-		} catch (e) {}
-		// $('#books_table').before();
-		function findString(str) {
-			if (parseInt(navigator.appVersion) < 4) return;
-			var strFound;
-			if (window.find) { // if supported
-				strFound = self.find(str);
-				if (!strFound) {
-					strFound = self.find(str, 0, 1);
-					while (self.find(str, 0, 1)) continue;
-				}
-			}
-			if (!strFound) {
-				// alert("String '" + str + "' not found!");
-			}
-			return;
-		}
-		////////
-		function goTo() {
-			try {
-				var str = document.getElementById('link_id').value;
-				findString(str);
-			} catch (e) {}
-		}
-		/////////////////////////////////////////////
-		/////////// /SEARCH ON PAGE ///////////
-		/////////////////////////////////////////////
-		// 
-		/////////////////////////////////////////////
-		/////////// SCROLL TO TOP BUTTON ///////////
-		/////////////////////////////////////////////
-		//// v1
-		document.getElementsByTagName('head')[0].insertAdjacentHTML("beforeend", '<style> #scRollToTopButton { display: none; position: fixed; bottom: 20px; right: 30px; z-index: 99; border: none; outline: none; background-color: #555; color: white; cursor: pointer; padding: 5px; border-radius: 10px; font-size: 26px; line-height:1em; opacity:0.7; } #scRollToTopButton:hover { background-color: #555; } </style>');
-		document.getElementsByTagName('body')[0].insertAdjacentHTML("beforeend", ' <button onclick="scRollToTopButton()" id="scRollToTopButton" title="Go to top">&#128285;</button>');
-		//Get the button:
-		scTTBtn = document.getElementById("scRollToTopButton");
-		// When the user scrolls down 20px from the top of the document, show the button
-		window.onscroll = function() {
-			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-				scTTBtn.style.display = "block";
-			} else {
-				scTTBtn.style.display = "none";
-			}
-		};
-		// When the user clicks on the button, scroll to the top of the document
-		/////////////////////////////////////////////
-		/////////// /SCROLL TO TOP BUTTON ///////////
-		/////////////////////////////////////////////
-		// 
-		// 
-		//
-		// $(document).ready(function() {
-		// $(window).on("load", function() {
-		// }); // document
+
+		main_loadJQueryLazy();
+
+		main_cleanupTitles();
+
+		main_removeDescFromChildVols();
+
+		main_addAllInOneHTMLafterVols();
+
+		main_multivolWrap();
+
+		main_buyDirectLinks();
+
+		main_allInOnePanels();
+
+		main_iframeResizer();
+
+		feedbackModalButton();
+
+		searchOnPage();
+
+		scRollToTopButton();
+
 	}
 	//////////////////////  MAIN  ////////////////////////////
 	//
@@ -761,207 +1150,40 @@ $(document).ready(function() {
 	//////////////////////  SINGLE  ////////////////////////////
 
 	if (siteSection == "single") {
-		///////// remove paintings and drawing from title
-		try {
-			var headtext = $('h1').text().replace(/(.\s+Paint.*|.\s+The\s+Paint.*)/im, "").trim();
-			// console.log(headtext);
-			$('h1').html(headtext);
-		} catch (e) {}
-		//////// breadcrumbs
-		$('h1').before('<div class="breadcrumbs" style="font-size:110%;margin-top:1em;margin-bottom:-1em;"> <a style="text-decoration:underline;" href="/">All Masters</a>  &gt; </div>');
-		///////////
-		isVol = "no";
-		///////////////////////////////
-		////// Volume in headline
-		if (/Volume\s+/.test($('#headcont h4').text())) {
-			// console.log('is volume');
-			isVol = "yes";
-			try {
-				totalVols = parseFloat($('#headcont h4').text().match(/\(of\s+([0-9])+\)/m)[1]);
-			} catch (e) {}
-			var thisfile;
-			try {
-				thisfile = window.location.href.match(/[^/]*$/)[0].match(/([^\.]*)\.*/)[1];
-			} catch (e) {}
-			var hhtml = $('#headcont h4').html().replace(/^(.+)(Volume[^\(]+\([^\)]+\)).*$/m, '$1 <div style="font-size:110%;margin:inherit"><b style="color:maroon">$2</b> &nbsp; ' +
-				// 
-				'<a style="white-space:nowrap" href="../#zas' + thisfile + '"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> See All Volumes</a>' +
-				// 
-				'<!-- <small>(or see <a href="#ALLINONE4UP"><i>All-Vols-In-One Bound</i></a> below.)</small> --> ' +
-				'</div>'
-			);
-			// console.log(hhtml);
-			$('#headcont h4').html(hhtml);
-		}
-		///////////////////////////////
-		///// PRINT: GET TEXT FROM a's title to make body text
-		$('.printprices .edicont, #edicont_ebook').each(function(index) {
-			//// 1. Volume info: (of 2) and linkify
-			try {
-				var a;
-				a = $(this).find("a").attr('title').match(/Volume\s+[^\)]+\)/)[0];
-				// console.log(a, thisfile);
-				var ccc = a.replace(/^(.*)(\(.*\))$/, '$1 <a style="text-decoration:underline;font-weight:bold;" href="../#zas' + thisfile + '">$2</a>');
-				$(this).find("a").after(
-					// 
-					'<h5>' + ccc + '. ' +
-					// '<a href="../#zas' + thisfile + '">See All Volumes</a> ' +
-					// '<!--<small>(or get <a href="#ALLINONE4UP"><em>All-Volumes-In-One</a> Bound-Set</em> edition below)</small> --> '+
-					'</h5>'
-				);
-			} catch (e) {}
-			// 
-			//// 2. Composite info
-			try {
-				var a = "",
-					b = "";
-				a = $(this).find("a").attr('title').match(/Composite\s+[0-9Ee\s]+dition/)[0].replace(/[Ee]dition/, "").replace(/2/, "Two").replace(/4/, "Four");
-				b = $(this).find("h3").text().match(/(Premier|B&W|Standard|Reference)/)[0];
-				$(this).find("a:eq(0)").after('<h5>' + upIcons(b) + ' <small><b style="font-family:serif;text-transform:uppercase">' + a + '</b> Format</small></h5>');
-			} catch (e) {}
-			// 
-			//// 3. Size info
-			try {
-				var a, b;
-				a = $(this).find("h3").text();
-				switch (a) { // like if (abc == "cou") {}...
-					case (a.match(/Premier|B&W|Reference/) || {}).input:
-						b = '8.5&times;8.5 inches';
-						break;
-					default:
-						b = '8.5&times;11 inches';
-				}
-				if ($(this).attr('id') !== "edicont_ebook") {
-					/// no size on ebook
-					$(this).find("a:eq(0)").after('<h5>' + b + ' </h5>');
-				}
-			} catch (e) {}
-			// console.log(a);
-			////////// PRINT PREVIEW LINK
-			try {
-				if ($(this).attr('id') !== "edicont_ebook") {
-					// console.log($('a:eq(0)', this).attr('href').match(/.+dp\/([^\/]+)\/.+/)[1]);
-					var ppASIN = $('a:eq(0)', this).attr('href').match(/.+dp\/([^\/]+)\/.+/)[1].trim() || "";
-					if (ppASIN.match(/.../)) {
-						$('h3:eq(0)', this).prepend('<span style="display:block;position:relative;left:0;top:0;"><a style="" rel="nofollow" href="https://www.amazon.com/gp/reader/' + ppASIN + '/?tag=zdn-20&asin=' + ppASIN + '&revisionId=&format=4&depth=1#reader-link" type="button" class="btn btn-default btn-xs">PREVIEW &gt; </a></span>');
-					}
-					// 
-				}
-			} catch (e) {}
-			///////////
-			///////////
-		});
-		// 
-		// 
-		///////////////////////////////
-		///// DISCOUNTED PRICES
-		var regex = new RegExp(/\$[0-9]+\.[0-9]+/); // expression here
-		$(".price").filter(function() {
-			if (regex.test($(this).text())) {
-				// var raw = $(this).text();
-				var newPrice = parseFloat($(this).text().replace("$", ""));
-				var oldPrice = Math.ceil(newPrice + 4.25) - 0.05;
-				// 
-				// ADJ PBK PRICE
-				// 
-				try {
-					var editionPrice = $(this).parent().parent().parent().attr('class'); /// price is for what eb/pb/etc 
-					if (editionPrice == "printprices") {
-						// oldPrice = Math.ceil(newPrice + ((newPrice * 33) / 100)) - 0.05;
-						oldPrice = Math.ceil(newPrice + 11.25) - 0.05;
-					}
-				} catch (e) {}
-				// /ADJ PBK PRICE
-				// 
-				var href = $(this).parent().prev().find('span a, a').attr('href');
-				switch (href) { // like if (abc == "cou") {}...
-					case (href.match(/zedign/) || {}).input:
-						zsr = 'ZAZZLE';
-						break;
-					case (href.match(/patreon/) || {}).input:
-						zsr = 'PATREON';
-						break;
-					case (href.match(/amazon/) || {}).input:
-						zsr = 'AMAZON';
-						break;
-					default:
-						zsr = 'AMAZON';
-				}
-				var source = zsr; //(href.match(/amazon/)) ? 'AMAZON' : 'PATREON';
-				$(this).html(
-					// 
-					'<div style="float:right; text-align:center;background: #eee; display: table; padding: 10px;">' +
-					// 
-					'<strike>$' + Number(oldPrice).toFixed(2) + '</strike>&nbsp;' +
-					'<b style="color:#b12704">$' + Number(newPrice).toFixed(2) + '</b> ' +
-					'<br/><a style="font-weight:bold;margin-left:7px;background: orange;" rel="nofollow" href="' + href + '" type="button" class="btn btn-default">GET IT NOW</a> ' +
-					'<br/><span style="font-size:70%;line-height:1em;"> AT ' + source + '</span> ' +
-					// 
-					'</div>' +
-					// 
-					'');
-			}
-		}); // td span
-		// ///// /DISCOUNTED PRICES
-		// 
-		// 
-		/////////// ALLINONE PRICE COMPARISON
-		if (isVol == "yes") {
-			try {
-				$('#ALLINONE4UP').next().find('h3').before('<div>  <span style="background:lightgreen;color:black;display:table;margin:0 auto;"><small> &nbsp; GREAT DEAL! &nbsp; </small></span></div>')
-				var price4UP = parseFloat($("#4UPCO").next().find('.price b').text().replace(/\$/igm, "")).toFixed(2);
-				var totalPrice = parseFloat(price4UP * totalVols).toFixed(2);
-				var priceALLINONE4UP = parseFloat($("#ALLINONE4UP").next().find('.price b').text().replace(/\$/igm, "")).toFixed(2);
-				$('#ALLINONE4UP').next().find('.price').after(
-					'<div> ' +
-					'<small> ' + totalVols + ' Volumes separate: ' +
-					'<b>$' + totalPrice + '</b>' +
-					'<br/>' +
-					'<span style="">All ' + totalVols + ' Vols in One Bound, YOU SAVE: ' +
-					'<b>$' + (totalPrice - priceALLINONE4UP).toFixed(2) + '</b>' +
-					' &nbsp; </span>  ' +
-					'</small>' +
-					'</div>'
-				);
-			} catch (e) {}
-		}
 
-		/////// MISC
 		$('.singlepage').wrap('<div class="container"></div>');
-		// 
 
-		////////// ART.ZEDIGN FINE ART POSTERS LINKS TO BUTTONS
+		single_cleanupTitle();
 
-		/// <a style="margin: 5px" href="claude-monet/signature-posters/" role="button" class="btn btn-default">Signature Posters</a>
-		try {
-			$('#classicposters, #signatureposters, #postcards').attr({
-				role: "button",
-				class: "btn btn-default",
-				style: "margin: 5px"
-			});
-		} catch (e) {}
+		single_breadcrumbs();
 
-		///// WIP add art.zedign widgets 
+		single_VolumeInHeadline();
 
-		try {
-			artWidgets();
-		} catch (e) {}
+		single_makeBodyFromTitle();
 
-		// 
-		// 
-		///////////// FOOTER /////////
-		//////////////
-		$('body').append('<!-- ZD MASTER FOOTER --><div style="margin-top:50px">&nbsp;</div><hr/><footer> <div class="container"> <div class="row"> <div class="col-lg-12"> <p> <!-- <a href="https://store.zedign.com"><img src="https://c.zedign.com/s/zedign_logo_header_150x50.png"/></a> --> &copy;&nbsp;The&nbsp;Zedign&nbsp;House | <a href="/privacy.html">Privacy Policy</a> ' +
-			// ' &nbsp;&nbsp;   <a rel="nofollow" href="https://facebook.com/TheZedignHouse"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/facebook.png"/></a>' +
-			'&nbsp;&nbsp;&nbsp;<a rel="nofollow" href="https://twitter.com/zedign"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/twitter.png"/></a> </p> </div> </div> </div> </footer><!-- /ZD MASTER FOOTER -->');
-		// 
-		// 
-		$(document).ready(function() {
-			// autoPlayYouTubeModal(); // for hardcoded 
-		}); // document
+		single_discountedPrices();
+
+		single_allInOnePriceCompare();
+
+		single_posterLinksToButtons();
+
+		zd_footer();
+
+		//////////////////// /SINGLE /////////////
+
 	}
-	//////////////////////  MAIN  ////////////////////////////
-	//
+
+	///////// ON ALL COMMON **AFTER** //////////////////////////
+
+	if (siteSection.match(/(single|main)/)) {
+
+		try {
+			$('body').append('<div class="sharing"></div>');
+			loadAddToAnyAsync("sharing");
+		} catch (e) {}
+
+	}
+
 	/////////////////    DYN_CATCHER   ///////////////////
 	// 
 	if (siteSection == "dyn_catcher") {

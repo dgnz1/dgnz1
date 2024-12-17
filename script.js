@@ -449,8 +449,8 @@ function artWidgets() {
 
 	for (var i = 0; i < 3; i++) {
 
-		$(a[i][0]).wrap('<div class="text-center" id="' + a[i][1] + 'wrap">');
-		$('#' + a[i][1] + 'wrap').append('<div><iframe style="' + zscss + 'display:block; margin:0 auto;" class="" src="https://art.zedign.com/common/c/?s=ri&x=' + a[i][1] + '&n=' + artist_full + '" scrolling="no" frameborder="0" border="0"></iframe></div> <hr> ');
+		$(a[i][0]).wrap('<div id="' + a[i][1] + 'wrap">');
+		$('#' + a[i][1] + 'wrap').append('<div><iframe style="' + zscss + 'display:block;" class="" src="https://art.zedign.com/common/c/?s=ri&x=' + a[i][1] + '&n=' + artist_full + '" scrolling="no" frameborder="0" border="0"></iframe></div> <hr> ');
 
 	}
 
@@ -644,42 +644,6 @@ function searchOnPage() {
 
 }
 
-function _DELTHIS_searchOnPage() {
-	/////////////////////////////////////////////
-	/////////// SEARCH ON PAGE ///////////
-	/////////////////////////////////////////////
-	try {
-		document.getElementById('books_table').insertAdjacentHTML("beforebegin", '<table style="margin:10px auto"> <tr><td><input class="form-control" type="text" id="link_id"> </td><td><input onkeypress="return event.keyCode != 13;" class="btn btn-default" type="button" id="link" value="Search" onClick="javascript:goTo()"></td></tr> </table>');
-		/// disable enter key on 
-	} catch (e) {}
-	// $('#books_table').before();
-	function findString(str) {
-		if (parseInt(navigator.appVersion) < 4) return;
-		var strFound;
-		if (window.find) { // if supported
-			strFound = self.find(str);
-			if (!strFound) {
-				strFound = self.find(str, 0, 1);
-				while (self.find(str, 0, 1)) continue;
-			}
-		}
-		if (!strFound) {
-			// alert("String '" + str + "' not found!");
-		}
-		return;
-	}
-	////////
-	function goTo() {
-		try {
-			var str = document.getElementById('link_id').value;
-			findString(str);
-		} catch (e) {}
-	}
-	/////////////////////////////////////////////
-	/////////// /SEARCH ON PAGE ///////////
-	/////////////////////////////////////////////
-}
-
 function main_loadJQueryLazy() {
 	///// JQUERY LAZY  https://github.com/dkern/jquery.lazy
 	// 1. prepare <img class="lazy" data-src="image.jpg" src="" <<< !IMP
@@ -810,7 +774,7 @@ function main_buyDirectLinks() {
 			//  2. art.zedign
 			var data_zzcol = $("h4", this).attr("data-zzcol").trim();
 			var data_posterslug = $("h4", this).attr("data-posterslug").trim();
-			data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/#' + data_posterslug + '" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
+			data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/' + data_posterslug + '/" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
 			// 
 			$(".media-body", this).after('<div style="margin:0 auto;display:table;">' +
 				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
@@ -850,7 +814,7 @@ function main_buyDirectLinks() {
 		//  2. art.zedign
 		var data_zzcol = $(this).attr("data-zzcol").trim();
 		var data_posterslug = $(this).attr("data-posterslug").trim();
-		data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/#' + data_posterslug + '" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
+		data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/' + data_posterslug + '/" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
 		// 
 		$(this).after('<div style="margin:0 auto;display:table;">' +
 			'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
@@ -1084,6 +1048,14 @@ function single_allInOnePriceCompare() {
 function single_posterLinksToButtons() {
 	/////// MISC
 
+	// misc text changers
+
+	$('#postcards').html('</span>See all available postcards <span class="glyphicon glyphicon-chevron-right"></span> ');
+	$('#classicposters').html('See all available classic posters <span class="glyphicon glyphicon-chevron-right"></span>');
+	$('#signatureposters').html('See all available signature posters <span class="glyphicon glyphicon-chevron-right"></span>');
+
+	$('.posterprices').before('<h3>Visit our <a href="https://www.zazzle.com/store/zedign/products?rf=238115903514203736">Zazzle</a> ' + artist_last + ' Collection  <span class="glyphicon glyphicon-hand-down"></span> </h3>');
+
 	// 
 
 	////////// ART.ZEDIGN FINE ART POSTERS LINKS TO BUTTONS
@@ -1151,7 +1123,22 @@ $(document).ready(function() {
 
 	if (siteSection == "single") {
 
-		$('.singlepage').wrap('<div class="container"></div>');
+		// $('.singlepage').wrap('<div class="container"></div>');
+
+		function btnScroller(a) {
+			try {
+				$('a.btn[href="' + a + '"]').on('click', function(event) {
+					event.preventDefault();
+					$('html, body').animate({
+						scrollTop: $(a).offset().top - 20
+					}, 1000);
+				});
+			} catch (e) {}
+		}
+
+		btnScroller('#a_ebooks');
+		btnScroller('#a_printbooks');
+		btnScroller('#a_posters');
 
 		single_cleanupTitle();
 
