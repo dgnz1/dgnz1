@@ -13,8 +13,9 @@ var buyNowText = "VIEW NOW"; /// BUY NOW or READ NOW depending on what's in amzl
 // 
 // 
 /////////////// funcs ////////////////////////
+
 function affLocalize(objAmAffIds, strEPNId, strZzlId) {
-	// v5
+	// v6
 	// req: jq
 	function zzlLocalize(strTLD, url) {
 		if (strTLD) {
@@ -115,6 +116,7 @@ function affLocalize(objAmAffIds, strEPNId, strZzlId) {
 		var affUrl = url;
 		affUrl = affUrl.replace(/\/[0-9]+\-[0-9]+\-19255\-0\//, '/' + cntry + '/');
 		affUrl = affUrl.replace(/vectorid\=[0-9]+/, 'icep_vectorid=' + icep);
+		// console.log(affUrl)
 		return affUrl;
 	}
 	// 
@@ -171,14 +173,16 @@ function affLocalize(objAmAffIds, strEPNId, strZzlId) {
 		method: "GET",
 		dataType: "json",
 		cache: true,
-		// kaput
-		// url: "https://freegeoip.net/json/" // OR (no HTTPS) // url: "http://api.ipstack.com/186.116.207.169?access_key="+thsBlg_ipsapi+"&output=json&legacy=1"
-		// url: "https://geoip.tools/v1/json" // 
-		url: "https://freegeoip.app/json/" // new 11/18
+		///// geoip chunk 3/4
+		// url: "https://freegeoip.app/json/" // new 11/18
+		url: "https://ipapi.co/json/" // new 11/18
 	}).done(function(json) {
 		try {
-			var strTLD = json.country_code;
-			// var strTLD = "AU"; // for tstng
+			///// geoip chunk 4/4
+			var strTLD = json.country || ''; // for freegeoip.app
+
+			// console.log(strTLD);
+
 			var zzlUrlReg = /zazzle\./;
 			var epnUrlReg = /vectorid/;
 			var amzUrlReg = RegExp("/([a-zA-Z0-9]{10})(?:[/?]|$)");
@@ -208,6 +212,7 @@ function affLocalize(objAmAffIds, strEPNId, strZzlId) {
 		// console.log(error);
 	});
 }
+
 ///////////////////  QS   //////////////////
 /// qs.get("s") ...
 /// if (qs2.contains("q")) {	pkSrQry = qs2.get("q"); }
@@ -1395,11 +1400,11 @@ $(window).on("load", function() {
 	try {
 		gCSE(thsBlg_cse, "search");
 	} catch (e) {}
-	
+
 	//////
 	if (siteSection == "single") {
 		// ** amazon amLocalize IS >>OFF<< in affLocalize() (using onelink) **
-		// affLocalize("", "", thsBlg_zzl);
+		affLocalize("", "", thsBlg_zzl);
 	}
 });
 //

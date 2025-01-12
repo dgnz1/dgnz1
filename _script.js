@@ -1123,6 +1123,21 @@ $(document).ready(function() {
 
 	if (siteSection == "single") {
 
+		// $('#headerbanner').prepend('<div onclick="this.style.width=\'300px\';this.style.opacity=\'1\'" style="opacity:0.9;width:150px;z-index:2;position:absolute" id="search"></div>');
+
+		$('#headerbanner').after(`
+
+					<div id="search"
+
+					style="
+					width: 300px;
+					margin: 0 auto;
+					min-height:40px;
+					"
+					></div>
+					
+					`);
+
 		// $('.singlepage').wrap('<div class="container"></div>');
 
 		function btnScroller(a) {
@@ -1376,7 +1391,11 @@ $(window).on("load", function() {
 	///// wip cse
 	///// off (many ads on top!)
 	// $('.breadcrumbs').before('<table style="margin-top:10px;width:99%;"><tr><td style="max-width:50px;"><span style="font: 12px/1em sans-serif; display: inline-block;">Find a book/artist:</span></td><td><div style="background:grey"><div id="search"></div></div></td></tr></table> ');
-	// gCSE(thsBlg_cse, "search");
+
+	try {
+		gCSE(thsBlg_cse, "search");
+	} catch (e) {}
+	
 	//////
 	if (siteSection == "single") {
 		// ** amazon amLocalize IS >>OFF<< in affLocalize() (using onelink) **
