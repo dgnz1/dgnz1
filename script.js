@@ -535,6 +535,18 @@ function feedbackModalButton() {
 	/////////// FEEDBACK MODAL BUTTON ///////////
 	/////////////////////////////////////////////
 	// 
+
+	$('#headerbanner').prepend('<a style="font-size:11px;position:absolute;right:10px;top:15px;z-index:2;opacity:0.7" role="button" class="btn btn-default btn-xs navbar-btn" href="' +
+
+		'https://forms.gle/nDMhz6mYBgkqYhiR7' +
+		// 'c/?s=fdbk' +
+
+		'" class="modal-link" > <strong> Contact </strong> </a>');
+
+	return
+
+	/* off 2025-01-19
+
 	$.getScript("common/modallink/jquery.modalLink-1.0.0.js")
 		.done(function() {
 			$('head').append('<link rel="stylesheet" href="common/modallink/jquery.modalLink-1.0.0.css">');
@@ -558,6 +570,8 @@ function feedbackModalButton() {
 				onShowScroll: function() {}
 			});
 		});
+
+*/
 	// 
 	// 
 	/////////////////////////////////////////////
@@ -595,14 +609,25 @@ function searchOnPage() {
 
 	$('#books_table').prepend(`
 
+		<div class="row">
 
+		<div class="col-xs-8">
 
     <div class="input-group" style="width:100%;max-width:300px;">
-      <input id="search" type="text" class="form-control" placeholder="Search for...">
+      <input id="search" type="text" class="form-control" placeholder="Search for an artist...">
       <span class="input-group-btn">
         <button id="closebutton" class="btn btn-default" type="button">X</button>
       </span>
     </div><!-- /input-group -->
+    </div>
+
+		<div class="col-xs-4">
+
+    <div style="text-align:center;"> <a href="https://art.zedign.com/search/"><span class="glyphicon glyphicon-search"></span> <u>Find an artwork</u></a> </div>
+    </div>
+
+    </div>
+
     <ul id="results" class="list-group"></ul>
 
 
@@ -1133,20 +1158,37 @@ $(document).ready(function() {
 
 	if (siteSection == "single") {
 
+		feedbackModalButton();
+
 		// $('#headerbanner').prepend('<div onclick="this.style.width=\'300px\';this.style.opacity=\'1\'" style="opacity:0.9;width:150px;z-index:2;position:absolute" id="search"></div>');
 
 		$('#headerbanner').after(`
 
-					<div id="search"
+		<div class="row" style="margin:10px">
 
-					style="
-					width: 300px;
-					margin: 0 auto;
-					min-height:40px;
-					"
-					></div>
+			<div class="col-xs-8">
+
+				<div id="search"
+				style="
+				width: 100%;
+				margin: 0 auto;
+				min-height:40px;
+				"
+				></div>
+
+			</div>
+
+			<div class="col-xs-4">
+				<div style="text-align:center;"> <a href="https://art.zedign.com/search/"><span class="glyphicon glyphicon-search"></span> <u>Find an artwork</u></a> </div>
+			</div>
+
+		</div>
+
+
 					
 					`);
+
+
 
 		// $('.singlepage').wrap('<div class="container"></div>');
 

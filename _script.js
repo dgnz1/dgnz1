@@ -539,12 +539,17 @@ function feedbackModalButton() {
 		.done(function() {
 			$('head').append('<link rel="stylesheet" href="common/modallink/jquery.modalLink-1.0.0.css">');
 			// 
-			$('#headerbanner').prepend('<a style="font-size:11px;position:absolute;right:10px;top:15px;z-index:2;opacity:0.7" role="button" class="btn btn-default btn-xs navbar-btn modal-link" href="c/?s=fdbk" class="modal-link" > <strong> Contact </strong> </a>');
+			$('#headerbanner').prepend('<a style="font-size:11px;position:absolute;right:10px;top:15px;z-index:2;opacity:0.7" role="button" class="btn btn-default btn-xs navbar-btn modal-link" href="' +
+
+				'https://forms.gle/nDMhz6mYBgkqYhiR7' +
+				// 'c/?s=fdbk' +
+
+				'" class="modal-link" > <strong> Contact </strong> </a>');
 			// 
 			$(".modal-link").modalLink({
 				width: viewport(85, 'vw'),
 				height: viewport(75, 'vh'),
-				showTitle: true,
+				showTitle: false,
 				showClose: true,
 				overlayOpacity: 0.6,
 				method: "GET", // GET, POST, REF, CLONE
