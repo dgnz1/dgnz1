@@ -623,7 +623,8 @@ function searchOnPage() {
 
 		<div class="col-xs-4">
 
-    <div style="text-align:center;"> <a href="https://art.zedign.com/search/"><span class="glyphicon glyphicon-search"></span> <u>Find an artwork</u></a> </div>
+    <!-- <div style="text-align:center;"> <a href="https://art.zedign.com/search/"><span class="glyphicon glyphicon-search"></span> <u>Find an artwork</u></a> </div>  -->
+
     </div>
 
     </div>
@@ -1179,7 +1180,7 @@ $(document).ready(function() {
 			</div>
 
 			<div class="col-xs-4">
-				<div style="text-align:center;"> <a href="https://art.zedign.com/search/"><span class="glyphicon glyphicon-search"></span> <u>Find an artwork</u></a> </div>
+				<!-- <div style="text-align:center;"> <a href="https://art.zedign.com/search/"><span class="glyphicon glyphicon-search"></span> <u>Find an artwork</u></a> </div>  -->
 			</div>
 
 		</div>
