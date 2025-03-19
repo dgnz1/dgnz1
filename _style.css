@@ -1,10 +1,8 @@
 /* MAIN */
 
 /* hiddens */
-/*#edicont_video*/
-
-a[href="#a_posters"] {
-  display: none;
+#edicont_video {
+  /*display: none;*/
 }
 
 .media {
