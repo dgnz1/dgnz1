@@ -1159,6 +1159,47 @@ $(document).ready(function() {
 
 	if (siteSection == "single") {
 
+		function putVideoPlay() {
+			var videoID = "";
+
+			try {
+				videoID = vid8k;
+			} catch (e) {}
+
+			if (videoID.match(/.{4,}/)) {
+
+				$('head').append(`
+
+					<style>
+						.breadcrumb {display:none}
+						#videoplayer {margin:0 auto; width: 300px; height:300px;}
+
+						@media screen and (orientation: portrait) { #_videoplayer { width: 90vw; height: 90vw; } }
+
+						@media screen and (orientation: landscape) { #_videoplayer { width: 90vh; height: 90vh; } }
+
+					<style>
+
+
+				`);
+
+				$('#videoplayercontainer').append(`
+
+					<div id="video" style=" display:flex; justify-content:center; ">
+
+					<iframe id="videoplayer" 
+					src="https://www.youtube.com/embed/${videoID}?controls=0&autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe> 
+
+					</div>
+
+			`);
+
+				// &enablejsapi=1&rel=0&controls=0&showinfo=0&autoplay=1
+
+			}
+
+		}
+
 		feedbackModalButton();
 
 		// $('#headerbanner').prepend('<div onclick="this.style.width=\'300px\';this.style.opacity=\'1\'" style="opacity:0.9;width:150px;z-index:2;position:absolute" id="search"></div>');
@@ -1188,8 +1229,6 @@ $(document).ready(function() {
 
 					
 					`);
-
-
 
 		// $('.singlepage').wrap('<div class="container"></div>');
 
@@ -1223,6 +1262,11 @@ $(document).ready(function() {
 		single_posterLinksToButtons();
 
 		zd_footer();
+
+		try {
+			$('.completezas').before('<div><h3>Watch 8K Hi-Res Video of a selection from the Book</a></h3><div id="videoplayercontainer"></div></div><hr/>');
+			putVideoPlay();
+		} catch (e) {}
 
 		//////////////////// /SINGLE /////////////
 
