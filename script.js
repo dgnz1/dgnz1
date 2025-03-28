@@ -652,12 +652,36 @@ function searchOnPage() {
 			var value = $.trim($(this).val().toLowerCase());
 			value = value.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove accents from the search string
 			var results = '';
+
 			if (value) {
+
 				$("h4").each(function() {
+
 					var text = $(this).text().toLowerCase();
+					var url = $(this).find('a').attr('href');
 					text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove accents from the h4 text
+
+					var clean_text = (text.replace(/[\'\"']/igm, " ")).trim();
+
 					if (text.includes(value)) {
-						results += '<li class="list-group-item"><a href="#' + $(this).attr('id') + '">' + $(this).text() + '</a></li>';
+
+						// results += '<li class="list-group-item"><a href="#' + $(this).attr('id') + '">' + $(this).text() + '</a></li>';
+
+						// results += '<li class="list-group-item"><a onclick="goto(\'' + $(this).attr('id') + '\');" href="#">' + $(this).text() + '</a></li>';
+
+						results += `
+
+						<li class="list-group-item">
+							<a 
+								title="${clean_text}" 
+								href="${url}"
+							>
+								${$(this).text()}
+							</a>
+						</li>
+
+						`;
+
 					}
 				});
 			}
@@ -1278,7 +1302,8 @@ $(document).ready(function() {
 
 		try {
 			$('body').append('<div class="sharing"></div>');
-			loadAddToAnyAsync("sharing");
+			// 
+			// loadAddToAnyAsync("sharing");
 		} catch (e) {}
 
 	}
@@ -1489,12 +1514,13 @@ $(window).on("load", function() {
 	///// off (many ads on top!)
 	// $('.breadcrumbs').before('<table style="margin-top:10px;width:99%;"><tr><td style="max-width:50px;"><span style="font: 12px/1em sans-serif; display: inline-block;">Find a book/artist:</span></td><td><div style="background:grey"><div id="search"></div></div></td></tr></table> ');
 
-	try {
-		gCSE(thsBlg_cse, "search");
-	} catch (e) {}
-
 	//////
 	if (siteSection == "single") {
+
+		try {
+			gCSE(thsBlg_cse, "search");
+		} catch (e) {}
+
 		// ** amazon amLocalize IS >>OFF<< in affLocalize() (using onelink) **
 		affLocalize("", "", thsBlg_zzl);
 	}
