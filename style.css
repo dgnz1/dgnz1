@@ -27,8 +27,8 @@ a[href="#a_posters"] {
 }
 
 .singlevol, .parentvol {
-  margin-top: 20px;
-  padding-top: 20px;
+  margin-top: 40px !important;
+  padding-top: 40px !important;
   clear: both;
 }
 

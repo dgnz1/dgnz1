@@ -811,41 +811,180 @@ function main_multivolWrap() {
 	//////// /jq_multivolwrap //////////////
 }
 
+function populateVideoPopup(divId, videoId) {
+	// Create unique IDs for the modal and iframe
+	var modalId = 'videoModal_' + videoId;
+	var iframeId = 'videoFrame_' + videoId;
+
+	// Check if the modal already exists
+	if ($('#' + modalId).length === 0) {
+		var html = `
+        
+
+        <div
+         class="thumbnail" data-toggle="modal" data-target="#${modalId}" 
+
+         style="
+         position: relative; cursor: pointer;
+         float:right;padding:0;
+         margin: 0 0 10px 10px;
+         width:90px;
+
+         "
+         >
+
+         <div
+         style ="
+         background:black;
+         color:#ccc;
+         text-align:center;
+         font-size:9px;
+         "
+
+         >WATCH 8K VIDEO</div>
+
+            <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="Video Thumbnail" class="img-responsive">
+            <div class="play-icon" style="font-size: 210%; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">&#9658;</div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-labelledby="${modalId}Label">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                	 
+                    <div class="modal-header" style="border:none">
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <!-- 
+                        <h4 class="modal-title" id="${modalId}Label">Video Title</h4>
+                        -->
+
+                    </div>
+                    
+                    <div class="modal-body">
+                        <iframe id="${iframeId}" width="100%" height="315" src="" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+            `;
+
+		// Append the HTML to the specified div
+		$('#' + divId).append(html);
+
+		// Set up the modal behavior
+		$('#' + modalId).on('show.bs.modal', function() {
+			var videoSrc = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+			$(this).find('#' + iframeId).attr('src', videoSrc);
+		});
+
+		$('#' + modalId).on('hide.bs.modal', function() {
+			$(this).find('#' + iframeId).attr('src', '');
+		});
+	} else {
+		// If the modal already exists, just show it
+		$('#' + modalId).modal('show');
+	}
+}
+
 function main_buyDirectLinks() {
 	// 
 	///// buy dir links
 	/// single volume
 
+	function html_vid8k(data_vid8k) {
+		return '   <a class="vid8klink" style="font-size:9px;line-height:9px;padding:4px;" title="Hi-Res 8K Video" href="' + data_vid8k + '" type="button" class="btn btn-default btn-xs">Watch Hi-Res Video Sample</a>';
+	}
+
+	function html_eb(data_eb) {
+		return amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ', 'ebook');
+	}
+
+	function html_2u(data_2u) {
+		return amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard"));
+	}
+
+	function html_4u(data_4u) {
+		return amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference"));
+	}
+
+	function html_posterslug(data_posterslug) {
+
+		var a = `  
+			  <b>&bull;<b>  
+			<a 
+			style="font-size:9px;line-height:9px;padding:4px;" 
+			href="https://art.zedign.com/zas/${data_posterslug}/" 
+			type="button" 
+			class="btn btn-default btn-xs"
+			>
+			POSTERS &amp;<br>POSTCARDS
+			</a> `;
+
+		return a;
+	}
+
+	function html_all(data_eb, data_4u, data_2u, data_posterslug) {
+
+		return '<div style="margin:0 auto;display:table;">' +
+			'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
+
+			data_eb +
+			data_4u +
+			data_2u +
+			data_posterslug +
+			'<br>' +
+			// data_vid8k +
+
+			'</div>';
+
+	}
+
 	$('.singlevol').each(function(index) {
+
 		try {
+
+			var data_vid8k = $("h4", this).attr("data-vid8k").trim();
+			data_vid8k = data_vid8k.match(/.+/) ? html_vid8k(data_vid8k) : "";
+
 			var data_eb = $("h4", this).attr("data-eb").trim();
-			data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ', 'ebook') : "";
-			// 
+			data_eb = data_eb.match(/.+/) ? html_eb(data_eb) : "";
+
 			var data_2u = $("h4", this).attr("data-2u").trim();
-			data_2u = data_2u.match(/.+/) ? amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
-			// 
+			data_2u = data_2u.match(/.+/) ? html_2u(data_2u) : "";
+
 			var data_4u = $("h4", this).attr("data-4u").trim();
-			data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
-			// 
-			/// EITHER DIRECT ZAZ LINK OR LINK TO art.zedign.com/
-			/// 1. dir zazz
-			// var data_zzcol = $("h4", this).attr("data-zzcol").trim();
-			// data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
-			//  2. art.zedign
-			var data_zzcol = $("h4", this).attr("data-zzcol").trim();
+			data_4u = data_4u.match(/.+/) ? html_4u(data_4u) : "";
+
 			var data_posterslug = $("h4", this).attr("data-posterslug").trim();
-			data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/' + data_posterslug + '/" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
-			// 
-			$(".media-body", this).after('<div style="margin:0 auto;display:table;">' +
-				'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
-				data_eb +
-				data_4u +
-				data_2u +
-				data_zzcol +
-				'</div>');
+			data_posterslug = data_posterslug.match(/.+/) ? html_posterslug(data_posterslug) : "";
+
+			// $(".vid8klink", this)
+
+			// -------- VIDEO ----------
+			$("p", this).prepend(
+				`
+				<div id="${$("h4", this).attr("data-vid8k").trim()}">
+				</div>
+
+				`);
+			populateVideoPopup($("h4", this).attr("data-vid8k").trim(), $("h4", this).attr("data-vid8k").trim());
+			// --------/ VIDEO ----------
+
+			$(".media-body", this).after(
+				html_all(
+					data_eb,
+					data_4u,
+					data_2u,
+					data_posterslug
+				)
+			);
 			// 
 			///
 		} catch (e) {}
+
 	});
 
 	// 
@@ -853,39 +992,51 @@ function main_buyDirectLinks() {
 	// 
 	// 
 	//// multi vols
+
 	$('.vol1 h4, .vol2 h4, .vol3 h4').each(function(index) {
 		// $(this).attr('style', 'outline:solid 1px red');
-		// 
-		var data_eb = $(this).attr("data-eb").trim();
-		data_eb = data_eb.match(/.+/) ? amzlinkify(data_eb, '<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> DIGITAL ', 'ebook') : "";
-		// 
-		// 
-		var data_2u = $(this).attr("data-2u").trim();
-		data_2u = data_2u.match(/.+/) ? amzlinkify(data_2u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Standard")) : "";
-		// 
-		var data_4u = $(this).attr("data-4u").trim();
-		data_4u = data_4u.match(/.+/) ? amzlinkify(data_4u, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
-		// 
-		// 
-		/// EITHER DIRECT ZAZ LINK OR LINK TO art.zedign.com/
-		/// 1. dir zazz
-		// var data_zzcol = $(this).attr("data-zzcol").trim();
-		// data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;padding:5px;" rel="nofollow" href="https://www.zazzle.com/collections/' + data_zzcol + '?rf=238115903514203736" type="button" class="btn btn-default btn-xs">POSTERS</a>' : "";
-		//  2. art.zedign
-		var data_zzcol = $(this).attr("data-zzcol").trim();
-		var data_posterslug = $(this).attr("data-posterslug").trim();
-		data_zzcol = data_zzcol.match(/.+/) ? '  <b>&bull;<b> <a style="font-size:9px;line-height:9px;padding:4px;" rel="nofollow" href="https://art.zedign.com/zas/' + data_posterslug + '/" type="button" class="btn btn-default btn-xs">POSTERS &amp;<br>POSTCARDS</a>' : "";
-		// 
-		$(this).after('<div style="margin:0 auto;display:table;">' +
-			'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
-			data_eb +
-			data_4u +
-			data_2u +
-			data_zzcol +
-			'</div>');
-		//
-		//////
-		///
+
+		try {
+
+			var data_vid8k = $(this).attr("data-vid8k").trim();
+			data_vid8k = data_vid8k.match(/.+/) ? html_vid8k(data_vid8k) : "";
+
+			var data_eb = $(this).attr("data-eb").trim();
+			data_eb = data_eb.match(/.+/) ? html_eb(data_eb) : "";
+
+			var data_2u = $(this).attr("data-2u").trim();
+			data_2u = data_2u.match(/.+/) ? html_2u(data_2u) : "";
+
+			var data_4u = $(this).attr("data-4u").trim();
+			data_4u = data_4u.match(/.+/) ? html_4u(data_4u) : "";
+
+			var data_posterslug = $(this).attr("data-posterslug").trim();
+			data_posterslug = data_posterslug.match(/.+/) ? html_posterslug(data_posterslug) : "";
+
+			// -------- VIDEO ----------
+
+			$(this).next('p').prepend(
+				`
+				<div id="${$(this).attr("data-vid8k").trim()}">
+				</div>
+
+				`);
+
+			populateVideoPopup($(this).attr("data-vid8k").trim(), $(this).attr("data-vid8k").trim());
+
+			// --------/ VIDEO ----------
+
+			$(this).after(
+				html_all(
+					data_eb,
+					data_4u,
+					data_2u,
+					data_posterslug
+				)
+			);
+
+		} catch (e) {}
+
 	});
 
 }
@@ -1194,29 +1345,49 @@ $(document).ready(function() {
 
 				$('head').append(`
 
-					<style>
-						.breadcrumb {display:none}
-						#videoplayer {margin:0 auto; width: 300px; height:300px;}
+		< style >
+			.breadcrumb {
+				display: none
+		}
+		# videoplayer {
+			margin: 0 auto;
+			width: 300px;
+			height: 300px;
+		}
 
-						@media screen and (orientation: portrait) { #_videoplayer { width: 90vw; height: 90vw; } }
+		@
+		media screen and(orientation: portrait) {
+			# _videoplayer {
+				width: 90vw;
+				height: 90vw;
+			}
+		}
 
-						@media screen and (orientation: landscape) { #_videoplayer { width: 90vh; height: 90vh; } }
+		@
+		media screen and(orientation: landscape) {
+			# _videoplayer {
+				width: 90vh;
+				height: 90vh;
+			}
+		}
 
-					<style>
+		< style >
 
-
-				`);
+		`);
 
 				$('#videoplayercontainer').append(`
 
-					<div id="video" style=" display:flex; justify-content:center; ">
+		< div id = "video"
+		style = " display:flex; justify-content:center; " >
 
-					<iframe id="videoplayer" 
-					src="https://www.youtube.com/embed/${videoID}?controls=0&autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe> 
+		< iframe id = "videoplayer"
+		src = "https://www.youtube.com/embed/${videoID}?controls=0&autoplay=1&rel=0"
+		frameborder = "0"
+		allowfullscreen > < /iframe> 
 
-					</div>
+					</div >
 
-			`);
+		`);
 
 				// &enablejsapi=1&rel=0&controls=0&showinfo=0&autoplay=1
 
@@ -1230,29 +1401,27 @@ $(document).ready(function() {
 
 		$('#headerbanner').after(`
 
-		<div class="row" style="margin:10px">
+		< div class = "row"
+		style = "margin:10px" >
 
-			<div class="col-xs-8">
+		< div class = "col-xs-8" >
 
-				<div id="search"
-				style="
+		< div id = "search"
+		style = "
 				width: 100%;
 				margin: 0 auto;
 				min-height:40px;
-				"
-				></div>
+				" > < /div>
 
-			</div>
+			</div >
 
-			<div class="col-xs-4">
-				<!-- <div style="text-align:center;"> <a href="https://art.zedign.com/search/"><span class="glyphicon glyphicon-search"></span> <u>Find an artwork</u></a> </div>  -->
-			</div>
+		< div class = "col-xs-4" >
+		<!-- <div style="text-align:center;"> <a href="https://art.zedign.com/search/"><span class="glyphicon glyphicon-search"></span> <u>Find an artwork</u></a> </div>  -->
+		< /div>
 
-		</div>
+		</div >
 
-
-					
-					`);
+		`);
 
 		// $('.singlepage').wrap('<div class="container"></div>');
 
