@@ -819,8 +819,6 @@ function populateVideoPopup(divId, videoId) {
 	// Check if the modal already exists
 	if ($('#' + modalId).length === 0) {
 		var html = `
-        
-
         <div
          class="thumbnail" data-toggle="modal" data-target="#${modalId}" 
 
@@ -843,8 +841,8 @@ function populateVideoPopup(divId, videoId) {
 
          >WATCH 8K VIDEO</div>
 
-            <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="Video Thumbnail" class="img-responsive">
-            <div class="play-icon" style="font-size: 210%; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">&#9658;</div>
+            <img src="https://img.youtube.com/vi/${videoId}/default.jpg" alt="Video Thumbnail" class="lazy img-responsive" loading="lazy">
+            <div class="play-icon" style="background: rgba(0, 0, 0, 0.5);line-height:1em; font-size: 210%; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">&#9658;</div>
         </div>
 
         <!-- Modal -->
