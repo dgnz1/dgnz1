@@ -1671,7 +1671,7 @@ $(window).on("load", function() {
 	if (siteSection == "single") {
 
 		try {
-			gCSE(thsBlg_cse, "search");
+			// gCSE(thsBlg_cse, "search");
 		} catch (e) {}
 
 		// ** amazon amLocalize IS >>OFF<< in affLocalize() (using onelink) **

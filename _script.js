@@ -302,7 +302,7 @@ function gCSE(cseId, divId, phText, target) {
 			if (target == "one") {
 				$('#' + divId).html('<div class="gcse-search"></div>');
 			} else if (target.match(/\/\//)) {
-				$('#' + divId).html('<div class="gcse-searchbox" data-resultsUrl="' + target + '" data-newWindow="true" data-queryParameterName="q" ></div>');
+				$('#' + divId).html('<div class="gcse-searchbox" data-resultsUrl="' + target + '" data-newWindow="true" data-queryParameterName="q"></div>');
 			} else {
 				$('#' + divId).html('<div class="gcse-searchbox"></div>');
 				$('#' + target).html('<div class="gcse-searchresults"></div>');
@@ -541,7 +541,7 @@ function feedbackModalButton() {
 		'https://forms.gle/nDMhz6mYBgkqYhiR7' +
 		// 'c/?s=fdbk' +
 
-		'" class="modal-link" > <strong> Contact </strong> </a>');
+		'" class="modal-link"> <strong> Contact </strong> </a>');
 
 	return
 
@@ -556,7 +556,7 @@ function feedbackModalButton() {
 				'https://forms.gle/nDMhz6mYBgkqYhiR7' +
 				// 'c/?s=fdbk' +
 
-				'" class="modal-link" > <strong> Contact </strong> </a>');
+				'" class="modal-link"> <strong> Contact </strong> </a>');
 			// 
 			$(".modal-link").modalLink({
 				width: viewport(85, 'vw'),
@@ -613,7 +613,7 @@ function searchOnPage() {
 
 		<div class="col-xs-8">
 
-    <div class="input-group" style="width:100%;max-width:300px;">
+    <div class="input-group" style="width:350px;max-width:99%;">
       <input id="search" type="text" class="form-control" placeholder="Search for an artist...">
       <span class="input-group-btn">
         <button id="closebutton" class="btn btn-default" type="button">X</button>
@@ -1083,7 +1083,7 @@ function single_cleanupTitle() {
 
 function single_breadcrumbs() {
 	//////// breadcrumbs
-	$('h1').before('<div class="breadcrumbs" style="font-size:110%;margin-top:1em;margin-bottom:-1em;"> <a style="text-decoration:underline;" href="/">All Masters</a>  &gt; </div>');
+	$('h1').before('<div class="breadcrumbs" style="font-size:110%;margin-top:1em;margin-bottom:-1em;"> <a style="text-decoration:underline;" href="../">All Masters</a>  &gt; </div>');
 	///////////
 }
 
@@ -1343,7 +1343,7 @@ $(document).ready(function() {
 
 				$('head').append(`
 
-		< style >
+		<style>
 			.breadcrumb {
 				display: none
 		}
@@ -1369,21 +1369,21 @@ $(document).ready(function() {
 			}
 		}
 
-		< style >
+		<style>
 
 		`);
 
 				$('#videoplayercontainer').append(`
 
-		< div id = "video"
-		style = " display:flex; justify-content:center; " >
+		<div id = "video"
+		style = " display:flex; justify-content:center; ">
 
-		< iframe id = "videoplayer"
+		<iframe id = "videoplayer"
 		src = "https://www.youtube.com/embed/${videoID}?controls=0&autoplay=1&rel=0"
 		frameborder = "0"
-		allowfullscreen > < /iframe> 
+		allowfullscreen> </iframe> 
 
-					</div >
+					</div>
 
 		`);
 
@@ -1399,25 +1399,11 @@ $(document).ready(function() {
 
 		$('#headerbanner').after(`
 
-		< div class = "row"
-		style = "margin:10px" >
+		<div style="
+		position:absolute; /* CLS_PREVENTION */
+		top:auto;
 
-		< div class = "col-xs-8" >
-
-		< div id = "search"
-		style = "
-				width: 100%;
-				margin: 0 auto;
-				min-height:40px;
-				" > < /div>
-
-			</div >
-
-		< div class = "col-xs-4" >
-		<!-- <div style="text-align:center;"> <a href="https://art.zedign.com/search/"><span class="glyphicon glyphicon-search"></span> <u>Find an artwork</u></a> </div>  -->
-		< /div>
-
-		</div >
+		width:400px;margin:0 auto; max-width:75%" id="search"></div>
 
 		`);
 
@@ -1539,11 +1525,11 @@ $(document).ready(function() {
 										'<h3>Please select one</h3>' +
 										'<div class="options options-buttons">' +
 										// Q1
-										'<label for="" > <input type="radio" name="group1" value="reasona"> <span>Request to make a new Zedign Art Series book of a master\'s work not currently part of the series. </span> </label>' +
+										'<label for=""> <input type="radio" name="group1" value="reasona"> <span>Request to make a new Zedign Art Series book of a master\'s work not currently part of the series. </span> </label>' +
 										// Q3
-										'<label for="" > <input type="radio" name="group1" value="reasonc"> <span>Hire us to make a book for you</span> </label>' +
+										'<label for=""> <input type="radio" name="group1" value="reasonc"> <span>Hire us to make a book for you</span> </label>' +
 										// Q2
-										'<label for="" onclick="window.top.location.href=\'https://art.zedign.com/order/\';return false;" > <input type="radio" name="group1" value="reasonb"> <span>Request a poster from an image </span> </label>' +
+										'<label for="" onclick="window.top.location.href=\'https://art.zedign.com/order/\';return false;"> <input type="radio" name="group1" value="reasonb"> <span>Request a poster from an image </span> </label>' +
 										// 
 										'</div> </div> </div>' +
 										// 
