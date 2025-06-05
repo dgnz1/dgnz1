@@ -8,9 +8,6 @@ if (typeof siteSection == "undefined") {
 	siteSection = "main";
 }
 
-		
-
-
 var buyNowText = "VIEW NOW"; /// BUY NOW or READ NOW depending on what's in amzlinkify
 
 // 
@@ -814,7 +811,7 @@ function main_multivolWrap() {
 	//////// /jq_multivolwrap //////////////
 }
 
-function populateVideoPopup(divId, videoId) {
+function populateVideoPopup(divId, videoId, posterslug) {
 	// Create unique IDs for the modal and iframe
 	var modalId = 'videoModal_' + videoId;
 	var iframeId = 'videoFrame_' + videoId;
@@ -823,7 +820,13 @@ function populateVideoPopup(divId, videoId) {
 	if ($('#' + modalId).length === 0) {
 		var html = `
         <div
-         class="thumbnail" data-toggle="modal" data-target="#${modalId}" 
+
+         class="thumbnail" 
+
+         onclick="window.location.href='https://video.zedign.com/zas/${posterslug}.html';return false;"
+
+         _DISABLED_data-toggle="modal" 
+         _DISABLED_data-target="#${modalId}" 
 
          style="
          position: relative; cursor: pointer;
@@ -845,7 +848,9 @@ function populateVideoPopup(divId, videoId) {
          >WATCH 8K VIDEO</div>
 
             <img src="https://img.youtube.com/vi/${videoId}/default.jpg" alt="Video Thumbnail" class="lazy img-responsive" loading="lazy">
+
             <div class="play-icon" style="background: rgba(0, 0, 0, 0.5);line-height:1em; font-size: 210%; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">&#9658;</div>
+
         </div>
 
         <!-- Modal -->
@@ -888,6 +893,7 @@ function populateVideoPopup(divId, videoId) {
 		// If the modal already exists, just show it
 		$('#' + modalId).modal('show');
 	}
+
 }
 
 function main_buyDirectLinks() {
@@ -971,7 +977,15 @@ function main_buyDirectLinks() {
 				</div>
 
 				`);
-			populateVideoPopup($("h4", this).attr("data-vid8k").trim(), $("h4", this).attr("data-vid8k").trim());
+
+			populateVideoPopup(
+
+				$("h4", this).attr("data-vid8k").trim(),
+				$("h4", this).attr("data-vid8k").trim(),
+				$("h4", this).attr("data-posterslug").trim()
+
+			);
+
 			// --------/ VIDEO ----------
 
 			$(".media-body", this).after(
@@ -1303,9 +1317,6 @@ function getQueryParam(param) {
 	return urlParams.get(param);
 }
 
-
-
-
 //////////////////   /funcs   ///////////////////////
 $(document).ready(function() {
 
@@ -1341,22 +1352,18 @@ $(document).ready(function() {
 
 	//////////////////////  SINGLE  ////////////////////////////
 
-
-
 	if (siteSection == "single") {
 
+		function putVideoPlay() {
+			var videoID = "";
 
+			try {
+				videoID = vid8k;
+			} catch (e) {}
 
-	function putVideoPlay() {
-		var videoID = "";
+			if (videoID.match(/.{4,}/)) {
 
-		try {
-			videoID = vid8k;
-		} catch (e) {}
-
-		if (videoID.match(/.{4,}/)) {
-
-			$('head').append(`
+				$('head').append(`
 
 				<style> .breadcrumb { display: none } # videoplayer { margin: 0 auto; width: 300px; height: 300px; } @ media screen and(orientation: portrait) { # _videoplayer { width: 90vw; height: 90vw; } } @ media screen and(orientation: landscape) { # _videoplayer { width: 90vh; height: 90vh; } } <style>
 
@@ -1376,11 +1383,11 @@ $(document).ready(function() {
 
 				`);
 
-			// &enablejsapi=1&rel=0&controls=0&showinfo=0&autoplay=1
+				// &enablejsapi=1&rel=0&controls=0&showinfo=0&autoplay=1
+
+			}
 
 		}
-
-	}
 
 		feedbackModalButton();
 
@@ -1400,7 +1407,6 @@ $(document).ready(function() {
 				});
 			} catch (e) {}
 		}
-
 
 		btnScroller('#a_ebooks');
 		btnScroller('#a_printbooks');
@@ -1427,8 +1433,7 @@ $(document).ready(function() {
 		// 	putVideoPlay();
 		// } catch (e) {}
 
-
-			$('.completezas').before(`
+		$('.completezas').before(`
 
 				<h3>Watch 8K Hi-Res Video of a selection from the Book</a></h3>
 
@@ -1469,10 +1474,6 @@ $(document).ready(function() {
 
 
 		`);
-
-
-
-
 
 		//////////////////// /SINGLE /////////////
 

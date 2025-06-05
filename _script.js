@@ -8,6 +8,9 @@ if (typeof siteSection == "undefined") {
 	siteSection = "main";
 }
 
+		
+
+
 var buyNowText = "VIEW NOW"; /// BUY NOW or READ NOW depending on what's in amzlinkify
 
 // 
@@ -455,7 +458,7 @@ function artWidgets() {
 	for (var i = 0; i < 3; i++) {
 
 		$(a[i][0]).wrap('<div id="' + a[i][1] + 'wrap">');
-		$('#' + a[i][1] + 'wrap').append('<div><iframe style="' + zscss + 'display:block;" class="" src="https://art.zedign.com/common/c/?s=ri&x=' + a[i][1] + '&n=' + artist_full + '" scrolling="no" frameborder="0" border="0"></iframe></div> <hr> ');
+		$('#' + a[i][1] + 'wrap').append('<div><iframe style="' + zscss + 'display:block;" class="" src="https://art.zedign.com/common/c/?s=ri&x=' + a[i][1] + '&n=' + artist_slug + '" scrolling="no" frameborder="0" border="0"></iframe></div> <hr> ');
 
 	}
 
@@ -1295,6 +1298,14 @@ function zd_footer() {
 		'&nbsp;&nbsp;&nbsp;<a rel="nofollow" href="https://twitter.com/zedign"><img style="height:32px;opacity:0.75" src="https://c.zedign.com/s/twitter.png"/></a> </p> </div> </div> </div> </footer><!-- /ZD MASTER FOOTER -->');
 }
 
+function getQueryParam(param) {
+	var urlParams = new URLSearchParams(window.location.search);
+	return urlParams.get(param);
+}
+
+
+
+
 //////////////////   /funcs   ///////////////////////
 $(document).ready(function() {
 
@@ -1330,82 +1341,52 @@ $(document).ready(function() {
 
 	//////////////////////  SINGLE  ////////////////////////////
 
+
+
 	if (siteSection == "single") {
 
-		function putVideoPlay() {
-			var videoID = "";
 
-			try {
-				videoID = vid8k;
-			} catch (e) {}
 
-			if (videoID.match(/.{4,}/)) {
+	function putVideoPlay() {
+		var videoID = "";
 
-				$('head').append(`
+		try {
+			videoID = vid8k;
+		} catch (e) {}
 
-		<style>
-			.breadcrumb {
-				display: none
-		}
-		# videoplayer {
-			margin: 0 auto;
-			width: 300px;
-			height: 300px;
-		}
+		if (videoID.match(/.{4,}/)) {
 
-		@
-		media screen and(orientation: portrait) {
-			# _videoplayer {
-				width: 90vw;
-				height: 90vw;
-			}
-		}
+			$('head').append(`
 
-		@
-		media screen and(orientation: landscape) {
-			# _videoplayer {
-				width: 90vh;
-				height: 90vh;
-			}
-		}
+				<style> .breadcrumb { display: none } # videoplayer { margin: 0 auto; width: 300px; height: 300px; } @ media screen and(orientation: portrait) { # _videoplayer { width: 90vw; height: 90vw; } } @ media screen and(orientation: landscape) { # _videoplayer { width: 90vh; height: 90vh; } } <style>
 
-		<style>
-
-		`);
+				`);
 
 				$('#videoplayercontainer').append(`
 
-		<div id = "video"
-		style = " display:flex; justify-content:center; ">
+				<div id = "video"
+				style = " display:flex; justify-content:center; ">
 
-		<iframe id = "videoplayer"
-		src = "https://www.youtube.com/embed/${videoID}?controls=0&autoplay=1&rel=0"
-		frameborder = "0"
-		allowfullscreen> </iframe> 
+				<iframe id = "videoplayer"
+				src = "https://www.youtube.com/embed/${videoID}?controls=0&autoplay=1&rel=0"
+				frameborder = "0"
+				allowfullscreen> </iframe> 
 
-					</div>
+				</div>
 
-		`);
+				`);
 
-				// &enablejsapi=1&rel=0&controls=0&showinfo=0&autoplay=1
-
-			}
+			// &enablejsapi=1&rel=0&controls=0&showinfo=0&autoplay=1
 
 		}
+
+	}
 
 		feedbackModalButton();
 
 		// $('#headerbanner').prepend('<div onclick="this.style.width=\'300px\';this.style.opacity=\'1\'" style="opacity:0.9;width:150px;z-index:2;position:absolute" id="search"></div>');
 
-		$('#headerbanner').after(`
-
-		<div style="
-		position:absolute; /* CLS_PREVENTION */
-		top:auto;
-
-		width:400px;margin:0 auto; max-width:75%" id="search"></div>
-
-		`);
+		$('#headerbanner').after(` <div style=" position:absolute; /* CLS_PREVENTION */ top:auto; width:400px;margin:0 auto; max-width:75%" id="search"></div> `);
 
 		// $('.singlepage').wrap('<div class="container"></div>');
 
@@ -1419,6 +1400,7 @@ $(document).ready(function() {
 				});
 			} catch (e) {}
 		}
+
 
 		btnScroller('#a_ebooks');
 		btnScroller('#a_printbooks');
@@ -1440,12 +1422,79 @@ $(document).ready(function() {
 
 		zd_footer();
 
-		try {
-			$('.completezas').before('<div><h3>Watch 8K Hi-Res Video of a selection from the Book</a></h3><div id="videoplayercontainer"></div></div><hr/>');
-			putVideoPlay();
-		} catch (e) {}
+		// try {
+		// 	$('.completezas').before('<div><h3>Watch 8K Hi-Res Video of a selection from the Book</a></h3><div id="videoplayercontainer"></div></div><hr/>');
+		// 	putVideoPlay();
+		// } catch (e) {}
+
+
+			$('.completezas').before(`
+
+				<h3>Watch 8K Hi-Res Video of a selection from the Book</a></h3>
+
+
+				<div>
+
+				<a style="display: table; margin: 0 auto; position: relative;" href="https://video.zedign.com/zas/${artist_slug}.html">
+				
+				<img
+				style="
+				width: 60vw;
+				max-width: 300px;
+				display: block;
+				"
+				src="https://img.youtube.com/vi/${vid8k}/hqdefault.jpg"
+				alt="Image">
+
+				<svg 
+
+				style="
+				position: absolute;  
+				top: 50%;  
+				left: 50%;  
+				transform: translate(-50%, -50%);  
+				pointer-events: none; 
+				width: 50px;  
+				height: 50px; 
+				"
+				height="100%" version="1.1" viewBox="0 0 68 48" width="100%"><path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#f03"></path><path d="M 45,24 27,14 27,34" fill="#fff"></path>
+
+				</svg>
+
+				</a>
+
+				</div>
+
+				<hr/>
+
+
+		`);
+
+
+
+
 
 		//////////////////// /SINGLE /////////////
+
+	}
+
+	//////////////////////  VIDEO  ////////////////////////////
+
+	if (siteSection == "video") {
+
+		var videoID = getQueryParam('v');
+		var zasID = getQueryParam('z');
+		var artist_name = decodeURIComponent(getQueryParam('a')); // var name must not be artist_full (confilicts with jq document ready!)
+
+		$('body').append(`
+
+	<div><a href="../${zasID}.html">&lt; Back<a/></div>
+	<h1>Watch This Amazing Video!</h1>
+	<div class="video-container">
+		<iframe src="https://www.youtube.com/embed/${videoID}?controls=1&autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe>
+	</div>
+
+	`)
 
 	}
 
