@@ -3,10 +3,6 @@
 /* hiddens */
 /*#edicont_video*/
 
-a[href="#a_posters"] {
-  display: none;
-}
-
 .media {
   border-top: solid 3px #aaa;
 }

@@ -56,6 +56,10 @@ a[href="#a_posters"] {
 
 /* SINGLE */
 
+.singlepage {
+  margin-top: 50px; /* CLS_PREVENTION */
+}
+
 .singlepage h1 {
   font-weight: bolder;
 }
