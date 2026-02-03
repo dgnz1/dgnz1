@@ -1410,6 +1410,7 @@ $(document).ready(function() {
 
 		btnScroller('#a_ebooks');
 		btnScroller('#a_printbooks');
+		btnScroller('#a_videos');
 		btnScroller('#a_posters');
 
 		single_cleanupTitle();
@@ -1435,7 +1436,8 @@ $(document).ready(function() {
 
 		$('.completezas').before(`
 
-				<h3>Watch 8K Hi-Res Video of a selection from the Book</a></h3>
+
+				<h3 id="a_videos">Watch 8K Hi-Res Video of a selection from the Book</a></h3>
 
 
 				<div>
