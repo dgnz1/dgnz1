@@ -507,7 +507,7 @@ function scRollToTopButton() {
 	/////////// SCROLL TO TOP BUTTON ///////////
 	/////////////////////////////////////////////
 	//// v1
-	document.getElementsByTagName('head')[0].insertAdjacentHTML("beforeend", '<style> #scRollToTopButton { display: none; position: fixed; bottom: 20px; right: 30px; z-index: 99; border: none; outline: none; background-color: #555; color: white; cursor: pointer; padding: 5px; border-radius: 10px; font-size: 26px; line-height:1em; opacity:0.7; } #scRollToTopButton:hover { background-color: #555; } </style>');
+	document.getElementsByTagName('head')[0].insertAdjacentHTML("beforeend", '<style> #scRollToTopButton { display: none; position: fixed; bottom: 20px; right: 30px; z-index: 99; border: none; outline: none; _background-color: #555; color: white; cursor: pointer; padding: 5px; border-radius: 10px; font-size: 26px; line-height:1em; opacity:0.7; } #scRollToTopButton:hover { _background-color: #555; } </style>');
 	document.getElementsByTagName('body')[0].insertAdjacentHTML("beforeend",
 
 		// ' <button onclick="scRollToTopButton()" id="scRollToTopButton" title="Go to top">&#128285;</button>'
