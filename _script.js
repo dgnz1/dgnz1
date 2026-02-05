@@ -947,8 +947,11 @@ function main_buyDirectLinks() {
 			var data_4u = $("h4", this).attr("data-4u").trim();
 			data_4u = data_4u.match(/.+/) ? html_4u(data_4u) : "";
 
-			var data_posterslug = $("h4", this).attr("data-zzColl").trim();
-			data_posterslug = data_posterslug.match(/.+/) ? html_posterslug(data_posterslug) : "";
+			var data_posterslug = $("h4", this).attr("data-posterslug").trim();
+
+			var data_zzColl = $("h4", this).attr("data-zzColl").trim();
+
+			data_posterslug = data_zzColl.match(/.+/) ? html_posterslug(data_posterslug) : "";
 
 			// $(".vid8klink", this)
 
