@@ -1371,6 +1371,18 @@ $(document).ready(function() {
 
 		}
 
+		try {
+			if (vid8k.length < 2) {
+				$('#sbmnu a:eq(2)').hide();
+			}
+		} catch (e) {}
+
+		try {
+			if (zzColl.length < 2) {
+				$('#sbmnu a:eq(3)').hide();
+			}
+		} catch (e) {}
+
 		feedbackModalButton();
 
 		// $('#headerbanner').prepend('<div onclick="this.style.width=\'300px\';this.style.opacity=\'1\'" style="opacity:0.9;width:150px;z-index:2;position:absolute" id="search"></div>');
