@@ -819,14 +819,12 @@ function populateVideoPopup(divId, videoId, posterslug) {
 	// Check if the modal already exists
 	if ($('#' + modalId).length === 0) {
 		var html = `
+        
+				<a href="https://video.zedign.com/zas/${posterslug}.html">
+        
         <div
 
          class="thumbnail" 
-
-         onclick="window.location.href='https://video.zedign.com/zas/${posterslug}.html';return false;"
-
-         _DISABLED_data-toggle="modal" 
-         _DISABLED_data-target="#${modalId}" 
 
          style="
          position: relative; cursor: pointer;
@@ -853,28 +851,12 @@ function populateVideoPopup(divId, videoId, posterslug) {
 
         </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="${modalId}" tabindex="-1" role="dialog" aria-labelledby="${modalId}Label">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                	 
-                    <div class="modal-header" style="border:none">
+        </a>
 
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <!-- 
-                        <h4 class="modal-title" id="${modalId}Label">Video Title</h4>
-                        -->
 
-                    </div>
-                    
-                    <div class="modal-body">
-                        <iframe id="${iframeId}" width="100%" height="315" src="" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+
             `;
 
 		// Append the HTML to the specified div
