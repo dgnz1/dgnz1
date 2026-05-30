@@ -1051,6 +1051,12 @@ function main_allInOnePanels() {
 		// 
 		var data_a4 = $(this).parent().find("h4").attr("data-a4").trim();
 		data_a4 = data_a4.match(/.+/) ? amzlinkify(data_a4, ' <span class="glyphicon glyphicon-book" aria-hidden="true"></span> PRINT ' + upIcons("Reference")) : "";
+
+		// no allinone panel if none available
+		if (data_a2 == "" && data_a4 == "") {
+			$(this).css({ 'display': 'none' });
+		}
+
 		// // // 
 		$(this).append('<div style="margin:0 auto;display:table;">' +
 			'<div style="display:table;margin:5px auto;font-size:8px"> ——&nbsp;&nbsp;' + buyNowText + '&nbsp;&nbsp;—— </div> ' +
