@@ -991,6 +991,7 @@ function main_buyDirectLinks() {
 	// 
 	// 
 	// 
+
 	//// multi vols
 
 	$('.vol1 h4, .vol2 h4, .vol3 h4').each(function(index) {
@@ -1010,7 +1011,7 @@ function main_buyDirectLinks() {
 			var data_4u = $(this).attr("data-4u").trim();
 			data_4u = data_4u.match(/.+/) ? html_4u(data_4u) : "";
 
-			var data_posterslug = $(this).attr("data-zzColl").trim();
+			var data_posterslug = $(this).attr("data-posterslug").trim();
 			data_posterslug = data_posterslug.match(/.+/) ? html_posterslug(data_posterslug) : "";
 
 			// -------- VIDEO ----------
@@ -1022,7 +1023,12 @@ function main_buyDirectLinks() {
 
 				`);
 
-			populateVideoPopup($(this).attr("data-vid8k").trim(), $(this).attr("data-vid8k").trim());
+			populateVideoPopup(
+				$(this).attr("data-vid8k").trim(),
+				$(this).attr("data-vid8k").trim(),
+				$(this).attr("data-posterslug").trim()
+
+			);
 
 			// --------/ VIDEO ----------
 
@@ -1307,6 +1313,24 @@ function getQueryParam(param) {
 	var urlParams = new URLSearchParams(window.location.search);
 	return urlParams.get(param);
 }
+
+async function toggleSpinner(e, t) {
+	const n = "spinner-standalone-style";
+	if (!document.getElementById(n)) {
+		const e = document.createElement("style");
+		e.id = n, e.textContent = " .js-spinner-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); display: flex; justify-content: center; align-items: center; z-index: 99999; } body > .js-spinner-overlay { position: fixed; } .js-spinner-ring { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; animation: js-spin 0.8s linear infinite; } @keyframes js-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } ", document.head.appendChild(e)
+	}
+	const o = document.querySelector(e);
+	if (!o) return;
+	const s = o.querySelector(".js-spinner-overlay");
+	if (t) { if (s) return; return "body" !== e && "static" === window.getComputedStyle(o).position && (o.style.position = "relative"), (e = document.createElement("div")).className = "js-spinner-overlay", e.innerHTML = '<div class="js-spinner-ring"></div>', o.appendChild(e), new Promise((e => setTimeout(e, 50))) }
+	if (s) return new Promise((e => {
+		const t = s.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing: "linear" });
+		t.onfinish = (() => { s.remove(), e() })
+	}))
+}
+
+toggleSpinner("body", true);
 
 //////////////////   /funcs   ///////////////////////
 $(document).ready(function() {
@@ -1695,6 +1719,9 @@ $(window).on("load", function() {
 		// ** amazon amLocalize IS >>OFF<< in affLocalize() (using onelink) **
 		affLocalize("", "", thsBlg_zzl);
 	}
+
+	toggleSpinner("body", false);
+
 });
 //
 //
